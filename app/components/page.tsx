@@ -75,7 +75,7 @@ export default async function ComponentsPage() {
                     <div className="flex items-start justify-between">
                       <div className="space-y-2">
                         <div className="flex items-center gap-2">
-                          <h3 className="font-bold text-terminal-accent group-hover:text-terminal-accent/90">
+                          <h3 className="font-bold capitalize text-terminal-accent group-hover:text-terminal-accent/90">
                             {component.metadata.name}
                           </h3>
                           {component.variants && component.variants.length > 0 && (

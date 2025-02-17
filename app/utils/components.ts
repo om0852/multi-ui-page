@@ -1,3 +1,9 @@
+'use server';
+
+import { promises as fs } from 'fs';
+import path from 'path';
+import { cache } from 'react';
+
 export interface ComponentData {
   name: string;
   description: string;
@@ -6,20 +12,25 @@ export interface ComponentData {
   preview?: React.ReactNode;
 }
 
-const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/om0852/multi-ui/main';
-
-async function fetchComponentCode(componentName: string): Promise<string | null> {
-  try {
-    const response = await fetch(`${GITHUB_RAW_URL}/app/${componentName}/_components/${componentName}.tsx`);
-    if (!response.ok) return null;
-    return await response.text();
-  } catch (error) {
-    console.error('Error fetching component code:', error);
-    return null;
-  }
+export interface ComponentVariant {
+  name: string;
+  code: string;
+  preview?: string;
 }
 
-const components: Record<string, ComponentData> = {
+export interface Component {
+  name: string;
+  displayName: string;
+  description: string;
+  category: string;
+  tags: string[];
+}
+
+function capitalizeFirstLetter(string: string): string {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
+
+const defaultComponents: Record<string, ComponentData> = {
   button: {
     name: 'Button',
     description: 'A customizable button component with various styles and states.',
@@ -73,24 +84,142 @@ const components: Record<string, ComponentData> = {
   },
 };
 
-export function getComponent(name: string): ComponentData | null {
-  return components[name.toLowerCase()] || null;
+export async function getComponent(name: string): Promise<ComponentData | null> {
+  return defaultComponents[name.toLowerCase()] || null;
 }
 
-export function getAllComponents(): ComponentData[] {
-  return Object.values(components);
+export async function getAllComponents(): Promise<ComponentData[]> {
+  return Object.values(defaultComponents);
 }
 
-export function searchComponents(query: string): ComponentData[] {
+export async function searchComponents(query: string): Promise<ComponentData[]> {
   const searchTerm = query.toLowerCase();
-  return Object.values(components).filter(
+  return Object.values(defaultComponents).filter(
     component => 
       component.name.toLowerCase().includes(searchTerm) ||
       component.description.toLowerCase().includes(searchTerm)
   );
 }
 
-export function getInstallationInstructions(name: string): string | null {
-  const component = getComponent(name);
+export async function getInstallationInstructions(name: string): Promise<string | null> {
+  const component = await getComponent(name);
   return component?.installation || null;
-} 
+}
+
+export const fetchComponentsList = cache(async (): Promise<Component[]> => {
+  try {
+    const componentsDir = path.join(process.cwd(), 'app', 'multiui');
+    const entries = await fs.readdir(componentsDir, { withFileTypes: true });
+    
+    const components = await Promise.all(entries
+      .filter(entry => 
+        entry.isDirectory() && 
+        !entry.name.startsWith('.') && 
+        !['components', 'utils', 'hooks', 'docs'].includes(entry.name.toLowerCase())
+      )
+      .map(async entry => {
+        const metadataPath = path.join(componentsDir, entry.name, 'metadata.json');
+        let metadata = {
+          name: capitalizeFirstLetter(entry.name),
+          description: `A collection of ${entry.name.toLowerCase()} components with different styles and animations`,
+          category: 'UI Components',
+          tags: ['interactive', 'animated']
+        };
+
+        try {
+          const fileExists = await fs.stat(metadataPath).then(() => true).catch(() => false);
+          if (fileExists) {
+            const fileContent = await fs.readFile(metadataPath, 'utf-8');
+            const fileMetadata = JSON.parse(fileContent);
+            metadata = { ...metadata, ...fileMetadata };
+          }
+        } catch (error) {
+          console.error(`Error reading metadata for ${entry.name}:`, error);
+        }
+
+        return {
+          ...metadata,
+          name: entry.name,
+          displayName: capitalizeFirstLetter(entry.name)
+        };
+      }));
+
+    return components;
+  } catch (error) {
+    console.error('Error fetching components:', error);
+    return [];
+  }
+});
+
+export const fetchComponentVariants = cache(async (componentName: string): Promise<ComponentVariant[]> => {
+  try {
+    const componentsDir = path.join(process.cwd(), 'app', 'multiui', componentName, '_components');
+    
+    try {
+      await fs.stat(componentsDir);
+    } catch {
+      console.error('Components directory not found:', componentsDir);
+      return [];
+    }
+
+    const files = await fs.readdir(componentsDir);
+    const variants = await Promise.all(files
+      .filter(file => file.endsWith('.tsx'))
+      .sort((a, b) => {
+        const aNum = parseInt(a.split('_')[1]) || 0;
+        const bNum = parseInt(b.split('_')[1]) || 0;
+        return aNum - bNum;
+      })
+      .map(async file => {
+        const filePath = path.join(componentsDir, file);
+        const code = await fs.readFile(filePath, 'utf-8');
+        return {
+          name: file.replace('.tsx', ''),
+          code,
+          preview: file
+        };
+      }));
+
+    return variants;
+  } catch (error) {
+    console.error('Error fetching component variants:', error);
+    throw error;
+  }
+});
+
+export const fetchComponentMetadata = cache(async (componentName: string): Promise<Component> => {
+  try {
+    const metadataPath = path.join(process.cwd(), 'app', 'multiui', componentName, 'metadata.json');
+    
+    const defaultMetadata = {
+      name: capitalizeFirstLetter(componentName),
+      displayName: capitalizeFirstLetter(componentName),
+      description: `A collection of ${componentName.toLowerCase()} components with different styles and animations`,
+      category: 'UI Components',
+      tags: ['interactive', 'animated']
+    };
+
+    try {
+      await fs.stat(metadataPath);
+      const fileContent = await fs.readFile(metadataPath, 'utf-8');
+      const fileMetadata = JSON.parse(fileContent);
+      return {
+        ...defaultMetadata,
+        ...fileMetadata,
+        name: componentName,
+        displayName: capitalizeFirstLetter(componentName)
+      };
+    } catch {
+      return defaultMetadata;
+    }
+  } catch (error) {
+    console.error('Error fetching component metadata:', error);
+    return {
+      name: capitalizeFirstLetter(componentName),
+      displayName: capitalizeFirstLetter(componentName),
+      description: `A collection of ${componentName.toLowerCase()} components with different styles and animations`,
+      category: 'UI Components',
+      tags: ['interactive', 'animated']
+    };
+  }
+}); 

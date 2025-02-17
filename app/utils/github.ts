@@ -1,66 +1,61 @@
-const GITHUB_API_URL = 'https://api.github.com/repos/om0852/multi-ui/contents';
-const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/om0852/multi-ui/main';
+import fs from 'fs';
+import path from 'path';
 
-export interface GithubComponent {
+export interface Component {
   name: string;
   displayName: string;
-  path: string;
-  type: string;
-  content?: string;
-  variants?: string[];
+  description: string;
+  category: string;
+  tags: string[];
 }
 
-interface ComponentVariant {
+export interface ComponentVariant {
   name: string;
   code: string;
+  preview?: string;
 }
 
 function capitalizeFirstLetter(string: string): string {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
-export async function fetchComponentsList(): Promise<GithubComponent[]> {
+export async function fetchComponentsList(): Promise<Component[]> {
   try {
-    const response = await fetch(`${GITHUB_API_URL}/app`, {
-      next: { revalidate: 3600 }
-    });
+    const componentsDir = path.join(process.cwd(), 'app', 'multiui');
+    const entries = fs.readdirSync(componentsDir, { withFileTypes: true });
     
-    if (!response.ok) {
-      throw new Error('Failed to fetch components');
-    }
+    const components = entries
+      .filter(entry => 
+        entry.isDirectory() && 
+        !entry.name.startsWith('.') && 
+        !['components', 'utils', 'hooks', 'docs'].includes(entry.name.toLowerCase())
+      )
+      .map(entry => {
+        const metadataPath = path.join(componentsDir, entry.name, 'metadata.json');
+        let metadata = {
+          name: capitalizeFirstLetter(entry.name),
+          description: `A collection of ${entry.name.toLowerCase()} components with different styles and animations`,
+          category: 'UI Components',
+          tags: ['interactive', 'animated']
+        };
 
-    const data = await response.json();
-    const components = data.filter((item: GithubComponent) => 
-      item.type === 'dir' && !item.name.startsWith('.') && !['components', 'utils', 'hooks', 'docs'].includes(item.name.toLowerCase())
-    ).map(item => ({
-      ...item,
-      displayName: capitalizeFirstLetter(item.name)
-    }));
-
-    // Fetch variants for each component
-    const componentsWithVariants = await Promise.all(
-      components.map(async (component) => {
-        const variantsResponse = await fetch(`${GITHUB_API_URL}/app/${component.name}/_components`, {
-          next: { revalidate: 3600 }
-        });
-        
-        if (!variantsResponse.ok) {
-          return component;
+        if (fs.existsSync(metadataPath)) {
+          try {
+            const fileMetadata = JSON.parse(fs.readFileSync(metadataPath, 'utf-8'));
+            metadata = { ...metadata, ...fileMetadata };
+          } catch (error) {
+            console.error(`Error reading metadata for ${entry.name}:`, error);
+          }
         }
 
-        const variantsData = await variantsResponse.json();
-        const variants = variantsData
-          .filter((item: any) => item.type === 'file' && item.name.toLowerCase().includes('.tsx'))
-          .map((item: any) => item.name.replace('.tsx', ''));
-
         return {
-          ...component,
-          variants
+          ...metadata,
+          name: entry.name,
+          displayName: capitalizeFirstLetter(entry.name)
         };
-      })
-    );
+      });
 
-    return componentsWithVariants;
+    return components;
   } catch (error) {
     console.error('Error fetching components:', error);
     return [];
@@ -69,74 +64,70 @@ export async function fetchComponentsList(): Promise<GithubComponent[]> {
 
 export async function fetchComponentVariants(componentName: string): Promise<ComponentVariant[]> {
   try {
-    const response = await fetch(`${GITHUB_API_URL}/app/${componentName}/_components`, {
-      next: { revalidate: 3600 }
-    });
+    const componentsDir = path.join(process.cwd(), 'app', 'multiui', componentName, '_components');
     
-    if (!response.ok) {
-      throw new Error('Failed to fetch component variants');
+    if (!fs.existsSync(componentsDir)) {
+      console.error('Components directory not found:', componentsDir);
+      return [];
     }
 
-    const data = await response.json();
-    const variants = data.filter((item: any) => 
-      item.type === 'file' && item.name.toLowerCase().includes('.tsx')
-    );
-
-    const variantsWithCode = await Promise.all(
-      variants.map(async (variant: any) => {
-        const code = await fetchComponentCode(`app/${componentName}/_components/${variant.name}`);
-        return {
-          name: variant.name.replace('.tsx', ''),
-          code: code || ''
-        };
+    const files = fs.readdirSync(componentsDir);
+    const variants = files
+      .filter(file => file.endsWith('.tsx'))
+      .sort((a, b) => {
+        const aNum = parseInt(a.split('_')[1]) || 0;
+        const bNum = parseInt(b.split('_')[1]) || 0;
+        return aNum - bNum;
       })
-    );
+      .map(file => {
+        const filePath = path.join(componentsDir, file);
+        const code = fs.readFileSync(filePath, 'utf-8');
+        return {
+          name: file.replace('.tsx', ''),
+          code,
+          preview: file
+        };
+      });
 
-    return variantsWithCode;
+    return variants;
   } catch (error) {
     console.error('Error fetching component variants:', error);
-    return [];
+    throw error;
   }
 }
 
-export async function fetchComponentCode(componentPath: string): Promise<string | null> {
+export async function fetchComponentMetadata(componentName: string): Promise<Component> {
   try {
-    const response = await fetch(`${GITHUB_RAW_URL}/${componentPath}`, {
-      next: { revalidate: 3600 }
-    });
+    const metadataPath = path.join(process.cwd(), 'app', 'multiui', componentName, 'metadata.json');
     
-    if (!response.ok) {
-      throw new Error('Failed to fetch component code');
+    const defaultMetadata = {
+      name: capitalizeFirstLetter(componentName),
+      displayName: capitalizeFirstLetter(componentName),
+      description: `A collection of ${componentName.toLowerCase()} components with different styles and animations`,
+      category: 'UI Components',
+      tags: ['interactive', 'animated']
+    };
+
+    if (!fs.existsSync(metadataPath)) {
+      return defaultMetadata;
     }
 
-    return await response.text();
-  } catch (error) {
-    console.error('Error fetching component code:', error);
-    return null;
-  }
-}
-
-export async function fetchComponentMetadata(componentName: string): Promise<any | null> {
-  try {
-    const response = await fetch(`${GITHUB_RAW_URL}/app/${componentName}/metadata.json`, {
-      next: { revalidate: 3600 }
-    });
-    
-    if (!response.ok) {
-      // Generate default metadata based on component name
-      return {
-        name: componentName.replace(/([A-Z])/g, ' $1').trim(),
-        description: `A collection of ${componentName.toLowerCase()} components with different styles and animations`,
-        category: 'UI Components',
-        tags: ['interactive', 'animated'],
-        installation: `npm install @multi-ui/core`,
-        usage: `import { ${componentName} } from '@multi-ui/core'`
-      };
-    }
-
-    return await response.json();
+    const fileMetadata = JSON.parse(fs.readFileSync(metadataPath, 'utf-8'));
+    return {
+      ...defaultMetadata,
+      ...fileMetadata,
+      name: componentName,
+      displayName: capitalizeFirstLetter(componentName)
+    };
   } catch (error) {
     console.error('Error fetching component metadata:', error);
-    return null;
+    const defaultMetadata = {
+      name: capitalizeFirstLetter(componentName),
+      displayName: capitalizeFirstLetter(componentName),
+      description: `A collection of ${componentName.toLowerCase()} components with different styles and animations`,
+      category: 'UI Components',
+      tags: ['interactive', 'animated']
+    };
+    return defaultMetadata;
   }
 } 
