@@ -1,25 +1,22 @@
-import type { Metadata } from 'next';
 import './globals.css';
-import Navigation from './components/Navigation';
+import ComponentInitializer from './components/ComponentInitializer';
 
-export const metadata: Metadata = {
-  title: 'Multi-UI - Modern React Component Library',
-  description: 'A modern React component library with a beautiful dark theme',
-};
+export const metadata = {
+  title: 'Multi-UI Component Library',
+  description: 'A modern UI component library with multiple variants',
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="min-h-screen bg-terminal-bg text-terminal-text antialiased">
-        <Navigation />
-        <div className="pt-14">
-          {children}
-        </div>
+      <body className="bg-terminal-bg text-terminal-text min-h-screen">
+        <ComponentInitializer />
+        {children}
       </body>
     </html>
-  );
-} 
+  )
+}
