@@ -52,7 +52,7 @@ export default function Home() {
             <div className="rounded-lg border border-terminal-border bg-terminal-bg/50 p-8 hover:border-terminal-command/50 transition-colors">
               <h3 className="mb-4 text-xl font-bold text-terminal-command">🎨 Multiple Variants</h3>
               <p className="text-terminal-text/90 leading-relaxed">
-                Choose from various design styles and themes. Customize components to match your brand's aesthetic perfectly.
+                Choose from various design styles and themes. Customize components to match your brand&apos;s aesthetic perfectly.
               </p>
             </div>
           </AnimatedSection>
@@ -78,7 +78,7 @@ export default function Home() {
               </h2>
               <p className="text-lg text-terminal-text/90 leading-relaxed">
                 Multi-UI provides a rich set of animated components that make your applications stand out.
-                From subtle hover effects to complex page transitions, we've got you covered.
+                From subtle hover effects to complex page transitions, we&apos;ve got you covered.
               </p>
               <ul className="space-y-6 text-terminal-text/90">
                 <li className="flex items-center">

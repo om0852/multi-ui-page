@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Clock_66 from '../_components/Clock_66';
-import { FaToggleOn, FaToggleOff, FaCog } from 'react-icons/fa6';
+import { FaToggleOn, FaToggleOff, FaGear } from 'react-icons/fa6';
 
 const Example_66: React.FC = () => {
   const [darkMode, setDarkMode] = useState(true);
@@ -30,7 +30,7 @@ const Example_66: React.FC = () => {
 
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2 flex items-center">
-            <FaCog className="mr-2 text-zinc-500 animate-spin-slow" />
+            <FaGear className="mr-2 text-zinc-500 animate-spin-slow" />
             Mechanical Clock
           </h1>
         </div>
