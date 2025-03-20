@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Clock_66 from '../_components/Clock_66';
-import { FaToggleOn, FaToggleOff, FaGear } from 'react-icons/fa6';
+import { FaToggleOn, FaToggleOff, FaCog as FaGear } from 'react-icons/fa6';
 
 const Example_66: React.FC = () => {
   const [darkMode, setDarkMode] = useState(true);

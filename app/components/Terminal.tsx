@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Command } from 'cmdk';
 import { ScrollArea } from '@radix-ui/react-scroll-area';
 import { ChevronRight, X } from 'lucide-react';
@@ -202,7 +202,7 @@ export default function Terminal() {
                     </div>
                   ))
                 ) : (
-                  <p className="text-terminal-error">No components found matching "{args.join(' ')}"</p>
+                  <p className="text-terminal-error">No components found matching &quot;{args.join(' ')}&quot;</p>
                 )}
               </div>
             ),

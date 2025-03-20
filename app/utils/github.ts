@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+
 export interface Component {
   name: string;
   displayName: string;
@@ -16,40 +19,115 @@ function capitalizeFirstLetter(string: string): string {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
-const getBaseUrl = () => {
-  if (typeof window !== 'undefined') return ''; // browser should use relative url
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
-  return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
-};
-
 export async function fetchComponentsList(): Promise<Component[]> {
-  const baseUrl = getBaseUrl();
-  const response = await fetch(`${baseUrl}/api/components/`);
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+  try {
+    const componentsDir = path.join(process.cwd(), 'app', 'multiui');
+    const entries = fs.readdirSync(componentsDir, { withFileTypes: true });
+    
+    const components = entries
+      .filter(entry => 
+        entry.isDirectory() && 
+        !entry.name.startsWith('.') && 
+        !['components', 'utils', 'hooks', 'docs'].includes(entry.name.toLowerCase())
+      )
+      .map(entry => {
+        const metadataPath = path.join(componentsDir, entry.name, 'metadata.json');
+        let metadata = {
+          name: capitalizeFirstLetter(entry.name),
+          description: `A collection of ${entry.name.toLowerCase()} components with different styles and animations`,
+          category: 'UI Components',
+          tags: ['interactive', 'animated']
+        };
+
+        if (fs.existsSync(metadataPath)) {
+          try {
+            const fileMetadata = JSON.parse(fs.readFileSync(metadataPath, 'utf-8'));
+            metadata = { ...metadata, ...fileMetadata };
+          } catch (error) {
+            console.error(`Error reading metadata for ${entry.name}:`, error);
+          }
+        }
+
+        return {
+          ...metadata,
+          name: entry.name,
+          displayName: capitalizeFirstLetter(entry.name)
+        };
+      });
+
+    return components;
+  } catch (error) {
+    console.error('Error fetching components:', error);
+    return [];
   }
-  return response.json();
 }
 
 export async function fetchComponentVariants(componentName: string): Promise<ComponentVariant[]> {
-  const baseUrl = getBaseUrl();
-  const response = await fetch(`${baseUrl}/api/components/${encodeURIComponent(componentName)}/variants`);
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+  try {
+    const componentsDir = path.join(process.cwd(), 'app', 'multiui', componentName, '_components');
+    
+    if (!fs.existsSync(componentsDir)) {
+      console.error('Components directory not found:', componentsDir);
+      return [];
+    }
+
+    const files = fs.readdirSync(componentsDir);
+    const variants = files
+      .filter(file => file.endsWith('.tsx'))
+      .sort((a, b) => {
+        const aNum = parseInt(a.split('_')[1]) || 0;
+        const bNum = parseInt(b.split('_')[1]) || 0;
+        return aNum - bNum;
+      })
+      .map(file => {
+        const filePath = path.join(componentsDir, file);
+        const code = fs.readFileSync(filePath, 'utf-8');
+        return {
+          name: file.replace('.tsx', ''),
+          code,
+          preview: file
+        };
+      });
+
+    return variants;
+  } catch (error) {
+    console.error('Error fetching component variants:', error);
+    throw error;
   }
-  return response.json();
 }
 
 export async function fetchComponentMetadata(componentName: string): Promise<Component> {
-  const baseUrl = getBaseUrl();
-  const response = await fetch(`${baseUrl}/api/components/${encodeURIComponent(componentName)}/metadata`);
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  return response.json();
-}
+  try {
+    const metadataPath = path.join(process.cwd(), 'app', 'multiui', componentName, 'metadata.json');
+    
+    const defaultMetadata = {
+      name: capitalizeFirstLetter(componentName),
+      displayName: capitalizeFirstLetter(componentName),
+      description: `A collection of ${componentName.toLowerCase()} components with different styles and animations`,
+      category: 'UI Components',
+      tags: ['interactive', 'animated']
+    };
 
-export async function getGithubData() {
-  const response = await fetch('/api/github');
-  return response.json();
+    if (!fs.existsSync(metadataPath)) {
+      return defaultMetadata;
+    }
+
+    const fileMetadata = JSON.parse(fs.readFileSync(metadataPath, 'utf-8'));
+    return {
+      ...defaultMetadata,
+      ...fileMetadata,
+      name: componentName,
+      displayName: capitalizeFirstLetter(componentName)
+    };
+  } catch (error) {
+    console.error('Error fetching component metadata:', error);
+    const defaultMetadata = {
+      name: capitalizeFirstLetter(componentName),
+      displayName: capitalizeFirstLetter(componentName),
+      description: `A collection of ${componentName.toLowerCase()} components with different styles and animations`,
+      category: 'UI Components',
+      tags: ['interactive', 'animated']
+    };
+    return defaultMetadata;
+  }
 } 

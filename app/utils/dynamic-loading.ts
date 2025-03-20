@@ -148,10 +148,10 @@ export async function safeImport(key: string): Promise<any> {
     }
     
     try {
-      const dynamicModule = await import(/* @vite-ignore */ dynamicPath);
+      const module = await import(/* @vite-ignore */ dynamicPath);
       // Register for future use
       registerComponent(normalizedKey, () => import(/* @vite-ignore */ dynamicPath));
-      return dynamicModule;
+      return module;
     } catch (error) {
       throw new Error(`Component not found in registry: ${key}`);
     }
