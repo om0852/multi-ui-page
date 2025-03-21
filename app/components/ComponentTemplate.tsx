@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ExternalLink, Code, Layers, Copy, Check } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Code, Layers, Copy, Check, Code2 } from 'lucide-react';
 import ExampleRenderer from './ExampleRenderer';
 
 interface ComponentTemplateProps {
@@ -25,6 +25,9 @@ export default function ComponentTemplate({
   const [selectedExample, setSelectedExample] = useState<number>(variants[0] || 1); // Default to first variant
   const [copiedId, setCopiedId] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState(variants[0]);
+  const [copied, setCopied] = useState(false);
+  const [copiedCommand, setCopiedCommand] = useState(false);
   
   // Generate array of all variants
   const examples = variants.map(id => ({
@@ -49,17 +52,33 @@ export default function ComponentTemplate({
     }, 100);
   }, [selectedExample]);
 
-  // Function to copy the installation command to clipboard
-  const copyCommand = (e: React.MouseEvent, id: number) => {
-    e.stopPropagation(); // Prevent triggering the accordion toggle
-    const command = `npx multi-ui add ${componentType.charAt(0).toUpperCase() + componentType.slice(1)}_${id}`;
-    navigator.clipboard.writeText(command);
-    setCopiedId(id);
-    
-    // Reset copied state after 2 seconds
-    setTimeout(() => {
-      setCopiedId(null);
-    }, 2000);
+  const copyToClipboard = (text: string, isCommand = false) => {
+    navigator.clipboard.writeText(text);
+    if (isCommand) {
+      setCopiedCommand(true);
+      setTimeout(() => setCopiedCommand(false), 2000);
+    } else {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const handleCopyClick = (e: React.MouseEvent, text: string, isCommand = false) => {
+    e.preventDefault(); // Prevent any default behavior
+    e.stopPropagation(); // Stop event propagation
+    copyToClipboard(text, isCommand);
+  };
+
+  const fetchExampleContent = async (componentType: string, variantNumber: number) => {
+    try {
+      const response = await fetch(`/api/examples?component=${componentType}&variant=${variantNumber}`);
+      if (!response.ok) throw new Error('Failed to fetch example');
+      const data = await response.json();
+      return data.content;
+    } catch (error) {
+      console.error('Error fetching example:', error);
+      return null;
+    }
   };
 
   return (
@@ -85,9 +104,9 @@ export default function ComponentTemplate({
           {description}
         </p>
 
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-8 overflow-hidden">
           {/* Left sidebar with variant list */}
-          <div className="lg:w-1/3 h-[calc(100vh-250px)] overflow-y-auto pr-2 border-r border-gray-700">
+          <div className="lg:w-1/3 h-[calc(170vh-250px)] overflow-y-auto pr-2 border-r border-gray-700">
             <div className="sticky top-0 bg-gray-900 py-2 mb-4 border-b border-gray-700">
               <h2 className="text-xl font-semibold">Variants</h2>
             </div>
@@ -107,19 +126,44 @@ export default function ComponentTemplate({
                   <span className="font-medium">Variant {example.variant}</span>
                   <div className="flex items-center space-x-2">
                     <button
-                      onClick={(e) => copyCommand(e, example.id)}
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        const content = await fetchExampleContent(componentType, example.id);
+                        if (content) {
+                          handleCopyClick(e, content);
+                        } else {
+                          // Fallback to copying the import statement if content fetch fails
+                          handleCopyClick(e, usageExample(example.id));
+                        }
+                      }}
                       className={`
                         flex items-center space-x-1 px-2 py-1 rounded-md transition-colors
                         ${selectedExample === example.id 
                           ? 'bg-blue-700 hover:bg-blue-800' 
                           : 'bg-gray-700 hover:bg-gray-600'}
                       `}
-                      title={`Copy: npx multi-ui add ${componentType.charAt(0).toUpperCase() + componentType.slice(1)}_${example.id}`}
+                      title={`Copy: ${usageExample(example.id)}`}
                     >
-                      {copiedId === example.id ? (
+                      {copied ? (
                         <Check className="h-3 w-3 text-green-400" />
                       ) : (
                         <Copy className="h-3 w-3 text-blue-400" />
+                      )}
+                    </button>
+                    <button
+                      onClick={(e) => handleCopyClick(e, `npx multi-ui add ${componentType}_${example.id}`, true)}
+                      className={`
+                        flex items-center space-x-1 px-2 py-1 rounded-md transition-colors
+                        ${selectedExample === example.id 
+                          ? 'bg-blue-700 hover:bg-blue-800' 
+                          : 'bg-gray-700 hover:bg-gray-600'}
+                      `}
+                      title={`Copy: npx multi-ui add ${componentType}_${example.id}`}
+                    >
+                      {copiedCommand ? (
+                        <Check className="h-3 w-3 text-green-400" />
+                      ) : (
+                        <Code2 className="h-3 w-3 text-blue-400" />
                       )}
                     </button>
                     <div className="flex space-x-1">
@@ -159,23 +203,63 @@ export default function ComponentTemplate({
             <div className="border border-gray-700 rounded-lg overflow-hidden">
               <div className="p-4 bg-gray-800 flex justify-between items-center">
                 <h3 className="text-lg font-semibold">Variant {selectedExample}</h3>
-                <button
-                  onClick={(e) => copyCommand(e, selectedExample)}
-                  className="flex items-center space-x-1 px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors"
-                  title={`Copy: npx multi-ui add ${componentType.charAt(0).toUpperCase() + componentType.slice(1)}_${selectedExample}`}
-                >
-                  {copiedId === selectedExample ? (
-                    <>
-                      <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm">Copied!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-4 w-4 text-blue-400" />
-                      <span className="text-sm">Copy Install Command</span>
-                    </>
-                  )}
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      const content = await fetchExampleContent(componentType, selectedExample);
+                      if (content) {
+                        handleCopyClick(e, content);
+                      } else {
+                        // Fallback to copying the import statement if content fetch fails
+                        handleCopyClick(e, usageExample(selectedExample));
+                      }
+                    }}
+                    className="flex items-center space-x-1 px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors"
+                    title="Copy example code"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="h-4 w-4 text-green-400" />
+                        <span className="text-sm">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-4 w-4 text-blue-400" />
+                        <span className="text-sm">Copy Example</span>
+                      </>
+                    )}
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      const formattedName = componentType
+                        .replace(/s$/, '') // Remove trailing 's'
+                        .replace(/s([A-Z])/, '$1') // Remove 's' before capital letters
+                        .charAt(0).toUpperCase() + // Capitalize first letter
+                        componentType
+                          .replace(/s$/, '') // Remove trailing 's' again from the rest
+                          .slice(1); // Get rest of the string
+                      handleCopyClick(e, `npx multi-ui add ${formattedName}_${selectedExample}`, true);
+                    }}
+                    className="flex items-center space-x-1 px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors"
+                    title={`Copy: npx multi-ui add ${componentType
+                      .replace(/s$/, '')
+                      .charAt(0).toUpperCase() + 
+                      componentType.replace(/s$/, '').slice(1)}_${selectedExample}`}
+                  >
+                    {copiedCommand ? (
+                      <>
+                        <Check className="h-4 w-4 text-green-400" />
+                        <span className="text-sm">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Code2 className="h-4 w-4 text-blue-400" />
+                        <span className="text-sm">Copy Command</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
               <div className="border-t border-gray-700 p-6 bg-gray-850 min-h-[400px]">
                 <div className="bg-gray-900 rounded-lg p-4 h-full">
