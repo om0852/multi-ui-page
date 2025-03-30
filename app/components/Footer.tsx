@@ -1,135 +1,118 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
-import { Github, Twitter, Linkedin, Mail } from 'lucide-react';
+import { Github, Twitter, Mail } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-gray-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="bg-white border-t border-gray-200 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* About Section */}
-          <div className="col-span-1 md:col-span-2">
-            <h3 className="text-white text-lg font-semibold mb-4">Multi UI</h3>
-            <p className="text-gray-400 mb-4">
-              A versatile React component library with multiple design variants for each component. 
-              Built for developers who want flexibility without sacrificing quality.
+          {/* Logo and description */}
+          <div className="md:col-span-1">
+            <Link href="/" className="flex items-center">
+              <span className="text-xl font-bold text-gray-900">Multi UI</span>
+            </Link>
+            <p className="mt-3 text-sm text-gray-600">
+              A modern React component library with multiple design variants
             </p>
-            <div className="flex space-x-4">
-              <Link 
-                href="https://github.com/om0852/multi-ui"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <Github size={20} />
-              </Link>
-              <Link 
-                href="https://twitter.com/multiui"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <Twitter size={20} />
-              </Link>
-              <Link 
-                href="https://linkedin.com/company/multiui"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <Linkedin size={20} />
-              </Link>
-              <Link 
-                href="mailto:contact@multiui.dev"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <Mail size={20} />
-              </Link>
-            </div>
           </div>
-
-          {/* Quick Links */}
+          
+          {/* Links 1 */}
           <div>
-            <h3 className="text-white text-lg font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase">
+              Resources
+            </h3>
+            <ul className="mt-4 space-y-3">
               <li>
-                <Link href="/docs" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/docs" className="text-base text-gray-600 hover:text-gray-900">
                   Documentation
                 </Link>
               </li>
               <li>
-                <Link href="/components" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/components" className="text-base text-gray-600 hover:text-gray-900">
                   Components
                 </Link>
               </li>
               <li>
-                <Link href="/examples" className="text-gray-400 hover:text-white transition-colors">
-                  Examples
+                <Link href="/contribute" className="text-base text-gray-600 hover:text-gray-900">
+                  Contribute
+                </Link>
+              </li>
+            </ul>
+          </div>
+          
+          {/* Links 2 */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase">
+              Company
+            </h3>
+            <ul className="mt-4 space-y-3">
+              <li>
+                <Link href="/about" className="text-base text-gray-600 hover:text-gray-900">
+                  About
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/blog" className="text-base text-gray-600 hover:text-gray-900">
                   Blog
                 </Link>
               </li>
+              <li>
+                <Link href="/careers" className="text-base text-gray-600 hover:text-gray-900">
+                  Careers
+                </Link>
+              </li>
             </ul>
           </div>
-
-          {/* Resources */}
+          
+          {/* Links 3 */}
           <div>
-            <h3 className="text-white text-lg font-semibold mb-4">Resources</h3>
-            <ul className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase">
+              Legal
+            </h3>
+            <ul className="mt-4 space-y-3">
               <li>
-                <Link 
-                  href="https://github.com/om0852/multi-ui/issues"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Report an Issue
+                <Link href="/privacy" className="text-base text-gray-600 hover:text-gray-900">
+                  Privacy
                 </Link>
               </li>
               <li>
-                <Link 
-                  href="https://github.com/om0852/multi-ui/blob/main/CONTRIBUTING.md"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Contributing
-                </Link>
-              </li>
-              <li>
-                <Link href="/changelog" className="text-gray-400 hover:text-white transition-colors">
-                  Changelog
-                </Link>
-              </li>
-              <li>
-                <Link href="/roadmap" className="text-gray-400 hover:text-white transition-colors">
-                  Roadmap
+                <Link href="/terms" className="text-base text-gray-600 hover:text-gray-900">
+                  Terms
                 </Link>
               </li>
             </ul>
-          </div>
-        </div>
-
-        <div className="border-t border-gray-700 mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © {new Date().getFullYear()} Multi UI. All rights reserved.
-            </p>
-            <div className="flex space-x-6">
-              <Link href="/privacy" className="text-gray-400 hover:text-white text-sm transition-colors">
-                Privacy Policy
-              </Link>
-              <Link href="/terms" className="text-gray-400 hover:text-white text-sm transition-colors">
-                Terms of Service
-              </Link>
-              <Link href="/license" className="text-gray-400 hover:text-white text-sm transition-colors">
-                License
-              </Link>
+            
+            {/* Social links */}
+            <div className="mt-8">
+              <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase">
+                Connect
+              </h3>
+              <div className="mt-4 flex space-x-4">
+                <a href="https://github.com/om0852/multi-ui" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900">
+                  <span className="sr-only">GitHub</span>
+                  <Github className="h-6 w-6" />
+                </a>
+                <a href="https://twitter.com/multi_ui" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900">
+                  <span className="sr-only">Twitter</span>
+                  <Twitter className="h-6 w-6" />
+                </a>
+                <a href="mailto:info@multi-ui.com" className="text-gray-600 hover:text-gray-900">
+                  <span className="sr-only">Email</span>
+                  <Mail className="h-6 w-6" />
+                </a>
+              </div>
             </div>
           </div>
+        </div>
+        
+        {/* Copyright */}
+        <div className="mt-8 pt-8 border-t border-gray-200">
+          <p className="text-sm text-gray-600">
+            &copy; {new Date().getFullYear()} Multi UI. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

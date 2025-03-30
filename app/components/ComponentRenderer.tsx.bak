@@ -1,0 +1,197 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
+
+type ComponentRendererProps = {
+  componentPath: string;
+  examplePath: string;
+  componentSlug: string;
+};
+
+export const ComponentRenderer: React.FC<ComponentRendererProps> = ({ 
+  componentPath, 
+  examplePath,
+  componentSlug
+}) => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  // Helper function to determine the component name based on file path
+  const getComponentName = (path: string): string => {
+    const match = path.match(/([A-Za-z]+)_(\d+)/);
+    if (match && match.length >= 3) {
+      return `${match[1]}${match[2]}`;
+    }
+    return 'Component';
+  };
+
+  // Helper function to determine the example component name based on file path
+  const getExampleComponentName = (path: string): string => {
+    const match = path.match(/Example_(\d+)/);
+    if (match && match.length >= 2) {
+      return `Example${match[1]}`;
+    }
+    return 'Example';
+  };
+
+  useEffect(() => {
+    const loadAndRenderComponent = async () => {
+      try {
+        setLoading(true);
+        
+        // Fetch the component code
+        const componentResponse = await fetch(componentPath);
+        if (!componentResponse.ok) {
+          throw new Error(`Failed to fetch component: ${componentResponse.statusText}`);
+        }
+        const componentText = await componentResponse.text();
+        
+        // Fetch the example code
+        const exampleResponse = await fetch(examplePath);
+        if (!exampleResponse.ok) {
+          throw new Error(`Failed to fetch example: ${exampleResponse.statusText}`);
+        }
+        const exampleText = await exampleResponse.text();
+        
+        // Create a container for the component
+        if (!containerRef.current) return;
+        
+        // Create an iframe to isolate the component execution
+        const iframe = document.createElement('iframe');
+        iframe.style.width = '100%';
+        iframe.style.height = '400px';
+        iframe.style.border = 'none';
+        iframe.title = 'Component Preview';
+        
+        // Clear previous content
+        containerRef.current.innerHTML = '';
+        containerRef.current.appendChild(iframe);
+        
+        // Get the component and example names based on the file paths
+        const componentName = getComponentName(componentPath);
+        const exampleName = getExampleComponentName(examplePath);
+        
+        // Create a standalone HTML page with required dependencies
+        const html = `
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Component Preview</title>
+              <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+              <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+              <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+              <script src="https://unpkg.com/framer-motion@10.15.1/dist/framer-motion.js"></script>
+              <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.js"></script>
+              <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+              <style>
+                body {
+                  margin: 0;
+                  padding: 0;
+                  background: transparent;
+                }
+                #root {
+                  width: 100%;
+                  height: 100%;
+                }
+              </style>
+            </head>
+            <body>
+              <div id="root"></div>
+              
+              <!-- Component code -->
+              <script type="text/babel">
+                ${componentText}
+              </script>
+              
+              <!-- Example code -->
+              <script type="text/babel">
+                ${exampleText}
+                
+                // Render the component
+                const rootElement = document.getElementById('root');
+                const root = ReactDOM.createRoot(rootElement);
+                
+                try {
+                  // Try to render the component
+                  root.render(<React.StrictMode><${exampleName} /></React.StrictMode>);
+                } catch (error) {
+                  console.error('Error rendering component:', error);
+                  // Fallback rendering if component name doesn't match
+                  try {
+                    // If example component fails, try rendering the main component directly
+                    root.render(<React.StrictMode><${componentName} /></React.StrictMode>);
+                  } catch (secondError) {
+                    console.error('Error rendering fallback component:', secondError);
+                    root.render(
+                      <div style={{ 
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '100%',
+                        color: 'white',
+                        textAlign: 'center',
+                        padding: '20px'
+                      }}>
+                        <div>
+                          <p style={{ marginBottom: '10px' }}>Could not render component preview.</p>
+                          <small style={{ opacity: 0.7 }}>See console for details.</small>
+                        </div>
+                      </div>
+                    );
+                  }
+                }
+              </script>
+            </body>
+          </html>
+        `;
+        
+        // Write the HTML to the iframe
+        const iframeDoc = iframe.contentWindow?.document;
+        if (!iframeDoc) throw new Error('Could not access iframe document');
+        
+        iframeDoc.open();
+        iframeDoc.write(html);
+        iframeDoc.close();
+        
+        setLoading(false);
+      } catch (err) {
+        console.error('Error rendering component:', err);
+        setError(err instanceof Error ? err.message : 'Failed to render component');
+        setLoading(false);
+      }
+    };
+
+    loadAndRenderComponent();
+    
+    // Cleanup function
+    return () => {
+      if (containerRef.current) {
+        containerRef.current.innerHTML = '';
+      }
+    };
+  }, [componentPath, examplePath, componentSlug]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col justify-center items-center h-[400px] text-white">
+        <p className="text-red-400 mb-2">Error loading component:</p>
+        <p className="text-sm opacity-80">{error}</p>
+      </div>
+    );
+  }
+
+  return <div ref={containerRef} className="w-full h-[400px]" />;
+};
+
+export default ComponentRenderer; 

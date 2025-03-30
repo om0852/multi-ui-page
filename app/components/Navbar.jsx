@@ -38,8 +38,8 @@ const Navbar = () => {
             <Link href="/components" className="px-3 py-2 rounded-md text-sm font-medium text-gray-900 hover:bg-gray-100">
               Components
             </Link>
-            <Link href="/examples" className="px-3 py-2 rounded-md text-sm font-medium text-gray-900 hover:bg-gray-100">
-              Examples
+            <Link href="/contribute" className="px-3 py-2 rounded-md text-sm font-medium text-gray-900 hover:bg-gray-100">
+              Contribute
             </Link>
             <Link href="https://github.com/om0852/multi-ui" 
                   className="px-3 py-2 rounded-md text-sm font-medium text-gray-900 hover:bg-gray-100"
@@ -77,8 +77,8 @@ const Navbar = () => {
             <Link href="/components" className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">
               Components
             </Link>
-            <Link href="/examples" className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">
-              Examples
+            <Link href="/contribute" className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">
+              Contribute
             </Link>
             <Link 
               href="https://github.com/om0852/multi-ui" 
