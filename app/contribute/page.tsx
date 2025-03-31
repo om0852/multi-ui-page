@@ -54,7 +54,7 @@ export default function ContributePage() {
                 <h3 className="text-xl font-semibold text-gray-900">1. Set Up a Contribution Workflow</h3>
               </div>
               <p className="mb-4 text-gray-700">
-                We've created a comprehensive CONTRIBUTING.md file in our GitHub repository that outlines:
+                We&apos;ve created a comprehensive CONTRIBUTING.md file in our GitHub repository that outlines:
               </p>
               <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4">
                 <li>How to set up the project locally</li>
@@ -122,7 +122,7 @@ export default function ContributePage() {
                 <h3 className="text-xl font-semibold text-gray-900">3. PR Review Process</h3>
               </div>
               <p className="mb-4 text-gray-700">
-                We've implemented a robust PR review process to maintain high code quality:
+                We&apos;ve implemented a robust PR review process to maintain high code quality:
               </p>
               <ul className="list-disc list-inside space-y-2 text-gray-700">
                 <li>GitHub Actions to run tests (ESLint, Prettier, TypeScript checks)</li>
@@ -145,7 +145,7 @@ export default function ContributePage() {
                 <h3 className="text-xl font-semibold text-gray-900">4. Component Proposal Template</h3>
               </div>
               <p className="mb-4 text-gray-700">
-                We've defined a template for proposing new components in GitHub issues:
+                We&apos;ve defined a template for proposing new components in GitHub issues:
               </p>
               <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                 <h4 className="font-medium text-gray-900 mb-2">Component Proposal Fields:</h4>
@@ -176,7 +176,7 @@ export default function ContributePage() {
                 <h3 className="text-xl font-semibold text-gray-900">5. Monorepo for Scalability (Optional)</h3>
               </div>
               <p className="mb-4 text-gray-700">
-                For larger contributions, we're considering a monorepo structure with Turborepo to:
+                For larger contributions, we&apos;re considering a monorepo structure with Turborepo to:
               </p>
               <ul className="list-disc list-inside space-y-2 text-gray-700">
                 <li>Make it easier to work on individual components without affecting others</li>
@@ -185,7 +185,7 @@ export default function ContributePage() {
               </ul>
               <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 mt-4">
                 <p className="text-sm text-gray-700 italic">
-                  This is a future direction we're exploring as the component library grows.
+                  This is a future direction we&apos;re exploring as the component library grows.
                 </p>
               </div>
             </div>
@@ -203,7 +203,7 @@ export default function ContributePage() {
               </p>
               <ul className="list-disc list-inside space-y-2 text-gray-700">
                 <li>CONTRIBUTORS.md file listing all contributors</li>
-                <li>GitHub's "Contributor" role to highlight key contributors</li>
+                <li>GitHub&apos;s &ldquo;Contributor&rdquo; role to highlight key contributors</li>
                 <li>Community Discord server for discussions and collaboration</li>
               </ul>
               <div className="flex flex-wrap gap-4 mt-4">

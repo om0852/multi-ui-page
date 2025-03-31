@@ -6,9 +6,6 @@ const ExampleCard3 = () => {
         <div>
             <h2>Example Card 3</h2>
             <Card3 
-                title="Card 3 Title"
-                subtitle="This is the subtitle for Card 3."
-                imageUrl="https://via.placeholder.com/300"
             />
         </div>
     );

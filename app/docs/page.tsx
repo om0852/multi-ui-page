@@ -180,7 +180,7 @@ const DocsPage = () => {
                     </p>
                     <CodeBlock code="npx multi-ui add ComponentName_VariantNumber" />
                     <p className="text-sm text-gray-400 mt-4">
-                      Replace "ComponentName" with the component you want (like Button, Accordion) and "VariantNumber" with the variant number (like 1, 2, 3).
+                      Replace &quot;ComponentName&quot; with the component you want (like Button, Accordion) and &quot;VariantNumber&quot; with the variant number (like 1, 2, 3).
                     </p>
                     
                     <h4 className="text-lg font-semibold mt-8 mb-4 text-gray-100">Examples:</h4>
@@ -259,7 +259,7 @@ const DocsPage = () => {
           <div className="bg-gray-800 p-8 rounded-xl border border-gray-700">
             <h2 className="text-3xl font-bold mb-6 text-white">Contributing</h2>
             <p className="text-lg text-gray-300 mb-6">
-              We welcome contributions to Multi UI! Whether you're fixing bugs, adding features, or improving documentation.
+              We welcome contributions to Multi UI! Whether you&apos;re fixing bugs, adding features, or improving documentation.
             </p>
             <Link 
               href="https://github.com/om0852/multi-ui" 

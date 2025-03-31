@@ -183,7 +183,7 @@ export default function Home() {
                 Multiple Variants
               </h3>
               <p className="text-gray-300 mb-6">
-                Each component comes with multiple design variants. Choose the one that fits your project's style.
+                Each component comes with multiple design variants. Choose the one that fits your project&apos;s style.
               </p>
               <ComponentPreview />
             </div>

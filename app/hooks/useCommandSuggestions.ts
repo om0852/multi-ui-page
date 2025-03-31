@@ -34,11 +34,14 @@ export function useCommandSuggestions(input: string) {
 
     // Suggest component names for 'view', 'install' commands
     if ((command === 'view' || command === 'install') && inputParts.length === 2) {
-      const components = getAllComponents();
-      const matchingComponents = components
-        .filter(comp => comp.name.toLowerCase().startsWith(arg))
-        .map(comp => `${command} ${comp.name}`);
-      setSuggestions(matchingComponents);
+      const fetchAndFilterComponents = async () => {
+        const components = await getAllComponents();
+        const matchingComponents = components
+          .filter(comp => comp.name.toLowerCase().startsWith(arg))
+          .map(comp => `${command} ${comp.name}`);
+        setSuggestions(matchingComponents);
+      };
+      fetchAndFilterComponents();
       return;
     }
 

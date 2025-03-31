@@ -1,48 +1,25 @@
-'use client';
+"use client"
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Code, Eye } from 'lucide-react';
 
-// Define types for our component data
-type Variant = {
-  id: string;
-  name: string;
-  description: string;
-};
+export default function ComponentPage() {
+  const pathname = usePathname();
+  const slug = pathname.split('/').pop() || '';
 
-type ComponentData = {
-  name: string;
-  slug: string;
-  description: string;
-  variants: Variant[];
-};
-
-// Define the params type
-type ComponentPageParams = {
-  slug: string;
-};
-
-export default function ComponentPage({ params }: { params: ComponentPageParams | Promise<ComponentPageParams> }) {
-  // Unwrap the params Promise using React.use()
-  const unwrappedParams = React.use(params as any) as ComponentPageParams;
-  const { slug } = unwrappedParams;
-
-  const [component, setComponent] = useState<ComponentData | null>(null);
+  const [component, setComponent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   
   useEffect(() => {
     const fetchComponentData = async () => {
       try {
-        // In a real implementation, you would fetch this data from an API
-        // For now, we'll dynamically create it based on the slug
-        // We'd need to check the file system or a JSON file to get actual variants
+        const variantNumbers = [];
         
-        const variantNumbers: number[] = [];
-        
-        // Simulate getting the number of variants (in a real app, you'd read this from the filesystem)
+        // Simulate getting the number of variants
         let maxVariants = 50; // Default maximum for Accordion
         
         // Adjust max variants based on component type
@@ -56,7 +33,6 @@ export default function ComponentPage({ params }: { params: ComponentPageParams 
           case 'badge':
             maxVariants = 15;
             break;
-          // Add more cases for other components
           default:
             maxVariants = 10;
         }
@@ -74,7 +50,7 @@ export default function ComponentPage({ params }: { params: ComponentPageParams 
         }));
         
         // Create component data object
-        const componentData: ComponentData = {
+        const componentData = {
           name: toTitleCase(slug.replace('-', ' ')),
           slug: slug,
           description: `A collection of ${variants.length} ${toTitleCase(slug.replace('-', ' '))} components for your UI needs.`,
@@ -93,7 +69,7 @@ export default function ComponentPage({ params }: { params: ComponentPageParams 
   }, [slug]);
   
   // Helper function to convert strings to title case
-  const toTitleCase = (str: string): string => {
+  const toTitleCase = (str) => {
     return str.split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
@@ -133,7 +109,7 @@ export default function ComponentPage({ params }: { params: ComponentPageParams 
     return (
       <div className="min-h-screen flex flex-col justify-center items-center">
         <h1 className="text-2xl font-bold text-gray-900">Component not found</h1>
-        <p className="mt-2 text-gray-600">The component you're looking for doesn't exist.</p>
+        <p className="mt-2 text-gray-600">The component you&apos;re looking for doesn&apos;t exist.</p>
         <Link 
           href="/components" 
           className="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -226,7 +202,7 @@ export default function ComponentPage({ params }: { params: ComponentPageParams 
                         </span>
                       </div>
                       <span className="text-sm text-indigo-500 group-hover:text-indigo-700">
-                        View →
+                        View &rarr;
                       </span>
                     </div>
                   </div>

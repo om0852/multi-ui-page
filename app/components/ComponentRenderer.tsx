@@ -58,11 +58,11 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [usesFallback, setUsesFallback] = useState(false);
-  
-  // Extract the variant number from the example path
-  const variantMatch = examplePath.match(/Example_(\d+)/);
-  const variantId = variantMatch ? variantMatch[1] : '1';
-  
+        
+        // Extract the variant number from the example path
+        const variantMatch = examplePath.match(/Example_(\d+)/);
+        const variantId = variantMatch ? variantMatch[1] : '1';
+        
   // Create key for the example component
   const exampleKey = `${componentSlug.toLowerCase()}_example_${variantId}`;
   const fallbackKey = `${exampleKey}_fallback`;
@@ -115,13 +115,13 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
           <div className="space-y-2 text-center">
             <div className="animate-spin h-10 w-10 border-2 border-indigo-500 border-t-transparent rounded-full mx-auto"></div>
             <p className="text-gray-400">Loading component preview...</p>
-          </div>
-        </div>
+                      </div>
+                    </div>
       ),
       ssr: false
     }
   );
-  
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[400px] bg-gray-800">
