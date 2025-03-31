@@ -4,6 +4,12 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { 
+  Search, 
+  Zap, 
+  Package,
+  Layers 
+} from 'lucide-react';
 
 type Component = {
   name: string;
@@ -196,98 +202,138 @@ export default function ComponentsPage() {
   );
 
   // Animation variants for components grid
-  const container = {
+  const containerVariants = {
     hidden: { opacity: 0 },
-    show: {
+    visible: { 
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1
+      transition: { 
+        staggerChildren: 0.1,
+        delayChildren: 0.3
       }
     }
   };
 
-  const item = {
+  const itemVariants = {
     hidden: { y: 20, opacity: 0 },
-    show: { y: 0, opacity: 1 }
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: { type: 'spring', stiffness: 100 }
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
-            UI Components
-          </h1>
-          <p className="mt-5 max-w-xl mx-auto text-xl text-gray-500">
-            Explore our collection of beautifully designed, ready-to-use components
-          </p>
-          
-          {/* Search input */}
-          <div className="mt-8 max-w-md mx-auto">
-            <div className="relative rounded-md shadow-sm">
-              <input
-                type="text"
-                className="block w-full rounded-md border-gray-300 pl-10 pr-3 py-2 text-gray-900 focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="Search components..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                </svg>
+    <div className="min-h-screen bg-gray-900 text-white">
+      {/* Hero Section with Background */}
+      <section className="relative overflow-hidden py-24">
+        <div className="absolute inset-0 z-0 opacity-20">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-600 to-purple-800"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid.svg')] bg-repeat"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-12">
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h1 className="text-4xl md:text-6xl font-extrabold mb-6">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                  UI Components
+                </span>
+              </h1>
+              <p className="mt-5 max-w-xl mx-auto text-xl text-gray-300">
+                Explore our collection of beautifully designed, ready-to-use components
+              </p>
+            </motion.div>
+            
+            {/* Search input */}
+            <motion.div 
+              className="mt-8 max-w-md mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <div className="relative rounded-md shadow-sm">
+                <input
+                  type="text"
+                  className="block w-full rounded-md bg-gray-800 border-gray-700 pl-10 pr-3 py-3 text-white focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Search components..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Search className="h-5 w-5 text-gray-400" />
+                </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
+      </section>
 
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-indigo-500"></div>
-          </div>
-        ) : (
-          <motion.div 
-            className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-            variants={container}
-            initial="hidden"
-            animate="show"
-          >
-            {filteredComponents.map((component) => (
-              <motion.div key={component.slug} variants={item}>
-                <Link 
-                  href={`/components/${component.slug}`}
-                  className="block group"
+      {/* Components Grid */}
+      <section className="py-16 bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {loading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+            </div>
+          ) : (
+            <motion.div 
+              className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {filteredComponents.map((component) => (
+                <motion.div 
+                  key={component.slug} 
+                  variants={itemVariants}
+                  whileHover={{ y: -5, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)' }}
                 >
-                  <div className="overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 group-hover:shadow-lg">
-                    <div className="relative h-48 w-full bg-gray-200">
-                      {/* Placeholder image - in a real implementation, you'd use actual component preview images */}
-                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-4xl font-bold">
-                        {component.name.charAt(0)}
+                  <Link 
+                    href={`/components/${component.slug}`}
+                    className="block h-full"
+                  >
+                    <div className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden h-full transition-all duration-300 hover:border-blue-500">
+                      <div className="relative h-48 w-full bg-gray-900 overflow-hidden">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="bg-gradient-to-r from-blue-600 to-purple-600 absolute inset-0 opacity-80"></div>
+                          <Layers className="relative z-10 h-16 w-16 text-white opacity-80" />
+                        </div>
+                      </div>
+                      <div className="p-5">
+                        <h3 className="text-lg font-bold text-white mb-2">
+                          {component.name}
+                        </h3>
+                        <p className="text-gray-300 text-sm mb-4">
+                          {component.description}
+                        </p>
+                        <div className="flex items-center justify-between">
+                          <div className="bg-blue-900/30 px-3 py-1 rounded-full text-xs text-blue-400 font-medium flex items-center">
+                            <Zap className="h-3 w-3 mr-1" />
+                            {component.variants} variants
+                          </div>
+                          <span className="text-blue-400 text-sm">View details →</span>
+                        </div>
                       </div>
                     </div>
-                    <div className="p-4">
-                      <h3 className="text-lg font-medium text-gray-900 group-hover:text-indigo-600">
-                        {component.name}
-                      </h3>
-                      <p className="mt-1 text-sm text-gray-500">
-                        {component.description}
-                      </p>
-                      <div className="mt-3 flex items-center justify-between">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
-                          {component.variants} variants
-                        </span>
-                        <span className="text-sm text-indigo-500 group-hover:text-indigo-700">
-                          View details →
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </motion.div>
-        )}
-      </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+          
+          {filteredComponents.length === 0 && !loading && (
+            <div className="text-center py-20">
+              <Package className="mx-auto h-16 w-16 text-gray-600 mb-4" />
+              <h3 className="text-xl font-medium text-gray-300 mb-2">No components found</h3>
+              <p className="text-gray-400">Try a different search term</p>
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 } 
