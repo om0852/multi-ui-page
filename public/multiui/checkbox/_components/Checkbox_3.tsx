@@ -7,30 +7,22 @@ type CheckboxProps = {
   value: boolean;
   onChange: (checked: boolean) => void;
   disabled?: boolean;
-  color?: "blue" | "red" | "green";
 };
 
-
-const BounceCheckbox: React.FC<CheckboxProps> = ({ value, onChange, disabled = false, color = "red" }) => {
+const Checkbox: React.FC<CheckboxProps> = ({ value, onChange, disabled = false }) => {
   const [mounted, setMounted] = useState(false);
 
-  const colorClasses = {
-    blue: "border-blue-700 bg-blue-500",
-    red: "border-red-700 bg-red-500",
-    green: "border-green-700 bg-green-500",
-  };
-
-  const selectedColorClass = value ? colorClasses[color] : "border-gray-400 bg-gray-300";
-
+  // Set mounted to true after the component is rendered on the client
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Don't render on the server during hydration
   if (!mounted) return null;
 
   return (
     <label
-      className={`bounce-checkbox relative w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 cursor-pointer ${
+      className={`checkbox-container relative inline-flex items-center cursor-pointer transition-all duration-300 ${
         disabled ? "opacity-50 cursor-not-allowed" : ""
       }`}
     >
@@ -41,34 +33,34 @@ const BounceCheckbox: React.FC<CheckboxProps> = ({ value, onChange, disabled = f
         onChange={(e) => onChange(e.target.checked)}
         disabled={disabled}
       />
-      <motion.div
-        className={`bounce-checkbox__box absolute inset-0 bg-black/80 border-2 ${selectedColorClass} rounded-lg`}
-        initial={{ y: -10 }}
-        animate={value ? { y: [0, -5, 0] } : { y: -10 }}
-        transition={{ duration: 0.5, repeat: 2, repeatType: "reverse" }}
-      />
-      <motion.div
-        className={`bounce-checkbox__glow absolute inset-[-2px] rounded-md ${selectedColorClass} opacity-0 blur-md scale-110`}
-        animate={{ opacity: value ? 0.5 : 0 }}
-      />
-      {value && (
-        <motion.svg
-          viewBox="0 0 32 32"
-          className="absolute w-4/5 h-4/5 fill-none stroke-white stroke-[3]"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.5 }}
+      <div className="checkbox-background relative w-10 h-10 bg-gray-300 border-2 border-gray-500 rounded-md transition-colors duration-300">
+        {/* Checkmark box */}
+        <motion.div
+          className="checkbox-check w-6 h-6 bg-green-500 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-md"
+          animate={{
+            opacity: value ? 1 : 0,
+          }}
+          transition={{
+            duration: 0.3,
+          }}
         >
-          <motion.path
-            d="M3,12.5l7,7L21,5"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 0.4 }}
+          <motion.div
+            className="checkmark w-3 h-3 bg-transparent border-l-4 border-b-4 border-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            initial={{ rotate: -45 }}
+            animate={{ rotate: value ? 0 : -45 }}
+            transition={{ duration: 0.3 }}
           />
-        </motion.svg>
-      )}
+        </motion.div>
+
+        {/* Glow effect */}
+        <motion.div
+          className="checkbox-glow absolute inset-0 rounded-md bg-gradient-to-r from-blue-500 to-pink-500 opacity-0"
+          animate={value ? { opacity: 0.2, scale: 1.1 } : { opacity: 0, scale: 1 }}
+          transition={{ duration: 0.3 }}
+        />
+      </div>
     </label>
   );
 };
 
-export default BounceCheckbox;
+export default Checkbox;

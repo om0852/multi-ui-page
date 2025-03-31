@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react';
 import Checkbox14 from '../_components/Checkbox_14';
 
@@ -9,7 +10,7 @@ const Example_14 = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white text-black">
       <h1 className="mb-4">Checkbox 14 Example</h1>
       <Checkbox14 value={isChecked} onChange={handleCheckboxChange} />
       <p className="mt-4">Checkbox is {isChecked ? 'checked' : 'unchecked'}</p>

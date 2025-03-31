@@ -8,7 +8,8 @@
     "dev:fast": "cross-env NEXT_DISABLE_SOURCEMAPS=true next dev",
     "dev:minimal": "cross-env NEXT_DISABLE_SOURCEMAPS=true NODE_ENV=production next dev",
     "dev:turbo": "next dev --turbo",
-    "build": "next build",
+    "build": "cross-env NEXT_DISABLE_SOURCEMAPS=true NODE_OPTIONS=\"--max-old-space-size=8192\" next build",
+    "build:lowmem": "cross-env NEXT_DISABLE_SOURCEMAPS=true NODE_OPTIONS=\"--max-old-space-size=4096\" next build",
     "build:analyze": "cross-env ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint"

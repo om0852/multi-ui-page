@@ -31,20 +31,6 @@ export default function ComponentsPage() {
         // For now, we'll create it based on the directory structure we observed
         const componentList: Component[] = [
           { 
-            name: 'Accordion', 
-            slug: 'accordian', 
-            image: '/images/components/accordion.webp', 
-            description: 'Vertically collapsing content panels', 
-            variants: 50 
-          },
-          { 
-            name: 'Avatar', 
-            slug: 'avatar', 
-            image: '/images/components/avatar.webp', 
-            description: 'User profile pictures or icons', 
-            variants: 20 
-          },
-          { 
             name: 'Badge', 
             slug: 'badge', 
             image: '/images/components/badge.webp', 
@@ -66,9 +52,9 @@ export default function ComponentsPage() {
             variants: 30 
           },
           { 
-            name: 'Cards', 
-            slug: 'cards', 
-            image: '/images/components/cards.webp', 
+            name: 'Card', 
+            slug: 'card', 
+            image: '/images/components/card.webp', 
             description: 'Content containers for information', 
             variants: 25 
           },
@@ -92,13 +78,6 @@ export default function ComponentsPage() {
             image: '/images/components/circularprogressbar.webp', 
             description: 'Radial progress indicators', 
             variants: 15 
-          },
-          { 
-            name: 'Clipboard', 
-            slug: 'clipboard', 
-            image: '/images/components/clipboard.webp', 
-            description: 'Copy-to-clipboard functionality', 
-            variants: 8 
           },
           { 
             name: 'Clock', 
@@ -164,13 +143,6 @@ export default function ComponentsPage() {
             variants: 10 
           },
           { 
-            name: 'Font Changer', 
-            slug: 'fontchanger', 
-            image: '/images/components/fontchanger.webp', 
-            description: 'Typography and font controls', 
-            variants: 5 
-          },
-          { 
             name: 'Input Field', 
             slug: 'inputfield', 
             image: '/images/components/inputfield.webp', 
@@ -183,6 +155,181 @@ export default function ComponentsPage() {
             image: '/images/components/inputmask.webp', 
             description: 'Formatted input with masking', 
             variants: 8 
+          },
+          { 
+            name: 'Label', 
+            slug: 'label', 
+            image: '/images/components/label.webp', 
+            description: 'Text labels and form annotations', 
+            variants: 10 
+          },
+          { 
+            name: 'Link', 
+            slug: 'link', 
+            image: '/images/components/link.webp', 
+            description: 'Navigation and hyperlink elements', 
+            variants: 12 
+          },
+          { 
+            name: 'List Group', 
+            slug: 'listgroup', 
+            image: '/images/components/listgroup.webp', 
+            description: 'Grouped list items and selections', 
+            variants: 15 
+          },
+          { 
+            name: 'Loader', 
+            slug: 'loader', 
+            image: '/images/components/loader.webp', 
+            description: 'Loading and progress indicators', 
+            variants: 20 
+          },
+          { 
+            name: 'Menu Bar', 
+            slug: 'menubar', 
+            image: '/images/components/menubar.webp', 
+            description: 'Navigation and dropdown menus', 
+            variants: 15 
+          },
+          { 
+            name: 'OTP Field', 
+            slug: 'otpfield', 
+            image: '/images/components/otpfield.webp', 
+            description: 'One-time password input fields', 
+            variants: 8 
+          },
+          { 
+            name: 'Password Input', 
+            slug: 'passwordinput', 
+            image: '/images/components/passwordinput.webp', 
+            description: 'Secure password entry fields', 
+            variants: 12 
+          },
+          { 
+            name: 'Popup', 
+            slug: 'popup', 
+            image: '/images/components/popup.webp', 
+            description: 'Contextual overlays and tooltips', 
+            variants: 15 
+          },
+          { 
+            name: 'Progress Bar', 
+            slug: 'progressbar', 
+            image: '/images/components/progressbar.webp', 
+            description: 'Linear progress indicators', 
+            variants: 18 
+          },
+          { 
+            name: 'Radio Group', 
+            slug: 'radiogroup', 
+            image: '/images/components/radiogroup.webp', 
+            description: 'Single selection form controls', 
+            variants: 12 
+          },
+          { 
+            name: 'Range Slider', 
+            slug: 'rangeslider', 
+            image: '/images/components/rangeslider.webp', 
+            description: 'Adjustable value range inputs', 
+            variants: 15 
+          },
+          { 
+            name: 'Rating', 
+            slug: 'rating', 
+            image: '/images/components/rating.webp', 
+            description: 'Star ratings and feedback inputs', 
+            variants: 10 
+          },
+          { 
+            name: 'Scroll Area', 
+            slug: 'scrollarea', 
+            image: '/images/components/scrollarea.webp', 
+            description: 'Custom scrollable containers', 
+            variants: 8 
+          },
+          { 
+            name: 'Separator', 
+            slug: 'separator', 
+            image: '/images/components/separator.webp', 
+            description: 'Visual dividers and spacers', 
+            variants: 10 
+          },
+          { 
+            name: 'Share', 
+            slug: 'share', 
+            image: '/images/components/share.webp', 
+            description: 'Social sharing buttons and menus', 
+            variants: 12 
+          },
+          { 
+            name: 'Sidebar', 
+            slug: 'sidebar', 
+            image: '/images/components/sidebar.webp', 
+            description: 'Side navigation panels', 
+            variants: 15 
+          },
+          { 
+            name: 'Skeleton', 
+            slug: 'skeleton', 
+            image: '/images/components/skeleton.webp', 
+            description: 'Loading placeholder animations', 
+            variants: 8 
+          },
+          { 
+            name: 'Stepped Progress Bar', 
+            slug: 'steppedprogressbar', 
+            image: '/images/components/steppedprogressbar.webp', 
+            description: 'Multi-step progress indicators', 
+            variants: 12 
+          },
+          { 
+            name: 'Switch', 
+            slug: 'switch', 
+            image: '/images/components/switch.webp', 
+            description: 'Toggle switches and controls', 
+            variants: 15 
+          },
+          { 
+            name: 'Tab', 
+            slug: 'tab', 
+            image: '/images/components/tab.webp', 
+            description: 'Tabbed navigation interfaces', 
+            variants: 20 
+          },
+          { 
+            name: 'Textarea', 
+            slug: 'textarea', 
+            image: '/images/components/textarea.webp', 
+            description: 'Multi-line text input fields', 
+            variants: 12 
+          },
+          { 
+            name: 'Timeline', 
+            slug: 'timeline', 
+            image: '/images/components/timeline.webp', 
+            description: 'Chronological event displays', 
+            variants: 15 
+          },
+          { 
+            name: 'Toast', 
+            slug: 'toast', 
+            image: '/images/components/toast.webp', 
+            description: 'Temporary notification messages', 
+            variants: 18 
+          },
+          { 
+            name: 'Toggle', 
+            slug: 'toggle', 
+            image: '/images/components/toggle.webp', 
+            description: 'On/off state switches', 
+            variants: 12 
+          },
+          { 
+            name: 'Tooltip', 
+            slug: 'tooltip', 
+            image: '/images/components/tooltip.webp', 
+            description: 'Contextual information popups', 
+            variants: 15 
           }
         ];
 

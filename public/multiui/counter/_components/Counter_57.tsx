@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import clsx from 'clsx';
 
 interface CounterProps {
   initialValue?: number;
@@ -11,7 +11,8 @@ interface CounterProps {
   className?: string;
 }
 
-const Counter_57: React.FC<CounterProps> = ({
+// Use memo to prevent unnecessary re-renders
+const Counter_57: React.FC<CounterProps> = memo(({
   initialValue = 0,
   min = -Infinity,
   max = Infinity,
@@ -32,7 +33,7 @@ const Counter_57: React.FC<CounterProps> = ({
   };
 
   return (
-    <div className={clsx("bg-[#1A1B26] p-8 rounded-lg border-4 border-[#2E2F3E]", className)}>
+    <div className={`bg-[#1A1B26] p-8 rounded-lg border-4 border-[#2E2F3E] ${className}`}>
       <div className="flex flex-col items-center space-y-6">
         {/* Score Display */}
         <div className="relative">
@@ -49,7 +50,7 @@ const Counter_57: React.FC<CounterProps> = ({
             )}
           </AnimatePresence>
           <div className="bg-[#2E2F3E] p-4 rounded relative overflow-hidden">
-            {/* Scanlines effect */}
+            {/* Simplified scanlines effect */}
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent opacity-20 animate-scan" />
             <motion.div
               key={count}
@@ -65,38 +66,30 @@ const Counter_57: React.FC<CounterProps> = ({
 
         {/* Control Buttons */}
         <div className="flex space-x-4">
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="w-16 h-16 bg-red-500 rounded-lg border-b-4 border-red-700 text-white text-2xl font-bold shadow-lg active:border-b-0 active:translate-y-1"
+          <button
+            className="w-16 h-16 bg-red-500 rounded-lg border-b-4 border-red-700 text-white text-2xl font-bold shadow-lg active:border-b-0 active:translate-y-1 transition-all"
             onClick={decrement}
           >
             -
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="w-16 h-16 bg-green-500 rounded-lg border-b-4 border-green-700 text-white text-2xl font-bold shadow-lg active:border-b-0 active:translate-y-1"
+          </button>
+          <button
+            className="w-16 h-16 bg-green-500 rounded-lg border-b-4 border-green-700 text-white text-2xl font-bold shadow-lg active:border-b-0 active:translate-y-1 transition-all"
             onClick={increment}
           >
             +
-          </motion.button>
+          </button>
         </div>
 
-        {/* Pixel Art Decorations */}
+        {/* Simplified Pixel Art Decorations */}
         <div className="flex space-x-2">
-          {[...Array(3)].map((_, i) => (
-            <motion.div
+          {[1, 2, 3].map((i) => (
+            <div
               key={i}
-              animate={{
-                y: [0, -4, 0],
-              }}
-              transition={{
-                duration: 1,
-                repeat: Infinity,
-                delay: i * 0.2,
-              }}
               className="w-4 h-4 bg-yellow-400 rounded-sm"
+              style={{ 
+                animation: `bounce 1s infinite ${i * 0.2}s`,
+                transform: 'translateY(0)'
+              }}
             />
           ))}
         </div>
@@ -107,6 +100,10 @@ const Counter_57: React.FC<CounterProps> = ({
           0% { transform: translateY(-100%); }
           100% { transform: translateY(100%); }
         }
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-4px); }
+        }
         .animate-scan {
           animation: scan 2s linear infinite;
         }
@@ -116,6 +113,9 @@ const Counter_57: React.FC<CounterProps> = ({
       `}</style>
     </div>
   );
-};
+});
+
+// Add display name for better debugging
+Counter_57.displayName = 'Counter_57';
 
 export default Counter_57; 
