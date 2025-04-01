@@ -31,6 +31,13 @@ export default function ComponentsPage() {
         // For now, we'll create it based on the directory structure we observed
         const componentList: Component[] = [
           { 
+            name: 'Accordion', 
+            slug: 'accordian', 
+            image: '/images/components/accordion.webp', 
+            description: 'Vertically collapsing content panels', 
+            variants: 30 
+          },
+          { 
             name: 'Badge', 
             slug: 'badge', 
             image: '/images/components/badge.webp', 
@@ -42,7 +49,7 @@ export default function ComponentsPage() {
             slug: 'bar', 
             image: '/images/components/bar.webp', 
             description: 'Progress indicators and data visualization', 
-            variants: 12 
+            variants: 30 
           },
           { 
             name: 'Button', 
@@ -52,67 +59,67 @@ export default function ComponentsPage() {
             variants: 30 
           },
           { 
-            name: 'Card', 
-            slug: 'card', 
-            image: '/images/components/card.webp', 
+            name: 'Cards', 
+            slug: 'cards', 
+            image: '/images/components/cards.webp', 
             description: 'Content containers for information', 
-            variants: 25 
+            variants: 30 
           },
           { 
             name: 'Carousel', 
             slug: 'carousel', 
             image: '/images/components/carousel.webp', 
             description: 'Slideshows for cycling through elements', 
-            variants: 18 
+            variants: 20 
           },
           { 
             name: 'Checkbox', 
             slug: 'checkbox', 
             image: '/images/components/checkbox.webp', 
             description: 'Form elements for multiple selections', 
-            variants: 10 
+            variants: 30 
           },
           { 
             name: 'Circular Progress Bar', 
             slug: 'circularprogressbar', 
             image: '/images/components/circularprogressbar.webp', 
             description: 'Radial progress indicators', 
-            variants: 15 
+            variants: 25 
           },
           { 
             name: 'Clock', 
             slug: 'clock', 
             image: '/images/components/clock.webp', 
             description: 'Time displays and timers', 
-            variants: 10 
+            variants: 20 
           },
           { 
             name: 'Collapsible', 
             slug: 'collapsible', 
             image: '/images/components/collapsible.webp', 
             description: 'Expandable and collapsible content sections', 
-            variants: 12 
+            variants: 20 
           },
           { 
             name: 'Color Picker', 
             slug: 'colorpicker', 
             image: '/images/components/colorpicker.webp', 
             description: 'Color selection interfaces', 
-            variants: 8 
+            variants: 15 
           },
           { 
             name: 'Confetti', 
             slug: 'confetti', 
             image: '/images/components/confetti.webp', 
             description: 'Celebratory animation effects', 
-            variants: 5 
+            variants: 17 
           },
           { 
             name: 'Counter', 
             slug: 'counter', 
             image: '/images/components/counter.webp', 
             description: 'Numeric increment/decrement controls', 
-            variants: 10 
+            variants: 20 
           },
           { 
             name: 'Dialog', 
@@ -126,56 +133,56 @@ export default function ComponentsPage() {
             slug: 'drawer', 
             image: '/images/components/drawer.webp', 
             description: 'Side panel navigation containers', 
-            variants: 12 
+            variants: 20 
           },
           { 
             name: 'Editable', 
             slug: 'editable', 
             image: '/images/components/editable.webp', 
             description: 'Inline text editing components', 
-            variants: 8 
+            variants: 20 
           },
           { 
             name: 'File Input', 
             slug: 'fileinput', 
             image: '/images/components/fileinput.webp', 
             description: 'File upload controls', 
-            variants: 10 
+            variants: 20 
           },
           { 
             name: 'Input Field', 
             slug: 'inputfield', 
             image: '/images/components/inputfield.webp', 
             description: 'Text input form elements', 
-            variants: 20 
+            variants: 14 
           },
           { 
             name: 'Input Mask', 
             slug: 'inputmask', 
             image: '/images/components/inputmask.webp', 
             description: 'Formatted input with masking', 
-            variants: 8 
+            variants: 15 
           },
           { 
             name: 'Label', 
             slug: 'label', 
             image: '/images/components/label.webp', 
-            description: 'Text labels and form annotations', 
-            variants: 10 
+            description: 'Text labeling and annotation', 
+            variants: 30 
           },
           { 
             name: 'Link', 
             slug: 'link', 
             image: '/images/components/link.webp', 
-            description: 'Navigation and hyperlink elements', 
-            variants: 12 
+            description: 'Navigation and action links', 
+            variants: 3 
           },
           { 
             name: 'List Group', 
             slug: 'listgroup', 
             image: '/images/components/listgroup.webp', 
             description: 'Grouped list items and selections', 
-            variants: 15 
+            variants: 20 
           },
           { 
             name: 'Loader', 
@@ -188,78 +195,78 @@ export default function ComponentsPage() {
             name: 'Menu Bar', 
             slug: 'menubar', 
             image: '/images/components/menubar.webp', 
-            description: 'Navigation and dropdown menus', 
-            variants: 15 
+            description: 'Navigation and action menus', 
+            variants: 20 
           },
           { 
             name: 'OTP Field', 
             slug: 'otpfield', 
             image: '/images/components/otpfield.webp', 
             description: 'One-time password input fields', 
-            variants: 8 
+            variants: 20 
           },
           { 
             name: 'Password Input', 
             slug: 'passwordinput', 
             image: '/images/components/passwordinput.webp', 
             description: 'Secure password entry fields', 
-            variants: 12 
+            variants: 20 
           },
           { 
             name: 'Popup', 
             slug: 'popup', 
             image: '/images/components/popup.webp', 
             description: 'Contextual overlays and tooltips', 
-            variants: 15 
+            variants: 20 
           },
           { 
             name: 'Progress Bar', 
             slug: 'progressbar', 
             image: '/images/components/progressbar.webp', 
             description: 'Linear progress indicators', 
-            variants: 18 
+            variants: 25 
           },
           { 
             name: 'Radio Group', 
             slug: 'radiogroup', 
             image: '/images/components/radiogroup.webp', 
-            description: 'Single selection form controls', 
-            variants: 12 
+            description: 'Single selection controls', 
+            variants: 20 
           },
           { 
             name: 'Range Slider', 
             slug: 'rangeslider', 
             image: '/images/components/rangeslider.webp', 
-            description: 'Adjustable value range inputs', 
-            variants: 15 
+            description: 'Value range selection controls', 
+            variants: 5 
           },
           { 
             name: 'Rating', 
             slug: 'rating', 
             image: '/images/components/rating.webp', 
-            description: 'Star ratings and feedback inputs', 
-            variants: 10 
+            description: 'Star rating and feedback', 
+            variants: 20 
           },
           { 
             name: 'Scroll Area', 
             slug: 'scrollarea', 
             image: '/images/components/scrollarea.webp', 
             description: 'Custom scrollable containers', 
-            variants: 8 
+            variants: 7 
           },
           { 
             name: 'Separator', 
             slug: 'separator', 
             image: '/images/components/separator.webp', 
             description: 'Visual dividers and spacers', 
-            variants: 10 
+            variants: 20 
           },
           { 
             name: 'Share', 
             slug: 'share', 
             image: '/images/components/share.webp', 
             description: 'Social sharing buttons and menus', 
-            variants: 12 
+            variants: 30 
           },
           { 
             name: 'Sidebar', 
@@ -272,31 +279,30 @@ export default function ComponentsPage() {
             name: 'Skeleton', 
             slug: 'skeleton', 
             image: '/images/components/skeleton.webp', 
-            description: 'Loading placeholder animations', 
-            variants: 8 
+            description: 'Loading state placeholders', 
+            variants: 20 
           },
           { 
             name: 'Stepped Progress Bar', 
             slug: 'steppedprogressbar', 
             image: '/images/components/steppedprogressbar.webp', 
             description: 'Multi-step progress indicators', 
-            variants: 12 
+            variants: 30 
           },
           { 
             name: 'Switch', 
             slug: 'switch', 
             image: '/images/components/switch.webp', 
             description: 'Toggle switches and controls', 
-            variants: 15 
+            variants: 30 
           },
           { 
             name: 'Tab', 
             slug: 'tab', 
             image: '/images/components/tab.webp', 
-            description: 'Tabbed navigation interfaces', 
+            description: 'Tabbed navigation and content', 
             variants: 20 
-          },
-        
+          }
         ];
 
         setComponents(componentList);

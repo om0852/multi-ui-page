@@ -130,9 +130,45 @@ export default function ComponentPage() {
   // Helper function to get max variants based on component type
   const getMaxVariants = (componentSlug) => {
     switch(componentSlug) {
-      case 'accordian': return 50;
-      case 'avatar': return 20;
+      case 'accordian': return 30;
       case 'badge': return 15;
+      case 'bar': return 30;
+      case 'button': return 30;
+      case 'cards': return 30;
+      case 'carousel': return 20;
+      case 'checkbox': return 30;
+      case 'circularprogressbar': return 25;
+      case 'clock': return 20;
+      case 'collapsible': return 20;
+      case 'colorpicker': return 15;
+      case 'confetti': return 17;
+      case 'counter': return 20;
+      case 'dialog': return 15;
+      case 'drawer': return 20;
+      case 'editable': return 20;
+      case 'fileinput': return 20;
+      case 'inputfield': return 14;
+      case 'inputmask': return 15;
+      case 'label': return 30;
+      case 'link': return 3;
+      case 'listgroup': return 20;
+      case 'loader': return 20;
+      case 'menubar': return 20;
+      case 'otpfield': return 20;
+      case 'passwordinput': return 20;
+      case 'popup': return 20;
+      case 'progressbar': return 25;
+      case 'radiogroup': return 20;
+      case 'rangeslider': return 5;
+      case 'rating': return 20;
+      case 'scrollarea': return 7;
+      case 'separator': return 20;
+      case 'share': return 30;
+      case 'sidebar': return 15;
+      case 'skeleton': return 20;
+      case 'steppedprogressbar': return 30;
+      case 'switch': return 30;
+      case 'tab': return 20;
       default: return 10;
     }
   };
@@ -147,9 +183,9 @@ export default function ComponentPage() {
   // Filter variants based on search term - memo this for performance
   const filteredVariants = React.useMemo(() => {
     return component?.variants?.filter(variant => 
-      variant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      variant.description.toLowerCase().includes(searchTerm.toLowerCase())
-    ) || [];
+    variant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    variant.description.toLowerCase().includes(searchTerm.toLowerCase())
+  ) || [];
   }, [component, searchTerm]);
 
   // Animation variants
@@ -344,17 +380,17 @@ function MyComponent() {
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="mb-6">
-            <Link 
-              href="/components" 
+        <div className="mb-6">
+          <Link 
+            href="/components" 
               className="inline-flex items-center text-sm font-medium text-blue-400 hover:text-blue-300"
-            >
-              <ArrowLeft className="h-4 w-4 mr-1" />
-              Back to Components
-            </Link>
-          </div>
-          
-          <div className="mb-8">
+          >
+            <ArrowLeft className="h-4 w-4 mr-1" />
+            Back to Components
+          </Link>
+        </div>
+        
+        <div className="mb-8">
             <h1 className="text-3xl font-extrabold sm:text-4xl">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
                 {component.name}
@@ -376,18 +412,18 @@ function MyComponent() {
                   <Layers className="mr-2 text-blue-400" size={18} />
                   Variants
                 </h3>
-                
-                {/* Search variants */}
+        
+        {/* Search variants */}
                 <div className="mb-4">
-                  <div className="relative rounded-md shadow-sm">
-                    <input
-                      type="text"
+            <div className="relative rounded-md shadow-sm">
+              <input
+                type="text"
                       className="block w-full rounded-md bg-gray-900 border-gray-700 pl-10 pr-3 py-2 text-white focus:ring-blue-500 focus:border-blue-500 text-sm"
                       placeholder={`Search variants...`}
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <Search className="h-4 w-4 text-gray-400" />
                     </div>
                   </div>
@@ -489,9 +525,9 @@ function MyComponent() {
                                 <div className="bg-blue-900/30 px-2 py-1 rounded-full text-xs text-blue-400 font-medium flex items-center">
                                   <Zap className="h-3 w-3 mr-1" />
                                   Live Preview
-                                </div>
-                              </div>
-                              
+          </div>
+        </div>
+        
                               {/* Render the actual component */}
                               <div className="bg-gray-900 rounded-lg p-6 relative">
                                 {componentError ? (
@@ -528,7 +564,7 @@ function MyComponent() {
                         
                         <div className="p-4 bg-gray-800 border-t border-gray-700">
                           <div className="flex justify-between">
-                            <Link 
+              <Link 
                               href={`/components/${slug}/${selectedVariant?.id || '1'}`}
                               className="text-sm text-blue-400 inline-flex items-center hover:text-blue-300"
                             >
@@ -593,7 +629,7 @@ function MyComponent() {
                               background: '#111827'
                             }}
                           />
-                        </div>
+                  </div>
                         <p className="text-gray-300 text-xs">
                           Install the Multi UI library to use this component in your project.
                         </p>
@@ -635,8 +671,8 @@ function MyComponent() {
                         </div>
                         <div className="overflow-auto max-h-[300px]">
                           <CodeBlock code={exampleCode} language="tsx" />
-                        </div>
-                      </div>
+                  </div>
+                </div>
                       
                       <div className="bg-gray-900 rounded-lg p-4 border border-gray-700 mb-4">
                         <h4 className="font-medium text-white mb-2">Basic Usage</h4>
@@ -662,9 +698,9 @@ function MyComponent() {
                           className prop to add your own styles.
                         </p>
                       </div>
-                    </div>
-                  )}
-                </div>
+          </div>
+        )}
+      </div>
               </div>
             </div>
           </div>
