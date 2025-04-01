@@ -296,41 +296,7 @@ export default function ComponentsPage() {
             description: 'Tabbed navigation interfaces', 
             variants: 20 
           },
-          { 
-            name: 'Textarea', 
-            slug: 'textarea', 
-            image: '/images/components/textarea.webp', 
-            description: 'Multi-line text input fields', 
-            variants: 12 
-          },
-          { 
-            name: 'Timeline', 
-            slug: 'timeline', 
-            image: '/images/components/timeline.webp', 
-            description: 'Chronological event displays', 
-            variants: 15 
-          },
-          { 
-            name: 'Toast', 
-            slug: 'toast', 
-            image: '/images/components/toast.webp', 
-            description: 'Temporary notification messages', 
-            variants: 18 
-          },
-          { 
-            name: 'Toggle', 
-            slug: 'toggle', 
-            image: '/images/components/toggle.webp', 
-            description: 'On/off state switches', 
-            variants: 12 
-          },
-          { 
-            name: 'Tooltip', 
-            slug: 'tooltip', 
-            image: '/images/components/tooltip.webp', 
-            description: 'Contextual information popups', 
-            variants: 15 
-          }
+        
         ];
 
         setComponents(componentList);
