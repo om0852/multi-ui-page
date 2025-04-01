@@ -5,7 +5,9 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Code, Eye, Layers, Zap, Copy, Settings, Search, Check, ExternalLink, ChevronDown, Terminal } from 'lucide-react';
+import { ArrowLeft, Code, Eye, Layers, Zap, Copy, Settings, Search, Check, ExternalLink, ChevronDown, Terminal, MessageSquare } from 'lucide-react';
+import ChatBot from '../ChatBot';
+import { cn } from '../../../lib/utils';
 
 // Lazy load SyntaxHighlighter to improve initial load time
 const SyntaxHighlighter = lazy(() => import('react-syntax-highlighter').then(mod => ({
@@ -227,9 +229,6 @@ export default function ComponentPage() {
   // Code generator functions
   function getComponentCode() {
     return `// ${toTitleCase(slug)}_${selectedVariant?.id || '1'}.tsx
-import React from 'react';
-import { cn } from '@/lib/utils';
-
 export interface ${toTitleCase(slug)}Props {
   title?: string;
   content?: string;
@@ -264,9 +263,7 @@ export const ${toTitleCase(slug)} = ({
       </div>
     </div>
   );
-};
-
-export default ${toTitleCase(slug)};`;
+};`;
   }
 
   function getExampleCode() {
@@ -314,11 +311,6 @@ function MyComponent() {
   );
 }`;
   }
-
-  // Get the actual import path as shown in test/page.tsx
-  const getActualImportPath = () => {
-    return `import Example from "../../public/multiui/${slug}/examples/Example_${selectedVariant?.id || '1'}"`;
-  };
 
   // Copy code to clipboard
   const copyToClipboard = (code) => {
@@ -508,6 +500,17 @@ function MyComponent() {
                     <ExternalLink className="h-4 w-4 mr-2" />
                     Usage Example
                   </button>
+                  <button
+                    className={`px-4 py-3 font-medium text-sm flex items-center ${
+                      activeTab === 'customize' 
+                        ? 'text-blue-400 border-b-2 border-blue-400' 
+                        : 'text-gray-400 hover:text-gray-200'
+                    }`}
+                    onClick={() => setActiveTab('customize')}
+                  >
+                    <MessageSquare className="h-4 w-4 mr-2" />
+                    Customize
+                  </button>
                 </div>
                 
                 {/* Tab Content - Only render the active tab for performance */}
@@ -525,9 +528,9 @@ function MyComponent() {
                                 <div className="bg-blue-900/30 px-2 py-1 rounded-full text-xs text-blue-400 font-medium flex items-center">
                                   <Zap className="h-3 w-3 mr-1" />
                                   Live Preview
-          </div>
-        </div>
-        
+                                </div>
+                              </div>
+                              
                               {/* Render the actual component */}
                               <div className="bg-gray-900 rounded-lg p-6 relative">
                                 {componentError ? (
@@ -539,29 +542,11 @@ function MyComponent() {
                                 ) : (
                                   <LoadingComponent />
                                 )}
-                              </div>
-                              
-                              {/* Import code hint */}
-                              <div className="mt-4 pt-4 border-t border-gray-700">
-                                <div className="flex items-center text-sm text-gray-400 mb-2">
-                                  <Code className="h-4 w-4 mr-2 text-gray-500" />
-                                  Import path:
-                                </div>
-                                <div className="bg-gray-900 p-2 rounded text-sm font-mono text-gray-300 flex justify-between">
-                                  <div>{getActualImportPath()}</div>
-                                  <button 
-                                    onClick={() => copyToClipboard(getActualImportPath())}
-                                    className="text-blue-400 hover:text-blue-300"
-                                    title="Copy import path"
-                                  >
-                                    <Copy className="h-4 w-4" />
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        
+              </div>
+            </div>
+          </div>
+        </div>
+        
                         <div className="p-4 bg-gray-800 border-t border-gray-700">
                           <div className="flex justify-between">
               <Link 
@@ -698,6 +683,29 @@ function MyComponent() {
                           className prop to add your own styles.
                         </p>
                       </div>
+          </div>
+        )}
+        
+        {activeTab === 'customize' && (
+          <div>
+            <div className="mb-4">
+              <h3 className="text-white text-lg font-medium mb-2 flex items-center">
+                <MessageSquare className="h-5 w-5 mr-2 text-blue-400" />
+                AI Component Customization
+              </h3>
+              <p className="text-gray-400 text-sm">
+                Chat with our AI assistant to customize this component. Describe your desired changes and get instant code.
+              </p>
+            </div>
+            
+            <ChatBot
+              componentName={component.name}
+              variantId={selectedVariant?.id || '1'}
+              onCustomizationComplete={(code) => {
+                // Here you could implement saving to database
+                console.log('Generated code:', code);
+              }}
+            />
           </div>
         )}
       </div>

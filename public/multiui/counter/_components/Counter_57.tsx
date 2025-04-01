@@ -64,7 +64,6 @@ const Counter_57: React.FC<CounterProps> = memo(({
           </div>
         </div>
 
-        {/* Control Buttons */}
         <div className="flex space-x-4">
           <button
             className="w-16 h-16 bg-red-500 rounded-lg border-b-4 border-red-700 text-white text-2xl font-bold shadow-lg active:border-b-0 active:translate-y-1 transition-all"

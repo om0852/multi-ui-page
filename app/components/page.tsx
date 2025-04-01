@@ -8,7 +8,9 @@ import {
   Search, 
   Zap, 
   Package,
-  Layers 
+  Layers,
+  Sparkles,
+  Command 
 } from 'lucide-react';
 
 type Component = {
@@ -325,7 +327,7 @@ export default function ComponentsPage() {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1,
-      transition: { 
+      transition: {
         staggerChildren: 0.1,
         delayChildren: 0.3
       }
@@ -344,47 +346,123 @@ export default function ComponentsPage() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Hero Section with Background */}
-      <section className="relative overflow-hidden py-24">
+      <section className="relative overflow-hidden py-12">
         <div className="absolute inset-0 z-0 opacity-20">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-600 to-purple-800"></div>
           <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid.svg')] bg-repeat"></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
+              className="relative"
             >
-              <h1 className="text-4xl md:text-6xl font-extrabold mb-6">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-                  UI Components
-                </span>
-              </h1>
-              <p className="mt-5 max-w-xl mx-auto text-xl text-gray-300">
-                Explore our collection of beautifully designed, ready-to-use components
-              </p>
+              <motion.div
+                initial={{ scale: 0.95 }}
+                animate={{ scale: 1 }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut"
+                }}
+                className="relative inline-block"
+              >
+                <h1 className="text-4xl md:text-6xl font-extrabold mb-4 relative">
+                  <span className="absolute -inset-3 bg-gradient-to-r from-blue-600 via-purple-500 to-blue-600 rounded-xl opacity-20 blur-xl animate-pulse"></span>
+                  <div className="relative flex items-center justify-center gap-3">
+                    <Sparkles className="w-8 h-8 text-blue-400 animate-pulse" />
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-blue-400 animate-gradient">
+                      Multi UI
+                    </span>
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
+                      Components
+                    </span>
+                    <Sparkles className="w-8 h-8 text-purple-400 animate-pulse" />
+                  </div>
+          </h1>
+              </motion.div>
+              <motion.div
+                initial={{ width: "0%" }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 1, delay: 0.5 }}
+                className="h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto max-w-[300px]"
+              />
+              <p className="mt-3 max-w-xl mx-auto text-xl text-gray-300">
+            Explore our collection of beautifully designed, ready-to-use components
+          </p>
             </motion.div>
-            
-            {/* Search input */}
+
+            <style jsx global>{`
+              @keyframes gradient {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+              }
+              @keyframes gradient-xy {
+                0% { background-position: 0% 0%; }
+                50% { background-position: 100% 100%; }
+                100% { background-position: 0% 0%; }
+              }
+              .animate-gradient {
+                background-size: 200% auto;
+                animation: gradient 4s linear infinite;
+              }
+              .animate-gradient-xy {
+                background-size: 200% 200%;
+                animation: gradient-xy 15s linear infinite;
+              }
+            `}</style>
+          
+          {/* Search input */}
             <motion.div 
               className="mt-8 max-w-md mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <div className="relative rounded-md shadow-sm">
-                <input
-                  type="text"
-                  className="block w-full rounded-md bg-gray-800 border-gray-700 pl-10 pr-3 py-3 text-white focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Search components..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5 text-gray-400" />
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-purple-500 to-blue-600 rounded-lg opacity-30 blur-lg group-hover:opacity-50 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
+                <div className="relative flex items-center">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <motion.div
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        rotate: [0, 10, -10, 0]
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                        ease: "easeInOut"
+                      }}
+                    >
+                      <Search className="h-5 w-5 text-white/70 hover:text-white transition-colors" />
+                    </motion.div>
+                  </div>
+                  <input
+                    type="text"
+                    className="block w-full bg-gray-800/90 backdrop-blur-sm text-white rounded-lg pl-12 pr-12 py-4 border-2 border-gray-600/50 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 placeholder-gray-400"
+                    placeholder="Search components..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                  <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                    <div className="flex items-center space-x-1 text-gray-400 bg-gray-700/50 rounded-md px-2 py-1 text-sm">
+                      <Command className="h-3 w-3" />
+                      <span>K</span>
+                    </div>
+                  </div>
                 </div>
+                <motion.div
+                  initial={{ width: "0%" }}
+                  animate={{ width: searchTerm ? "100%" : "0%" }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500"
+                />
               </div>
             </motion.div>
           </div>
@@ -394,25 +472,25 @@ export default function ComponentsPage() {
       {/* Components Grid */}
       <section className="py-16 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {loading ? (
-            <div className="flex justify-center items-center h-64">
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
               <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
-            </div>
-          ) : (
-            <motion.div 
+          </div>
+        ) : (
+          <motion.div 
               className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
               variants={containerVariants}
-              initial="hidden"
+            initial="hidden"
               animate="visible"
-            >
-              {filteredComponents.map((component) => (
+          >
+            {filteredComponents.map((component) => (
                 <motion.div 
                   key={component.slug} 
                   variants={itemVariants}
                   whileHover={{ y: -5, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)' }}
                 >
-                  <Link 
-                    href={`/components/${component.slug}`}
+                <Link 
+                  href={`/components/${component.slug}`}
                     className="block h-full"
                   >
                     <div className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden h-full transition-all duration-300 hover:border-blue-500">
@@ -424,25 +502,25 @@ export default function ComponentsPage() {
                       </div>
                       <div className="p-5">
                         <h3 className="text-lg font-bold text-white mb-2">
-                          {component.name}
-                        </h3>
+                        {component.name}
+                      </h3>
                         <p className="text-gray-300 text-sm mb-4">
-                          {component.description}
-                        </p>
+                        {component.description}
+                      </p>
                         <div className="flex items-center justify-between">
                           <div className="bg-blue-900/30 px-3 py-1 rounded-full text-xs text-blue-400 font-medium flex items-center">
                             <Zap className="h-3 w-3 mr-1" />
-                            {component.variants} variants
+                          {component.variants} variants
                           </div>
                           <span className="text-blue-400 text-sm">View details →</span>
-                        </div>
                       </div>
                     </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
           
           {filteredComponents.length === 0 && !loading && (
             <div className="text-center py-20">
@@ -450,8 +528,8 @@ export default function ComponentsPage() {
               <h3 className="text-xl font-medium text-gray-300 mb-2">No components found</h3>
               <p className="text-gray-400">Try a different search term</p>
             </div>
-          )}
-        </div>
+        )}
+      </div>
       </section>
     </div>
   );
