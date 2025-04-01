@@ -1,299 +1,355 @@
-'use client';
+"use client";
 
 import React from 'react';
 import Link from 'next/link';
-import { ArrowRight, Github, GitPullRequest, MessageSquare, BookOpen, Star, Award, FileCode, CheckCircle2, PlusCircle, Code2, Server, FileText } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { 
+  Github, 
+  Code2, 
+  FileCode, 
+  Bug, 
+  MessageSquare, 
+  Star, 
+  GitPullRequest,
+  Sparkles,
+  Lightbulb,
+  Users,
+  Heart
+} from 'lucide-react';
 
-export default function ContributePage() {
+const ContributionCard = ({ 
+  icon: Icon, 
+  title, 
+  description, 
+  link, 
+  linkText 
+}: { 
+  icon: React.ElementType;
+  title: string;
+  description: string;
+  link: string;
+  linkText: string;
+}) => {
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Managing Open Contributions for Multi-UI</h1>
-          <p className="text-xl md:text-2xl opacity-90 mb-8">
-            Join our community of contributors and help build the future of modern UI components
+    <motion.div
+      className="bg-gray-800/70 rounded-xl p-6 border border-gray-700/50 backdrop-blur-sm relative group"
+      whileHover={{ y: -5, scale: 1.02 }}
+      transition={{ duration: 0.2 }}
+    >
+      {/* Gradient background effect */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-transparent to-purple-600/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      
+      {/* Content */}
+      <div className="relative">
+        <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 p-3 rounded-xl w-12 h-12 flex items-center justify-center mb-4">
+          <Icon className="w-6 h-6 text-blue-400" />
+        </div>
+        
+        <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
+        <p className="text-gray-300 mb-6 leading-relaxed">{description}</p>
+        
+        <Link 
+          href={link}
+          className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {linkText}
+          <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </Link>
+      </div>
+      
+      {/* Decorative corner gradient */}
+      <div className="absolute -bottom-4 -right-4 w-12 h-12 bg-gradient-to-tr from-blue-500/20 to-purple-500/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+    </motion.div>
+  );
+};
+
+const ContributePage = () => {
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { type: 'spring', stiffness: 100 }
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white overflow-hidden">
+      {/* Background effects */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-900/40 to-purple-900/40" />
+        <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid.svg')] bg-repeat opacity-20" />
+        
+        {/* Animated gradient orbs */}
+        <motion.div
+          className="absolute top-1/3 left-1/4 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl"
+          animate={{
+            x: [0, 100, 0],
+            y: [0, -50, 0]
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            repeatType: "reverse"
+          }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 right-1/4 w-60 h-60 bg-purple-600/20 rounded-full blur-3xl"
+          animate={{
+            x: [0, -70, 0],
+            y: [0, 50, 0]
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            repeatType: "reverse"
+          }}
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+        {/* Hero Section */}
+        <div className="text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="relative"
+          >
+            <motion.h1 
+              className="text-5xl md:text-6xl font-extrabold mb-6 relative inline-flex items-center"
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+            >
+              <motion.div
+                animate={{
+                  rotate: [0, 5, -5, 0]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+                className="absolute -left-16 top-1/2 transform -translate-y-1/2 hidden md:block"
+              >
+                <Sparkles className="h-8 w-8 text-blue-400" />
+              </motion.div>
+              
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-blue-400 animate-gradient">
+                Contribute to Multi UI
+              </span>
+              
+              <motion.div
+                animate={{
+                  rotate: [0, -5, 5, 0]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+                className="absolute -right-16 top-1/2 transform -translate-y-1/2 hidden md:block"
+              >
+                <Sparkles className="h-8 w-8 text-purple-400" />
+              </motion.div>
+            </motion.h1>
+            
+            <motion.div
+              initial={{ width: "0%" }}
+              animate={{ width: "100%" }}
+              transition={{ duration: 1, delay: 0.5 }}
+              className="h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto max-w-[300px] mb-8"
+            />
+            
+            <motion.p 
+              className="max-w-3xl mx-auto text-xl text-gray-300"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              Join our community of developers and help make Multi UI even better
+            </motion.p>
+          </motion.div>
+        </div>
+
+        {/* Stats Section */}
+        <motion.div 
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div 
+            className="text-center"
+            variants={itemVariants}
+          >
+            <div className="text-4xl font-bold text-blue-400 mb-2">500+</div>
+            <div className="text-gray-400">Components</div>
+          </motion.div>
+          <motion.div 
+            className="text-center"
+            variants={itemVariants}
+          >
+            <div className="text-4xl font-bold text-purple-400 mb-2">1.2K</div>
+            <div className="text-gray-400">Contributors</div>
+          </motion.div>
+          <motion.div 
+            className="text-center"
+            variants={itemVariants}
+          >
+            <div className="text-4xl font-bold text-blue-400 mb-2">5K+</div>
+            <div className="text-gray-400">GitHub Stars</div>
+          </motion.div>
+          <motion.div 
+            className="text-center"
+            variants={itemVariants}
+          >
+            <div className="text-4xl font-bold text-purple-400 mb-2">100K+</div>
+            <div className="text-gray-400">Downloads</div>
+          </motion.div>
+        </motion.div>
+
+        {/* Ways to Contribute Section */}
+        <motion.div 
+          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-16"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <ContributionCard
+            icon={Code2}
+            title="Submit Components"
+            description="Create and submit new components to expand our library. Share your unique designs with the community."
+            link="https://github.com/om0852/multi-ui/blob/main/CONTRIBUTING.md#submitting-components"
+            linkText="Component Guidelines"
+          />
+          <ContributionCard
+            icon={Bug}
+            title="Report Issues"
+            description="Help improve Multi UI by reporting bugs, suggesting improvements, or requesting new features."
+            link="https://github.com/om0852/multi-ui/issues/new"
+            linkText="Open an Issue"
+          />
+          <ContributionCard
+            icon={GitPullRequest}
+            title="Pull Requests"
+            description="Contribute directly to the codebase by submitting pull requests with improvements or fixes."
+            link="https://github.com/om0852/multi-ui/pulls"
+            linkText="View Pull Requests"
+          />
+          <ContributionCard
+            icon={MessageSquare}
+            title="Join Discussions"
+            description="Participate in discussions, share ideas, and help shape the future of Multi UI."
+            link="https://github.com/om0852/multi-ui/discussions"
+            linkText="Join Discussion"
+          />
+          <ContributionCard
+            icon={FileCode}
+            title="Improve Docs"
+            description="Help make our documentation better by fixing errors or adding examples and tutorials."
+            link="https://github.com/om0852/multi-ui/tree/main/docs"
+            linkText="View Documentation"
+          />
+          <ContributionCard
+            icon={Star}
+            title="Show Support"
+            description="Star our repository on GitHub and spread the word about Multi UI in the community."
+            link="https://github.com/om0852/multi-ui"
+            linkText="Star on GitHub"
+          />
+        </motion.div>
+
+        {/* Community Section */}
+        <motion.div 
+          className="bg-gray-800/70 rounded-xl p-8 border border-gray-700/50 backdrop-blur-sm mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+        >
+          <div className="flex items-center mb-6">
+            <Users className="w-8 h-8 text-blue-400 mr-4" />
+            <h2 className="text-3xl font-bold text-white">Join Our Community</h2>
+          </div>
+          <p className="text-gray-300 mb-8 leading-relaxed max-w-3xl">
+            Connect with other developers, share your work, get help, and stay updated with the latest Multi UI developments.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link 
-              href="https://github.com/om0852/multi-ui" 
-              target="_blank" 
+              href="https://github.com/om0852/multi-ui"
+              className="inline-flex items-center px-6 py-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors"
+              target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center bg-white text-blue-700 px-6 py-3 rounded-lg font-medium shadow-md hover:shadow-lg transition-all"
             >
-              <Github className="mr-2 h-5 w-5" />
-              GitHub Repository
+              <Github className="w-5 h-5 mr-2" />
+              GitHub
             </Link>
             <Link 
-              href="https://github.com/om0852/multi-ui/issues" 
-              target="_blank" 
+              href="https://discord.gg/multi-ui"
+              className="inline-flex items-center px-6 py-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors"
+              target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center bg-blue-500 text-white px-6 py-3 rounded-lg font-medium shadow-md hover:shadow-lg transition-all hover:bg-blue-600"
             >
-              <MessageSquare className="mr-2 h-5 w-5" />
-              Browse Open Issues
+              <MessageSquare className="w-5 h-5 mr-2" />
+              Discord
             </Link>
           </div>
-        </div>
-      </div>
+        </motion.div>
 
-      {/* Main Content */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
-        {/* Contribution Process */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Contribution Workflow</h2>
-          
-          <div className="space-y-8">
-            {/* Step 1 */}
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <div className="bg-blue-100 text-blue-700 p-3 rounded-full mr-4">
-                  <FileText className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900">1. Set Up a Contribution Workflow</h3>
-              </div>
-              <p className="mb-4 text-gray-700">
-                We&apos;ve created a comprehensive CONTRIBUTING.md file in our GitHub repository that outlines:
-              </p>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4">
-                <li>How to set up the project locally</li>
-                <li>Coding standards (TypeScript, Tailwind CSS, Framer Motion usage)</li>
-                <li>Branching strategy (main for stable releases, dev for ongoing work)</li>
-                <li>How to submit PRs (create an issue first, use feature branches)</li>
-              </ul>
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                <h4 className="font-medium text-gray-900 mb-2">Example PR Workflow:</h4>
-                <ol className="list-decimal list-inside space-y-1 text-gray-700">
-                  <li>Fork the repository</li>
-                  <li>Create a new branch (feature/my-new-component)</li>
-                  <li>Make changes and commit with clear messages</li>
-                  <li>Open a Pull Request (PR)</li>
-                </ol>
-              </div>
-            </div>
-
-            {/* Step 2 */}
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <div className="bg-blue-100 text-blue-700 p-3 rounded-full mr-4">
-                  <MessageSquare className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900">2. Use GitHub Issues & Discussions</h3>
-              </div>
-              <div className="space-y-4">
-                <p className="text-gray-700">
-                  We use several GitHub features to organize contributions effectively:
-                </p>
-                <ul className="list-disc list-inside space-y-2 text-gray-700">
-                  <li><strong>Issues:</strong> For bug reports, feature requests, and improvements</li>
-                  <li><strong>Discussions:</strong> For general questions and design decisions</li>
-                  <li><strong>Good First Issues:</strong> Labeled beginner-friendly issues to encourage new contributors</li>
-                </ul>
-                <div className="flex flex-wrap gap-4 mt-4">
-                  <Link 
-                    href="https://github.com/om0852/multi-ui/issues" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center bg-gray-100 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-all"
-                  >
-                    <GitPullRequest className="mr-2 h-4 w-4" />
-                    Browse Issues
-                  </Link>
-                  <Link 
-                    href="https://github.com/om0852/multi-ui/discussions" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center bg-gray-100 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-all"
-                  >
-                    <MessageSquare className="mr-2 h-4 w-4" />
-                    Join Discussions
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Step 3 */}
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <div className="bg-blue-100 text-blue-700 p-3 rounded-full mr-4">
-                  <CheckCircle2 className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900">3. PR Review Process</h3>
-              </div>
-              <p className="mb-4 text-gray-700">
-                We&apos;ve implemented a robust PR review process to maintain high code quality:
-              </p>
-              <ul className="list-disc list-inside space-y-2 text-gray-700">
-                <li>GitHub Actions to run tests (ESLint, Prettier, TypeScript checks)</li>
-                <li>At least one approved review required before merging PRs</li>
-                <li>CODEOWNERS file to assign reviewers automatically</li>
-              </ul>
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 mt-4">
-                <p className="text-sm text-gray-700">
-                  Pull requests go through automated testing and code reviews to ensure they meet our quality standards before being merged.
-                </p>
-              </div>
-            </div>
-
-            {/* Step 4 */}
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <div className="bg-blue-100 text-blue-700 p-3 rounded-full mr-4">
-                  <PlusCircle className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900">4. Component Proposal Template</h3>
-              </div>
-              <p className="mb-4 text-gray-700">
-                We&apos;ve defined a template for proposing new components in GitHub issues:
-              </p>
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                <h4 className="font-medium text-gray-900 mb-2">Component Proposal Fields:</h4>
-                <ul className="list-disc list-inside space-y-1 text-gray-700">
-                  <li>Component Name</li>
-                  <li>Use Case</li>
-                  <li>Props & API</li>
-                  <li>Design Reference (Figma, Dribbble, etc.)</li>
-                </ul>
-              </div>
+        {/* Guidelines Section */}
+        <motion.div 
+          className="bg-gradient-to-br from-blue-900/30 to-purple-900/30 rounded-xl p-8 border border-gray-700/50 backdrop-blur-sm"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 1 }}
+        >
+          <div className="flex items-center mb-6">
+            <Lightbulb className="w-8 h-8 text-yellow-400 mr-4" />
+            <h2 className="text-3xl font-bold text-white">Contribution Guidelines</h2>
+          </div>
+          <div className="prose prose-invert max-w-none">
+            <p className="text-gray-300 leading-relaxed">
+              Before contributing, please read our guidelines to ensure your contributions align with our standards and practices:
+            </p>
+            <ul className="list-disc list-inside text-gray-300 space-y-2 mt-4">
+              <li>Follow our coding standards and style guide</li>
+              <li>Write clear commit messages and documentation</li>
+              <li>Test your changes thoroughly</li>
+              <li>Keep pull requests focused and atomic</li>
+              <li>Be respectful and constructive in discussions</li>
+            </ul>
+            <div className="mt-8 flex items-center justify-center">
               <Link 
-                href="https://github.com/om0852/multi-ui/issues/new?assignees=&labels=component&template=component_proposal.md&title=%5BComponent%5D%3A+"
-                target="_blank" 
+                href="https://github.com/om0852/multi-ui/blob/main/CONTRIBUTING.md"
+                className="inline-flex items-center px-6 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition-colors"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition-all"
               >
-                <PlusCircle className="mr-2 h-4 w-4" />
-                Propose a Component
+                <Heart className="w-5 h-5 mr-2" />
+                Read Full Guidelines
               </Link>
             </div>
-
-            {/* Step 5 */}
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <div className="bg-blue-100 text-blue-700 p-3 rounded-full mr-4">
-                  <Server className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900">5. Monorepo for Scalability (Optional)</h3>
-              </div>
-              <p className="mb-4 text-gray-700">
-                For larger contributions, we&apos;re considering a monorepo structure with Turborepo to:
-              </p>
-              <ul className="list-disc list-inside space-y-2 text-gray-700">
-                <li>Make it easier to work on individual components without affecting others</li>
-                <li>Help in maintaining different versions of the library</li>
-                <li>Improve build performance and dependency management</li>
-              </ul>
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 mt-4">
-                <p className="text-sm text-gray-700 italic">
-                  This is a future direction we&apos;re exploring as the component library grows.
-                </p>
-              </div>
-            </div>
-
-            {/* Step 6 */}
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <div className="bg-blue-100 text-blue-700 p-3 rounded-full mr-4">
-                  <Award className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900">6. Reward & Recognize Contributors</h3>
-              </div>
-              <p className="mb-4 text-gray-700">
-                We believe in recognizing the hard work of our contributors:
-              </p>
-              <ul className="list-disc list-inside space-y-2 text-gray-700">
-                <li>CONTRIBUTORS.md file listing all contributors</li>
-                <li>GitHub&apos;s &ldquo;Contributor&rdquo; role to highlight key contributors</li>
-                <li>Community Discord server for discussions and collaboration</li>
-              </ul>
-              <div className="flex flex-wrap gap-4 mt-4">
-                <Link 
-                  href="https://github.com/om0852/multi-ui/blob/main/CONTRIBUTORS.md" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center bg-gray-100 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-all"
-                >
-                  <Star className="mr-2 h-4 w-4" />
-                  View Contributors
-                </Link>
-                <Link 
-                  href="https://discord.gg/multi-ui" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center bg-gray-100 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-all"
-                >
-                  <MessageSquare className="mr-2 h-4 w-4" />
-                  Join Discord
-                </Link>
-              </div>
-            </div>
-
-            {/* Step 7 */}
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <div className="bg-blue-100 text-blue-700 p-3 rounded-full mr-4">
-                  <BookOpen className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900">7. License & Documentation</h3>
-              </div>
-              <p className="mb-4 text-gray-700">
-                We maintain clear licensing and documentation:
-              </p>
-              <ul className="list-disc list-inside space-y-2 text-gray-700">
-                <li>MIT License for the library</li>
-                <li>Comprehensive documentation using Storybook</li>
-                <li>Detailed API references for all components</li>
-              </ul>
-              <div className="flex flex-wrap gap-4 mt-4">
-                <Link 
-                  href="https://github.com/om0852/multi-ui/blob/main/LICENSE" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center bg-gray-100 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-all"
-                >
-                  <FileCode className="mr-2 h-4 w-4" />
-                  View License
-                </Link>
-                <Link 
-                  href="/docs" 
-                  className="inline-flex items-center bg-gray-100 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-all"
-                >
-                  <BookOpen className="mr-2 h-4 w-4" />
-                  Documentation
-                </Link>
-              </div>
-            </div>
           </div>
-        </section>
-
-        {/* Call to Action */}
-        <section className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl p-8 text-white text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Contribute?</h2>
-          <p className="text-xl opacity-90 mb-6 max-w-2xl mx-auto">
-            Join our growing community of contributors and help us build the next generation of UI components
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link 
-              href="https://github.com/om0852/multi-ui" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center bg-white text-blue-700 px-6 py-3 rounded-lg font-medium shadow-md hover:shadow-lg transition-all"
-            >
-              <Github className="mr-2 h-5 w-5" />
-              GitHub Repository
-            </Link>
-            <Link 
-              href="https://github.com/om0852/multi-ui/issues/new/choose" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center bg-blue-500 bg-opacity-25 text-white px-6 py-3 rounded-lg font-medium shadow-md hover:shadow-lg transition-all hover:bg-opacity-40 border border-white border-opacity-20"
-            >
-              <PlusCircle className="mr-2 h-5 w-5" />
-              Start Contributing
-            </Link>
-          </div>
-        </section>
+        </motion.div>
       </div>
     </div>
   );
-} 
+};
+
+export default ContributePage; 
