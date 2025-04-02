@@ -12,7 +12,11 @@ import {
   Trash,
   FileCode,
   Download,
-  Sparkles
+  Sparkles,
+  Settings,
+  Search,
+  List,
+  HelpCircle
 } from 'lucide-react';
 
 const CodeBlock = ({ code }: { code: string }) => {
@@ -53,38 +57,6 @@ const CodeBlock = ({ code }: { code: string }) => {
   );
 };
 
-const CommandCard = ({ icon: Icon, title, command, description }: { 
-  icon: React.ElementType, 
-  title: string, 
-  command: string, 
-  description: string 
-}) => {
-  return (
-    <motion.div 
-      className="bg-gray-800/70 rounded-xl shadow-lg overflow-hidden border border-gray-700/70 backdrop-blur-sm relative"
-      whileHover={{ y: -5, scale: 1.02 }}
-      transition={{ duration: 0.2 }}
-    >
-      {/* Subtle gradient accent in the background */}
-      <div className="absolute -inset-1 bg-gradient-to-br from-blue-600/5 via-transparent to-purple-600/5 animate-gradient-xy opacity-80"></div>
-      
-      <div className="p-6 relative">
-        <div className="flex items-center mb-5">
-          <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 p-3 rounded-xl mr-4 backdrop-blur-md shadow-inner">
-            <Icon className="text-blue-400" size={24} />
-          </div>
-          <h3 className="text-xl font-bold text-white">{title}</h3>
-        </div>
-        <p className="text-gray-300 mb-5 leading-relaxed">{description}</p>
-        <CodeBlock code={command} />
-      </div>
-      
-      {/* Corner accent */}
-      <div className="absolute -bottom-4 -right-4 w-12 h-12 bg-gradient-to-tr from-blue-500/20 to-purple-500/20 blur-xl rounded-full"></div>
-    </motion.div>
-  );
-};
-
 const ComponentVariant = ({ name, variants }: { name: string, variants: string[] }) => {
   return (
     <div className="bg-gray-800 rounded-lg shadow p-4 hover:shadow-md transition-shadow border border-gray-700">
@@ -96,6 +68,31 @@ const ComponentVariant = ({ name, variants }: { name: string, variants: string[]
           </span>
         ))}
       </div>
+    </div>
+  );
+};
+
+const PackageManagerTabs = ({ commands }: { commands: { [key: string]: string } }) => {
+  const [activeTab, setActiveTab] = useState('npm');
+  
+  return (
+    <div className="space-y-4">
+      <div className="flex space-x-2 mb-4">
+        {Object.keys(commands).map((manager) => (
+          <button
+            key={manager}
+            onClick={() => setActiveTab(manager)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              activeTab === manager
+                ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+                : 'text-gray-400 hover:text-gray-300 hover:bg-gray-700/50'
+            }`}
+          >
+            {manager.toUpperCase()}
+          </button>
+        ))}
+      </div>
+      <CodeBlock code={commands[activeTab]} />
     </div>
   );
 };
@@ -120,6 +117,27 @@ const DocsPage = () => {
       opacity: 1,
       transition: { type: 'spring', stiffness: 100 }
     }
+  };
+
+  const installCommands = {
+    npm: "npm install -g @omsalunke0852/multi-ui-cli",
+    yarn: "yarn global add @omsalunke0852/multi-ui-cli",
+    pnpm: "pnpm add -g @omsalunke0852/multi-ui-cli",
+    bun: "bun add -g @omsalunke0852/multi-ui-cli"
+  };
+
+  const setupCommands = {
+    npm: "npx multi-ui setup",
+    yarn: "yarn multi-ui setup",
+    pnpm: "pnpm multi-ui setup",
+    bun: "bunx multi-ui setup"
+  };
+
+  const devCommands = {
+    npm: "npm run dev",
+    yarn: "yarn dev",
+    pnpm: "pnpm dev",
+    bun: "bun dev"
   };
 
   return (
@@ -216,280 +234,298 @@ const DocsPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              Everything you need to know about using the Multi UI component library
+              A powerful command-line interface tool for managing and integrating UI components from both GitHub and MongoDB sources, built for Next.js projects.
             </motion.p>
           </motion.div>
         </div>
         
+        {/* Getting Started Section */}
         <motion.div 
+          className="mb-20"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <h2 className="text-3xl font-bold mb-8 text-center">Getting Started</h2>
+          <div className="space-y-8">
+            {/* Step 1: Installation */}
+            <motion.div 
+              className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70 relative overflow-hidden"
+              variants={itemVariants}
+            >
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 rounded-full blur-2xl"></div>
+              <div className="flex items-start gap-6">
+                <div className="bg-gradient-to-br from-blue-500/30 to-purple-500/30 text-blue-400 rounded-xl w-10 h-10 flex items-center justify-center mt-1 shadow-inner backdrop-blur-sm">
+                  <span className="font-bold">1</span>
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Package className="text-blue-400" size={24} />
+                    <h3 className="text-xl font-bold text-white">Installation</h3>
+                  </div>
+                  <p className="text-gray-300 mb-4">Install the Multi UI CLI tool globally to use it across your projects.</p>
+                  <PackageManagerTabs commands={installCommands} />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Step 2: Setup */}
+            <motion.div 
+              className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70 relative overflow-hidden"
+              variants={itemVariants}
+            >
+              <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-500/10 rounded-full blur-2xl"></div>
+              <div className="flex items-start gap-6">
+                <div className="bg-gradient-to-br from-blue-500/30 to-purple-500/30 text-blue-400 rounded-xl w-10 h-10 flex items-center justify-center mt-1 shadow-inner backdrop-blur-sm">
+                  <span className="font-bold">2</span>
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Terminal className="text-blue-400" size={24} />
+                    <h3 className="text-xl font-bold text-white">Project Setup</h3>
+                  </div>
+                  <p className="text-gray-300 mb-4">Initialize your project with necessary dependencies and configurations.</p>
+                  <PackageManagerTabs commands={setupCommands} />
+                  <div className="mt-6">
+                    <p className="text-sm text-gray-400 mb-2">Then start the development server:</p>
+                    <PackageManagerTabs commands={devCommands} />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Step 3: Add Components */}
+            <motion.div 
+              className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70 relative overflow-hidden"
+              variants={itemVariants}
+            >
+              <div className="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl"></div>
+              <div className="flex items-start gap-6">
+                <div className="bg-gradient-to-br from-blue-500/30 to-purple-500/30 text-blue-400 rounded-xl w-10 h-10 flex items-center justify-center mt-1 shadow-inner backdrop-blur-sm">
+                  <span className="font-bold">3</span>
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Layers className="text-blue-400" size={24} />
+                    <h3 className="text-xl font-bold text-white">Add Components</h3>
+                  </div>
+                  <p className="text-gray-300 mb-4">Add components to your project using one of these methods:</p>
+                  <div className="space-y-4">
+                    <div>
+                      <p className="text-sm text-gray-400 mb-2">From GitHub:</p>
+                      <CodeBlock code="npx multi-ui add <ComponentName> [customFilename]" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-400 mb-2">From MongoDB:</p>
+                      <CodeBlock code="npx multi-ui add <ComponentID> [customFilename]" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-400 mb-2">With example files:</p>
+                      <CodeBlock code="npx multi-ui add <ComponentName> --example [customFilename]" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Additional Commands Section */}
+        <motion.div 
+          className="mb-20"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <h2 className="text-3xl font-bold mb-8 text-center">Additional Commands</h2>
+          <div className="grid gap-8 md:grid-cols-2">
+            {/* List Components */}
+            <motion.div 
+              className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70"
+              variants={itemVariants}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <List className="text-blue-400" size={24} />
+                <h3 className="text-xl font-bold text-white">List Components</h3>
+              </div>
+              <p className="text-gray-300 mb-4">View all available components with their variants and metadata.</p>
+              <CodeBlock code="npx multi-ui list" />
+            </motion.div>
+
+            {/* Search Components */}
+            <motion.div 
+              className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70"
+              variants={itemVariants}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <Search className="text-blue-400" size={24} />
+                <h3 className="text-xl font-bold text-white">Search Components</h3>
+              </div>
+              <p className="text-gray-300 mb-4">Search for components using fuzzy matching and filters.</p>
+              <CodeBlock code="npx multi-ui search <term>" />
+            </motion.div>
+
+            {/* Interactive Mode */}
+            <motion.div 
+              className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70"
+              variants={itemVariants}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <Settings className="text-blue-400" size={24} />
+                <h3 className="text-xl font-bold text-white">Interactive Mode</h3>
+              </div>
+              <p className="text-gray-300 mb-4">Use the interactive UI for component browsing and management.</p>
+              <CodeBlock code="npx multi-ui interactive" />
+            </motion.div>
+
+            {/* Remove Components */}
+            <motion.div 
+              className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70"
+              variants={itemVariants}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <Trash className="text-blue-400" size={24} />
+                <h3 className="text-xl font-bold text-white">Remove Components</h3>
+              </div>
+              <p className="text-gray-300 mb-4">Remove components that are no longer needed in your project.</p>
+              <CodeBlock code="npx multi-ui remove <ComponentName>" />
+            </motion.div>
+
+            {/* Help & Version */}
+            <motion.div 
+              className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70 md:col-span-2"
+              variants={itemVariants}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <HelpCircle className="text-blue-400" size={24} />
+                <h3 className="text-xl font-bold text-white">Help & Version</h3>
+              </div>
+              <p className="text-gray-300 mb-4">Get help information or check the CLI version.</p>
+              <div className="grid gap-4 md:grid-cols-2">
+                <div>
+                  <p className="text-sm text-gray-400 mb-2">Show help information:</p>
+                  <CodeBlock code="npx multi-ui --help" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-400 mb-2">Show version:</p>
+                  <CodeBlock code="npx multi-ui --version" />
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Project Structure Section */}
+        <motion.div
+          className="mb-20"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <h2 className="text-3xl font-bold mb-8 text-center">Project Structure</h2>
+          <div className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70">
+            <CodeBlock code={`your-project/
+├── app/
+│   ├── components/
+│   │   ├── multi-ui/
+│   │   │   ├── [ComponentName]/
+│   │   │   │   ├── index.tsx
+│   │   │   │   └── examples/
+│   │   │   │       └── Example_1.tsx
+│   │   │   └── ...
+│   │   └── ...
+│   └── ...
+├── public/
+│   └── multi-ui/
+│       └── assets/
+├── multi-ui.config.json
+└── package.json`} />
+          </div>
+        </motion.div>
+
+        {/* Configuration Section */}
+        <motion.div
+          className="mb-20"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <h2 className="text-3xl font-bold mb-8 text-center">Configuration</h2>
+          <div className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70">
+            <p className="text-gray-300 mb-4">The `multi-ui.config.json` configuration file:</p>
+            <CodeBlock code={`{
+  "language": "typescript",
+  "componentPath": "app/components/multi-ui",
+  "examplesPath": "examples",
+  "framework": "next",
+  "styling": "tailwind",
+  "typescript": {
+    "strict": true
+  }
+}`} />
+          </div>
+        </motion.div>
+
+        {/* Features Grid */}
+        <motion.div
           className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-20"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          <CommandCard 
-            icon={Package} 
-            title="Installation" 
-            command="npm i @omsalunke0852/multi-ui-cli" 
-            description="Install the Multi UI CLI tool to get started with component integration."
-          />
-          <CommandCard 
-            icon={Terminal} 
-            title="Setup" 
-            command="npx multi-ui setup" 
-            description="Initialize Multi UI in your project with a single command."
-          />
-          <CommandCard 
-            icon={Layers} 
-            title="Add Components" 
-            command="npx multi-ui add ComponentName_VariantNumber" 
-            description="Add specific component variants to your project as needed."
-          />
-          <CommandCard 
-            icon={FileCode} 
-            title="Add Customized Component" 
-            command="npx multi-ui add Component-ID [filename]" 
-            description="Add a customized component from the chat interface to your project."
-          />
-          <CommandCard 
-            icon={Trash} 
-            title="Remove Components" 
-            command="npx multi-ui remove filename" 
-            description="Remove a specific component file from your project when no longer needed."
-          />
-          <CommandCard 
-            icon={Download} 
-            title="Get Help" 
-            command="npx multi-ui --help" 
-            description="View all available commands, options, and examples for using Multi UI."
-          />
+          <div className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70">
+            <h3 className="text-xl font-bold mb-4">TypeScript Support</h3>
+            <ul className="space-y-2 text-gray-300">
+              <li>• Full type safety</li>
+              <li>• IntelliSense support</li>
+              <li>• Automatic JS conversion</li>
+              <li>• Type definitions included</li>
+            </ul>
+          </div>
+          <div className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70">
+            <h3 className="text-xl font-bold mb-4">Next.js Integration</h3>
+            <ul className="space-y-2 text-gray-300">
+              <li>• Next.js 14+ compatible</li>
+              <li>• App Router support</li>
+              <li>• Server Components</li>
+              <li>• Automatic optimization</li>
+            </ul>
+          </div>
+          <div className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70">
+            <h3 className="text-xl font-bold mb-4">Styling</h3>
+            <ul className="space-y-2 text-gray-300">
+              <li>• Tailwind CSS support</li>
+              <li>• Custom theming</li>
+              <li>• Responsive design</li>
+              <li>• Dark mode ready</li>
+            </ul>
+          </div>
         </motion.div>
-        
-        <div className="prose prose-invert max-w-none">
-          <motion.div 
-            className="bg-gray-800/70 border-l-4 border-blue-500 p-8 rounded-r-xl mb-16 backdrop-blur-sm"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-          >
-            <h2 className="text-2xl font-bold text-blue-300 mb-4">Getting Started</h2>
-            <p className="text-gray-300 text-lg leading-relaxed">
-              Multi UI is a versatile React component library that offers multiple design variants for each component.
-              Follow the steps below to integrate Multi UI into your project.
-            </p>
-          </motion.div>
-          
-          <motion.div 
-            className="mb-20"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.8 }}
-          >
-            <h2 className="text-3xl font-bold mb-10 text-white bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Detailed Installation Guide</h2>
-            
-            <div className="space-y-14">
-              <div className="bg-gray-800/70 p-10 rounded-xl shadow-md border border-gray-700/70 backdrop-blur-sm relative overflow-hidden">
-                <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 rounded-full blur-2xl"></div>
-                <div className="flex items-start mb-6 relative">
-                  <div className="bg-gradient-to-br from-blue-500/30 to-purple-500/30 text-blue-400 rounded-xl w-10 h-10 flex items-center justify-center mr-6 mt-1 shadow-inner backdrop-blur-sm">
-                    <span className="font-bold">1</span>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white mb-5">Install the CLI Tool</h3>
-                    <p className="text-gray-300 mb-6 leading-relaxed">
-                      Start by installing the Multi UI CLI tool which will help you manage components:
-                    </p>
-                    <CodeBlock code="npm i @omsalunke0852/multi-ui-cli" />
-                    <p className="text-sm text-gray-400 mt-5">
-                      This will add the CLI tool to your project dependencies, allowing you to use the Multi UI commands.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-gray-800/70 p-10 rounded-xl shadow-md border border-gray-700/70 backdrop-blur-sm relative overflow-hidden">
-                <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-500/10 rounded-full blur-2xl"></div>
-                <div className="flex items-start mb-6 relative">
-                  <div className="bg-gradient-to-br from-blue-500/30 to-purple-500/30 text-blue-400 rounded-xl w-10 h-10 flex items-center justify-center mr-6 mt-1 shadow-inner backdrop-blur-sm">
-                    <span className="font-bold">2</span>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white mb-5">Set Up Your Project</h3>
-                    <p className="text-gray-300 mb-6 leading-relaxed">
-                      Initialize Multi UI in your project to create the necessary configuration:
-                    </p>
-                    <CodeBlock code="npx multi-ui setup" />
-                    <p className="text-sm text-gray-400 mt-5">
-                      This command creates the required directory structure and configuration files for Multi UI components.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-gray-800/70 p-10 rounded-xl shadow-md border border-gray-700/70 backdrop-blur-sm relative overflow-hidden">
-                <div className="absolute -top-20 -left-20 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl"></div>
-                <div className="flex items-start mb-6 relative">
-                  <div className="bg-gradient-to-br from-blue-500/30 to-purple-500/30 text-blue-400 rounded-xl w-10 h-10 flex items-center justify-center mr-6 mt-1 shadow-inner backdrop-blur-sm">
-                    <span className="font-bold">3</span>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white mb-5">Add Components</h3>
-                    <p className="text-gray-300 mb-6 leading-relaxed">
-                      Add specific component variants to your project as needed:
-                    </p>
-                    <CodeBlock code="npx multi-ui add ComponentName_VariantNumber" />
-                    <p className="text-sm text-gray-400 mt-5 mb-8">
-                      Replace &quot;ComponentName&quot; with the component you want (like Button, Accordion) and &quot;VariantNumber&quot; with the variant number (like 1, 2, 3).
-                    </p>
-                    
-                    <h4 className="text-lg font-semibold mt-10 mb-5 text-gray-100">Examples:</h4>
-                    <div className="grid gap-5 md:grid-cols-2">
-                      <div className="bg-gray-700/70 p-5 rounded-xl backdrop-blur-sm">
-                        <CodeBlock code="npx multi-ui add Button_1" />
-                        <p className="text-sm text-gray-300 mt-3">Adds Button variant 1</p>
-                      </div>
-                      <div className="bg-gray-700/70 p-5 rounded-xl backdrop-blur-sm">
-                        <CodeBlock code="npx multi-ui add Button_2" />
-                        <p className="text-sm text-gray-300 mt-3">Adds Button variant 2</p>
-                      </div>
-                      <div className="bg-gray-700/70 p-5 rounded-xl backdrop-blur-sm">
-                        <CodeBlock code="npx multi-ui add Accordion_1" />
-                        <p className="text-sm text-gray-300 mt-3">Adds Accordion variant 1</p>
-                      </div>
-                      <div className="bg-gray-700/70 p-5 rounded-xl backdrop-blur-sm">
-                        <CodeBlock code="npx multi-ui add Card_3" />
-                        <p className="text-sm text-gray-300 mt-3">Adds Card variant 3</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-gray-800/70 p-10 rounded-xl shadow-md border border-gray-700/70 backdrop-blur-sm relative overflow-hidden">
-                <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-purple-500/10 rounded-full blur-2xl"></div>
-                <div className="flex items-start mb-6 relative">
-                  <div className="bg-gradient-to-br from-blue-500/30 to-purple-500/30 text-blue-400 rounded-xl w-10 h-10 flex items-center justify-center mr-6 mt-1 shadow-inner backdrop-blur-sm">
-                    <span className="font-bold">4</span>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white mb-5">Add Customized Components</h3>
-                    <p className="text-gray-300 mb-6 leading-relaxed">
-                      Add customized components created through the AI chat interface:
-                    </p>
-                    <CodeBlock code="npx multi-ui add Component-ID [filename]" />
-                    <p className="text-sm text-gray-400 mt-5 mb-6">
-                      Replace &quot;Component-ID&quot; with the ID provided by the chatbot and optionally specify a filename.
-                    </p>
-                    
-                    <div className="bg-blue-900/30 border border-blue-500/30 p-5 rounded-xl">
-                      <h5 className="text-blue-300 font-medium mb-3 flex items-center">
-                        <Sparkles className="h-4 w-4 mr-2" /> New Feature
-                      </h5>
-                      <p className="text-gray-300 text-sm">
-                        Components customized through our chat interface can be added directly to your project using the unique Component ID generated when you save a customization.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-gray-800/70 p-10 rounded-xl shadow-md border border-gray-700/70 backdrop-blur-sm relative overflow-hidden">
-                <div className="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl"></div>
-                <div className="flex items-start mb-6 relative">
-                  <div className="bg-gradient-to-br from-blue-500/30 to-purple-500/30 text-blue-400 rounded-xl w-10 h-10 flex items-center justify-center mr-6 mt-1 shadow-inner backdrop-blur-sm">
-                    <span className="font-bold">5</span>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white mb-5">Remove Components</h3>
-                    <p className="text-gray-300 mb-6 leading-relaxed">
-                      Remove components that are no longer needed in your project:
-                    </p>
-                    <CodeBlock code="npx multi-ui remove filename" />
-                    <p className="text-sm text-gray-400 mt-5 mb-6">
-                      Replace &quot;filename&quot; with the name of the component file you want to remove.
-                    </p>
-                    
-                    <div className="bg-blue-900/30 border border-blue-500/30 p-5 rounded-xl">
-                      <h5 className="text-blue-300 font-medium mb-3 flex items-center">
-                        <Sparkles className="h-4 w-4 mr-2" /> New Feature
-                      </h5>
-                      <p className="text-gray-300 text-sm">
-                        The remove command helps you maintain a clean codebase by removing components you no longer need.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-          
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold mb-8 text-white">Available Components</h2>
-            <p className="text-lg text-gray-300 mb-8">
-              Multi UI offers a wide range of components, each with multiple design variants to suit your needs:
-            </p>
-            
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <ComponentVariant name="Button" variants={["primary", "secondary", "outline", "ghost", "link"]} />
-              <ComponentVariant name="Card" variants={["default", "interactive", "pricing", "product"]} />
-              <ComponentVariant name="Input" variants={["default", "search", "password", "with-icon"]} />
-              <ComponentVariant name="Modal" variants={["default", "alert", "form", "sidebar"]} />
-              <ComponentVariant name="Navbar" variants={["simple", "responsive", "with-dropdown"]} />
-              <ComponentVariant name="Table" variants={["simple", "interactive", "data", "sortable"]} />
-              <ComponentVariant name="Form" variants={["login", "signup", "contact", "checkout"]} />
-              <ComponentVariant name="Dropdown" variants={["simple", "multi-select", "nested"]} />
-              <ComponentVariant name="Tabs" variants={["default", "underlined", "pills", "vertical"]} />
-            </div>
-            
-            <div className="mt-12 text-center">
-              <Link href="/components" className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-gray-900 bg-blue-400 hover:bg-blue-500 transition-colors">
-                Browse All Components <ChevronRight className="ml-2" size={16} />
-              </Link>
-            </div>
-          </div>
-          
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold mb-8 text-white">CLI Reference</h2>
-            <p className="text-lg text-gray-300 mb-8">
-              The Multi UI CLI provides several commands to help you manage components in your project:
-            </p>
-            
-            <div className="bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-700 mb-8">
-              <h3 className="text-xl font-bold text-white mb-4">Help Command</h3>
-              <p className="text-gray-300 mb-6">
-                View all available commands and options:
-              </p>
-              <CodeBlock code="npx multi-ui --help" />
-            </div>
-            
-            <div className="bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-700">
-              <h3 className="text-xl font-bold text-white mb-4">List Components</h3>
-              <p className="text-gray-300 mb-6">
-                View all available components and their variants:
-              </p>
-              <CodeBlock code="npx multi-ui list" />
-            </div>
-          </div>
-          
-          <div className="bg-gray-800 p-8 rounded-xl border border-gray-700">
-            <h2 className="text-3xl font-bold mb-6 text-white">Contributing</h2>
-            <p className="text-lg text-gray-300 mb-6">
-              We welcome contributions to Multi UI! Whether you&apos;re fixing bugs, adding features, or improving documentation.
-            </p>
-            <Link 
-              href="https://github.com/om0852/multi-ui" 
-              className="inline-flex items-center px-6 py-3 border border-gray-600 text-base font-medium rounded-md bg-gray-700 hover:bg-gray-600 text-white transition-colors"
-              target="_blank" 
-              rel="noopener noreferrer"
-            >
-              Visit GitHub Repository <ChevronRight className="ml-2" size={16} />
+
+        {/* Support Section */}
+        <motion.div
+          className="text-center"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <h2 className="text-3xl font-bold mb-8">Need Help?</h2>
+          <div className="flex flex-wrap justify-center gap-6">
+            <Link href="https://github.com/yourusername/multi-ui-cli/issues" 
+                  className="inline-flex items-center px-6 py-3 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors">
+              <HelpCircle className="mr-2" size={20} />
+              Report Issues
+            </Link>
+            <Link href="https://discord.gg/multi-ui" 
+                  className="inline-flex items-center px-6 py-3 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors">
+              <ChevronRight className="mr-2" size={20} />
+              Join Discord
             </Link>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
 };
 
-// export default DocsPage; 
 export default DocsPage; 
