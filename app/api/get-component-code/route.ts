@@ -18,7 +18,6 @@ export async function GET(request: Request) {
     // Construct the path to the component file
     const filePath = path.join(
       process.cwd(),
-      'public',
       'multiui',
       component.toLowerCase(),
       '_components',
