@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
+
+// Base URL for raw GitHub content
+const GITHUB_RAW_BASE_URL = 'https://raw.githubusercontent.com/om0852/multi-ui/main/app';
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const component = searchParams.get('component');
+    const component = searchParams.get('component')?.toLowerCase();
     const variant = searchParams.get('variant');
 
     if (!component || !variant) {
@@ -15,28 +16,35 @@ export async function GET(request: Request) {
       );
     }
 
-    // Construct the path to the component file
-    const filePath = path.join(
-      process.cwd(),
-      'multiui',
-      component.toLowerCase(),
-      '_components',
-      `${component}_${variant}.tsx`
-    );
+    // Construct the GitHub raw content URL based on the repository structure
+    // Example: https://raw.githubusercontent.com/om0852/multi-ui/main/app/accordian/tsx/Accordian_1.tsx
+    const githubPath = `${GITHUB_RAW_BASE_URL}/${component}/tsx/${component.charAt(0).toUpperCase() + component.slice(1)}_${variant}.tsx`;
 
     try {
-      // Read the component file
-      const code = await fs.readFile(filePath, 'utf-8');
+      // Fetch the component file from GitHub
+      const response = await fetch(githubPath);
       
+      if (!response.ok) {
+        throw new Error(`Failed to fetch component: ${response.statusText}`);
+      }
+
+      const code = await response.text();
+      
+      // Return the component code and metadata
       return NextResponse.json({
         code,
         component,
-        variant
+        variant,
+        githubUrl: `https://github.com/om0852/multi-ui/blob/main/app/${component}/tsx/${component.charAt(0).toUpperCase() + component.slice(1)}_${variant}.tsx`
       });
     } catch (error) {
-      console.error(`Error reading component file: ${filePath}`, error);
+      console.error(`Error fetching component from GitHub: ${githubPath}`, error);
       return NextResponse.json(
-        { error: 'Component file not found' },
+        { 
+          error: 'Component file not found on GitHub',
+          details: error instanceof Error ? error.message : 'Unknown error',
+          path: githubPath
+        },
         { status: 404 }
       );
     }
@@ -47,4 +55,7 @@ export async function GET(request: Request) {
       { status: 500 }
     );
   }
-} 
+}
+
+// Also support POST method for compatibility
+export { GET as POST } 
