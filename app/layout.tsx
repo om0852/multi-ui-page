@@ -9,6 +9,21 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Multi UI - Beautiful React Components',
   description: 'A collection of beautifully designed, ready-to-use React components',
+  icons: {
+    icon: [
+      {
+        url: '/favicon.svg',
+        type: 'image/svg+xml',
+      }
+    ],
+    shortcut: ['/favicon.svg'],
+    apple: [
+      {
+        url: '/favicon.svg',
+        type: 'image/svg+xml',
+      }
+    ],
+  },
 }
 
 export default function RootLayout({

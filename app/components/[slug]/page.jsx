@@ -177,7 +177,7 @@ export default function ComponentPage() {
       case "bar":
         return 30;
       case "button":
-        return 30;
+        return 25;
       case "cards":
         return 30;
       case "carousel":
