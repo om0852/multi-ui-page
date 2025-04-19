@@ -1,6 +1,16 @@
 'use client';
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import Image from 'next/image';
+
+interface CardProps {
+  title: string;
+  description: string;
+  link: string;
+  imageUrl: string;
+  btnText: string;
+}
 
 const CelebrationEffect: React.FC<{ isHovered: boolean }> = ({ isHovered }) => {
   return (
@@ -60,7 +70,7 @@ const CelebrationEffect: React.FC<{ isHovered: boolean }> = ({ isHovered }) => {
   );
 };
 
-const Card_28: React.FC = () => {
+const Card_28: React.FC<CardProps> = ({ title, description, link, imageUrl, btnText }) => {
   const [mounted, setMounted] = React.useState(false);
   const [isHovered, setIsHovered] = React.useState(false);
 
@@ -71,20 +81,23 @@ const Card_28: React.FC = () => {
   if (!mounted) {
     return (
       <div 
-        className="relative w-[380px] rounded-2xl backdrop-blur-sm overflow-hidden"
+        className="relative w-full rounded-2xl backdrop-blur-sm overflow-hidden"
         style={{
           background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8))',
           boxShadow: '0 8px 32px rgba(245, 158, 11, 0.1)',
         }}
       >
-        {/* Static content for SSR */}
         <div className="relative p-6 text-center">
-          <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-amber-100 flex items-center justify-center">
-            <svg className="w-12 h-12 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-            </svg>
+          <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-amber-100 overflow-hidden">
+            <Image
+              src={imageUrl}
+              alt={title}
+              width={96}
+              height={96}
+              className="w-full h-full object-cover"
+            />
           </div>
-          <h3 className="text-xl font-bold text-gray-900">Achievement Unlocked!</h3>
+          <h3 className="text-xl font-bold text-gray-900">{title}</h3>
         </div>
       </div>
     );
@@ -92,7 +105,7 @@ const Card_28: React.FC = () => {
 
   return (
     <motion.div
-      className="relative w-[380px] rounded-2xl backdrop-blur-sm cursor-pointer overflow-hidden"
+      className="relative w-full rounded-2xl backdrop-blur-sm cursor-pointer overflow-hidden"
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       initial={false}
@@ -110,34 +123,23 @@ const Card_28: React.FC = () => {
 
       <div className="relative p-6 text-center">
         <motion.div
-          className="w-24 h-24 mx-auto mb-4 rounded-full bg-amber-100 flex items-center justify-center"
+          className="w-24 h-24 mx-auto mb-4 rounded-full bg-amber-100 overflow-hidden"
           animate={isHovered ? {
             scale: 1.1,
             rotate: [0, -10, 10, 0],
-            backgroundColor: 'rgb(254, 243, 199)',
           } : {
             scale: 1,
             rotate: 0,
-            backgroundColor: 'rgb(254, 249, 195)',
           }}
           transition={{ duration: 0.5 }}
         >
-          <motion.svg
-            className="w-12 h-12 text-amber-600"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            animate={isHovered ? {
-              scale: 1.2,
-              rotate: 360,
-            } : {
-              scale: 1,
-              rotate: 0,
-            }}
-            transition={{ duration: 0.5 }}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-          </motion.svg>
+          <Image
+            src={imageUrl}
+            alt={title}
+            width={96}
+            height={96}
+            className="w-full h-full object-cover"
+          />
         </motion.div>
 
         <motion.div
@@ -149,14 +151,14 @@ const Card_28: React.FC = () => {
             animate={isHovered ? { color: '#D97706' } : { color: '#111827' }}
             transition={{ duration: 0.3 }}
           >
-            Achievement Unlocked!
+            {title}
           </motion.h3>
           <motion.p
             className="text-gray-600 mb-6"
             animate={isHovered ? { y: -2 } : { y: 0 }}
             transition={{ duration: 0.3 }}
           >
-            Master Explorer - Level 10
+            {description}
           </motion.p>
 
           <div className="flex justify-center space-x-2 mb-6">
@@ -176,27 +178,18 @@ const Card_28: React.FC = () => {
             ))}
           </div>
 
-          <motion.div
-            className="text-sm text-gray-500 mb-6"
-            animate={isHovered ? { y: -2 } : { y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="font-medium">Rewards Earned:</div>
-            <div>• 1000 XP Points</div>
-            <div>• Golden Badge</div>
-            <div>• Special Access</div>
-          </motion.div>
-
-          <motion.button
-            className="px-6 py-2 rounded-lg bg-amber-500 text-white font-medium"
-            whileHover={{
-              scale: 1.05,
-              backgroundColor: '#D97706',
-            }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Claim Rewards
-          </motion.button>
+          <Link href={link}>
+            <motion.button
+              className="px-6 py-2 rounded-lg bg-amber-500 text-white font-medium"
+              whileHover={{
+                scale: 1.05,
+                backgroundColor: '#D97706',
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {btnText}
+            </motion.button>
+          </Link>
         </motion.div>
       </div>
     </motion.div>

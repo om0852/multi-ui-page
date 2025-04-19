@@ -24,8 +24,6 @@ export default function BadgeExample12() {
             <OutlineBadge text="Emerald" color="bg-emerald-500" />
             <OutlineBadge text="Blue" color="bg-blue-500" />
             <OutlineBadge text="Purple" color="bg-purple-500" />
-            <OutlineBadge text="Red" color="bg-red-500" />
-            <OutlineBadge text="Amber" color="bg-amber-500" />
           </div>
         </div>
 
@@ -47,7 +45,6 @@ export default function BadgeExample12() {
             <div className="flex flex-wrap gap-2 mb-4">
               <OutlineBadge text="New" color="bg-emerald-500" />
               <OutlineBadge text="Featured" color="bg-blue-500" />
-              <OutlineBadge text="Popular" color="bg-purple-500" />
             </div>
             <p className="text-gray-300">Interactive badges with subtle hover effects for status indicators</p>
           </div>

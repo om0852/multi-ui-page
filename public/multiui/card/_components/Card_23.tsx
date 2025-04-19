@@ -29,14 +29,22 @@ const ShimmerEffect: React.FC<{ isHovered: boolean }> = ({ isHovered }) => {
   );
 };
 
-const Card_23: React.FC = () => {
+interface CardProps {
+  title: string;
+  description: string;
+  link: string;
+  imageUrl: string;
+  btnText: string;
+}
+
+const Card_23: React.FC<CardProps> = ({ title, description, link, imageUrl, btnText }) => {
   const [isHovered, setIsHovered] = React.useState(false);
 
   const categories = ['Design', 'Technology', 'Trends'];
 
   return (
     <motion.div
-      className="relative w-[380px] rounded-2xl backdrop-blur-sm cursor-pointer overflow-hidden"
+      className="relative w-full rounded-2xl backdrop-blur-sm cursor-pointer overflow-hidden"
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       initial={{ opacity: 0, y: 20 }}
@@ -45,15 +53,15 @@ const Card_23: React.FC = () => {
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       style={{
-        background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8))',
+        background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))',
         boxShadow: '0 8px 32px rgba(244, 63, 94, 0.1)',
       }}
     >
       <div className="relative">
         <div className="relative h-48 overflow-hidden rounded-t-2xl">
           <motion.img
-            src="/blog-image.jpg"
-            alt="Blog Post"
+            src={imageUrl}
+            alt={title}
             className="w-full h-full object-cover"
             animate={isHovered ? {
               scale: 1.1,
@@ -94,33 +102,31 @@ const Card_23: React.FC = () => {
       </div>
 
       <div className="p-6 space-y-4">
-        <div className="flex items-center space-x-2 text-sm text-gray-500">
+        <div className="flex items-center space-x-2 text-sm text-gray-400">
           <motion.span
-            animate={isHovered ? { color: '#F43F5E' } : { color: '#6B7280' }}
+            animate={isHovered ? { color: '#F43F5E' } : { color: '#9CA3AF' }}
             transition={{ duration: 0.3 }}
           >
-            John Doe
+            5 min read
           </motion.span>
-          <span>•</span>
-          <span>5 min read</span>
           <span>•</span>
           <span>2 days ago</span>
         </div>
 
         <motion.h3
-          className="text-xl font-bold text-gray-900"
+          className="text-xl font-bold text-white"
           animate={isHovered ? { y: -2 } : { y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          The Future of UI Design: Trends to Watch in 2024
+          {title}
         </motion.h3>
 
         <motion.p
-          className="text-gray-600 text-sm line-clamp-3"
+          className="text-gray-300 text-sm line-clamp-3"
           animate={isHovered ? { y: -2 } : { y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          Explore the latest trends shaping the future of user interface design. From neumorphism to glassmorphism, discover how these styles are evolving.
+          {description}
         </motion.p>
 
         <motion.div
@@ -128,12 +134,13 @@ const Card_23: React.FC = () => {
           animate={isHovered ? { y: -2 } : { y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <motion.button
-            className="text-rose-500 font-medium text-sm flex items-center space-x-1"
+          <motion.a
+            href={link}
+            className="text-rose-400 font-medium text-sm flex items-center space-x-1"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <span>Read More</span>
+            <span>{btnText}</span>
             <svg
               className="w-4 h-4"
               fill="none"
@@ -147,11 +154,11 @@ const Card_23: React.FC = () => {
                 d="M17 8l4 4m0 0l-4 4m4-4H3"
               />
             </svg>
-          </motion.button>
+          </motion.a>
 
           <div className="flex items-center space-x-4">
             <motion.button
-              className="text-gray-500 hover:text-rose-500"
+              className="text-gray-400 hover:text-rose-400"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
@@ -160,7 +167,7 @@ const Card_23: React.FC = () => {
               </svg>
             </motion.button>
             <motion.button
-              className="text-gray-500 hover:text-rose-500"
+              className="text-gray-400 hover:text-rose-400"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >

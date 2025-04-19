@@ -19,6 +19,8 @@ import {
   ChevronDown,
   Terminal,
   MessageSquare,
+  X,
+  Maximize,
 } from "lucide-react";
 import ChatBot from "../ChatBot";
 import { cn } from "../../../lib/utils";
@@ -74,6 +76,7 @@ export default function ComponentPage() {
   const [commandCopied, setCommandCopied] = useState(false);
   const [error, setError] = useState(null);
   const [componentError, setComponentError] = useState(null);
+  const [showFullPreview, setShowFullPreview] = useState(false);
 
   // State to keep track of the dynamic component
   const [DynamicComponent, setDynamicComponent] = useState(null);
@@ -308,11 +311,6 @@ export default function ComponentPage() {
     () => getExampleCode(),
     [slug, selectedVariant]
   );
-  const installCode = React.useMemo(() => getInstallCode(), []);
-  const usageCode = React.useMemo(
-    () => getUsageCode(),
-    [slug, selectedVariant]
-  );
 
   // Code generator functions
   function getComponentCode() {
@@ -471,6 +469,103 @@ function MyComponent() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
+      {/* Fullscreen Preview Popup */}
+      {showFullPreview && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 bg-gradient-to-br from-gray-900/98 to-[#0F172A]/98 flex flex-col backdrop-blur-md"
+        >
+          <div className="p-3 sm:p-4 flex justify-between items-center border-b border-gray-700/50 bg-gradient-to-r from-gray-800/80 to-[#1E293B]/80 backdrop-blur-sm shadow-lg">
+            <h3 className="text-sm sm:text-base font-medium text-white flex items-center">
+              <Maximize className="mr-1.5 h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-400" />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-purple-400">
+                {component.name}
+              </span>
+              <span className="text-gray-200 ml-1">- Variant {selectedVariant?.id}</span>
+            </h3>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <button
+                onClick={() =>
+                  copyToClipboard(
+                    `npx multi-ui add ${toTitleCase(slug)}_${selectedVariant?.id}`,
+                    true
+                  )
+                }
+                className="bg-[#1E293B] hover:bg-[#334155] px-2 sm:px-3 py-1 sm:py-1.5 rounded-md text-xs text-gray-200 font-medium flex items-center shadow-md hover:shadow-lg transition-all"
+              >
+                {commandCopied ? (
+                  <>
+                    <Check className="h-3 w-3 mr-1 text-green-400" />
+                    <span className="text-green-400">Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Terminal className="h-3 w-3 mr-1 text-blue-400" />
+                    <span className="hidden xs:inline">Install Component</span>
+                    <span className="inline xs:hidden">Install</span>
+                  </>
+                )}
+              </button>
+              <button 
+                onClick={() => setShowFullPreview(false)}
+                className="p-1.5 sm:p-2 rounded-full hover:bg-gray-700/70 text-gray-300 hover:text-white transition-all"
+                aria-label="Close preview"
+              >
+                <X className="h-4 w-4 sm:h-5 sm:w-5" />
+              </button>
+            </div>
+          </div>
+          <motion.div 
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="flex-1 flex items-center justify-center p-3 sm:p-4 overflow-auto bg-gradient-to-b from-[#141A25] to-[#171F2F]"
+          >
+            <div className={`transform-gpu ${
+              slug === "circularprogressbar" ? "scale-105 sm:scale-110" : ""
+            }`}>
+              {DynamicComponent ? (
+                <Suspense fallback={<LoadingComponent />}>
+                  <div className={`${
+                    slug === "circularprogressbar" 
+                      ? "bg-gradient-to-br from-[#1E293B] to-[#1E293B]/80 p-6 sm:p-8 rounded-xl shadow-xl border border-blue-500/10" 
+                      : ""
+                  }`}>
+                    {slug === "circularprogressbar" ? (
+                      <div className="text-center">
+                        <DynamicComponent />
+                        <div className="mt-4 sm:mt-6 text-gray-200">
+                          <div className="w-24 sm:w-32 h-0.5 mx-auto rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 mb-3"></div>
+                          <p className="text-xs sm:text-sm font-medium text-gray-300">Adjust with the slider</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <DynamicComponent />
+                    )}
+                  </div>
+                </Suspense>
+              ) : (
+                <LoadingComponent />
+              )}
+            </div>
+          </motion.div>
+          <div className="p-2 sm:p-3 border-t border-gray-700/50 flex justify-between bg-gradient-to-r from-[#111827] to-[#131D2F] shadow-inner">
+            <div className="hidden sm:block text-xs text-gray-400">
+              <span className="text-blue-400">Tip:</span> Use with the install command
+            </div>
+            <button
+              onClick={() => setShowFullPreview(false)}
+              className="bg-[#1E293B] hover:bg-[#334155] text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm flex items-center transition-all shadow-md hover:shadow-lg ml-auto"
+            >
+              <X className="h-3.5 w-3.5 mr-1.5" />
+              Close
+            </button>
+          </div>
+        </motion.div>
+      )}
+      
       {/* Hero Section with Background */}
       <section className="relative overflow-hidden py-16">
         <div className="absolute inset-0 z-0 opacity-20">
@@ -507,8 +602,8 @@ function MyComponent() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Left Column - Variants List */}
-            <div className="lg:w-1/3">
-              <div className="bg-gray-800 rounded-lg border border-gray-700 p-4 mb-4 sticky top-4">
+            <div className="w-full lg:w-1/3">
+              <div className="bg-gray-800 rounded-lg border border-gray-700 p-4 mb-4 lg:sticky lg:top-4">
                 <h3 className="text-lg font-bold mb-4 flex items-center">
                   <Layers className="mr-2 text-blue-400" size={18} />
                   Variants
@@ -531,7 +626,7 @@ function MyComponent() {
                 </div>
 
                 {/* Variants list */}
-                <div className="space-y-2 max-h-[calc(100vh-300px)] overflow-y-auto pr-2">
+                <div className="space-y-2 max-h-[60vh] lg:max-h-[calc(100vh-300px)] overflow-y-auto pr-2">
                   <motion.div
                     variants={containerVariants}
                     initial="hidden"
@@ -575,72 +670,72 @@ function MyComponent() {
             </div>
 
             {/* Right Column - Preview/Code/Example */}
-            <div className="lg:w-2/3">
+            <div className="w-full lg:w-2/3">
               <div className="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden">
                 {/* Tabs */}
-                <div className="flex border-b border-gray-700">
+                <div className="flex flex-wrap overflow-x-auto border-b border-gray-700">
                   <button
-                    className={`px-4 py-3 font-medium text-sm flex items-center ${
+                    className={`px-3 sm:px-4 py-3 font-medium text-xs sm:text-sm flex items-center ${
                       activeTab === "preview"
                         ? "text-blue-400 border-b-2 border-blue-400"
                         : "text-gray-400 hover:text-gray-200"
                     }`}
                     onClick={() => setActiveTab("preview")}
                   >
-                    <Eye className="h-4 w-4 mr-2" />
+                    <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                     Preview
                   </button>
                   <button
-                    className={`px-4 py-3 font-medium text-sm flex items-center ${
+                    className={`px-3 sm:px-4 py-3 font-medium text-xs sm:text-sm flex items-center ${
                       activeTab === "code"
                         ? "text-blue-400 border-b-2 border-blue-400"
                         : "text-gray-400 hover:text-gray-200"
                     }`}
                     onClick={() => setActiveTab("code")}
                   >
-                    <Code className="h-4 w-4 mr-2" />
-                    Component Code
+                    <Code className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                    Code
                   </button>
                   <button
-                    className={`px-4 py-3 font-medium text-sm flex items-center ${
+                    className={`px-3 sm:px-4 py-3 font-medium text-xs sm:text-sm flex items-center ${
                       activeTab === "example"
                         ? "text-blue-400 border-b-2 border-blue-400"
                         : "text-gray-400 hover:text-gray-200"
                     }`}
                     onClick={() => setActiveTab("example")}
                   >
-                    <ExternalLink className="h-4 w-4 mr-2" />
-                    Usage Example
+                    <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                    Usage
                   </button>
                   <button
-                    className={`px-4 py-3 font-medium text-sm flex items-center ${
+                    className={`px-3 sm:px-4 py-3 font-medium text-xs sm:text-sm flex items-center ${
                       activeTab === "customize"
                         ? "text-blue-400 border-b-2 border-blue-400"
                         : "text-gray-400 hover:text-gray-200"
                     }`}
                     onClick={() => setActiveTab("customize")}
                   >
-                    <MessageSquare className="h-4 w-4 mr-2" />
+                    <MessageSquare className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                     Customize
                   </button>
                 </div>
 
                 {/* Tab Content - Only render the active tab for performance */}
-                <div className="p-6">
+                <div className="p-3 sm:p-6">
                   {activeTab === "preview" && (
                     <div>
                       <div className="bg-gray-900 rounded-lg overflow-hidden">
                         {/* Component preview */}
-                        <div className="p-8 flex items-center justify-center min-h-[400px]">
+                        <div className="p-4 sm:p-8 flex items-center justify-center min-h-[250px] sm:min-h-[400px]">
                           {/* Actual component preview */}
                           <div className="w-full">
-                            <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
-                              <div className="flex items-center justify-between mb-4">
-                                <h3 className="text-lg font-bold text-white">
+                            <div className="bg-gray-800 border border-gray-700 rounded-lg p-3 sm:p-6">
+                              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:mb-4 gap-2">
+                                <h3 className="text-md sm:text-lg font-bold text-white">
                                   {component.name} - Variant{" "}
                                   {selectedVariant?.id}
                                 </h3>
-                                <div className="flex items-center gap-2">
+                                <div className="flex flex-wrap items-center gap-2">
                                   <button
                                     onClick={() =>
                                       copyToClipboard(
@@ -650,7 +745,7 @@ function MyComponent() {
                                         true
                                       )
                                     }
-                                    className="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded-full text-xs text-gray-200 font-medium flex items-center"
+                                    className="bg-gray-700 hover:bg-gray-600 px-2 sm:px-3 py-1 rounded-full text-xs text-gray-200 font-medium flex items-center"
                                   >
                                     {commandCopied ? (
                                       <>
@@ -660,24 +755,68 @@ function MyComponent() {
                                     ) : (
                                       <>
                                         <Terminal className="h-3 w-3 mr-1" />
-                                        Copy Install Command
+                                        <span className="hidden sm:inline">Copy Install Command</span>
+                                        <span className="inline sm:hidden">Copy</span>
                                       </>
                                     )}
                                   </button>
                                   <div className="bg-blue-900/30 px-2 py-1 rounded-full text-xs text-blue-400 font-medium flex items-center">
                                     <Zap className="h-3 w-3 mr-1" />
-                                    Live Preview
+                                    <span className="hidden sm:inline">Live Preview</span>
+                                    <span className="inline sm:hidden">Live</span>
                                   </div>
                                 </div>
                               </div>
 
                               {/* Render the actual component */}
-                              <div className="bg-gray-900 rounded-lg p-6 relative">
+                              <div className="bg-gradient-to-b from-[#141A25] to-[#171F2F] rounded-lg p-3 sm:p-6 relative overflow-hidden shadow-inner">
                                 {componentError ? (
                                   <ErrorComponent error={componentError} />
                                 ) : DynamicComponent ? (
                                   <Suspense fallback={<LoadingComponent />}>
-                                    <DynamicComponent />
+                                    {/* Show preview only on non-mobile devices */}
+                                    <div className={`w-full overflow-hidden hidden sm:flex justify-center items-center py-4 ${
+                                      slug === "circularprogressbar" ? "px-2 sm:px-6" : ""
+                                    }`}>
+                                      <div className={`max-w-full transform-gpu ${
+                                        slug === "circularprogressbar" ? "scale-[0.85] sm:scale-100" : "scale-90 sm:scale-100"
+                                      }`}>
+                                        {slug === "circularprogressbar" ? (
+                                          <div className="bg-gradient-to-br from-[#1E293B]/90 to-[#1E293B]/80 p-6 rounded-xl shadow-md border border-blue-500/10">
+                                            <DynamicComponent />
+                                          </div>
+                                        ) : (
+                                          <DynamicComponent />
+                                        )}
+                                      </div>
+                                    </div>
+                                    
+                                    {/* Mobile view - show placeholder with message */}
+                                    <div className="sm:hidden w-full py-4 px-3 flex flex-col items-center justify-center">
+                                      <div className="rounded-lg bg-gradient-to-br from-[#1E293B]/90 to-[#1E293B]/80 p-4 w-full max-w-xs flex flex-col items-center border border-gray-700/50 shadow-lg">
+                                        <div className="h-16 w-16 mb-3 bg-gradient-to-br from-[#141A25] to-[#171F2F] rounded-full flex items-center justify-center border border-blue-500/20 shadow-lg shadow-blue-500/10">
+                                          {slug === "circularprogressbar" ? (
+                                            <div className="h-8 w-8 rounded-full border-2 border-blue-500 border-t-transparent animate-spin"></div>
+                                          ) : (
+                                            <Eye className="h-6 w-6 text-blue-400/70" />
+                                          )}
+                                        </div>
+                                        <h4 className="text-white font-medium text-xs mb-1 bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-purple-400">
+                                          {component.name}
+                                        </h4>
+                                        <div className="w-12 h-0.5 mx-auto rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 my-1.5"></div>
+                                        <p className="text-gray-300 text-center text-xs mb-3">
+                                          View in fullscreen mode
+                                        </p>
+                                        <button
+                                          onClick={() => setShowFullPreview(true)}
+                                          className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-3 py-2 rounded-md text-xs font-medium flex items-center shadow-md shadow-blue-500/20 w-full justify-center transition-all active:scale-95"
+                                        >
+                                          <Maximize className="h-3.5 w-3.5 mr-1.5" />
+                                          View Component
+                                        </button>
+                                      </div>
+                                    </div>
                                   </Suspense>
                                 ) : (
                                   <LoadingComponent />
@@ -687,18 +826,16 @@ function MyComponent() {
                           </div>
                         </div>
 
-                        <div className="p-4 bg-gray-800 border-t border-gray-700">
+                        <div className="p-3 sm:p-4 bg-gray-800 border-t border-gray-700">
                           <div className="flex justify-between">
                             <Link
                               href={`/components/${slug}/${
                                 selectedVariant?.id || "1"
                               }`}
-                              className="text-sm text-blue-400 inline-flex items-center hover:text-blue-300"
+                              className="text-xs sm:text-sm text-blue-400 inline-flex items-center hover:text-blue-300"
                             >
-                              <Eye className="h-4 w-4 mr-1" />
-                              View full details for {
-                                component.name
-                              } Variant {selectedVariant?.id}
+                              <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                              View full details
                             </Link>
                           </div>
                         </div>
@@ -709,19 +846,19 @@ function MyComponent() {
                   {activeTab === "code" && (
                     <div>
                       <div className="mb-4">
-                        <h3 className="text-white text-lg font-medium mb-2 flex items-center">
-                          <Code className="h-5 w-5 mr-2 text-blue-400" />
+                        <h3 className="text-white text-md sm:text-lg font-medium mb-2 flex items-center">
+                          <Code className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-blue-400" />
                           Component Code
                         </h3>
-                        <p className="text-gray-400 text-sm">
+                        <p className="text-gray-400 text-xs sm:text-sm">
                           This is the source code for the {component.name}{" "}
                           component, Variant {selectedVariant?.id}.
                         </p>
                       </div>
 
                       <div className="bg-gray-900 rounded-lg overflow-hidden mb-6">
-                        <div className="flex items-center justify-between bg-gray-800 px-4 py-2 border-b border-gray-700">
-                          <span className="text-gray-300 text-sm font-mono">
+                        <div className="flex items-center justify-between bg-gray-800 px-3 sm:px-4 py-2 border-b border-gray-700">
+                          <span className="text-gray-300 text-xs sm:text-sm font-mono truncate max-w-[60%] sm:max-w-[70%]">
                             {getComponentPath()}
                           </span>
                           <button
@@ -741,7 +878,7 @@ function MyComponent() {
                             )}
                           </button>
                         </div>
-                        <div className="overflow-auto max-h-[400px]">
+                        <div className="overflow-auto max-h-[300px] sm:max-h-[400px]">
                           <CodeBlock code={componentCode} language="tsx" />
                         </div>
                       </div>
@@ -762,11 +899,11 @@ function MyComponent() {
                   {activeTab === "example" && (
                     <div>
                       <div className="mb-4">
-                        <h3 className="text-white text-lg font-medium mb-2 flex items-center">
-                          <ExternalLink className="h-5 w-5 mr-2 text-blue-400" />
+                        <h3 className="text-white text-md sm:text-lg font-medium mb-2 flex items-center">
+                          <ExternalLink className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-blue-400" />
                           Usage Example
                         </h3>
-                        <p className="text-gray-400 text-sm">
+                        <p className="text-gray-400 text-xs sm:text-sm">
                           Example of how to use the {component.name} component,
                           Variant {selectedVariant?.id} in your React
                           application.
@@ -774,8 +911,8 @@ function MyComponent() {
                       </div>
 
                       <div className="bg-gray-900 rounded-lg overflow-hidden mb-6">
-                        <div className="flex items-center justify-between bg-gray-800 px-4 py-2 border-b border-gray-700">
-                          <span className="text-gray-300 text-sm font-mono">
+                        <div className="flex items-center justify-between bg-gray-800 px-3 sm:px-4 py-2 border-b border-gray-700">
+                          <span className="text-gray-300 text-xs sm:text-sm font-mono truncate max-w-[60%] sm:max-w-[70%]">
                             {getExamplePath()}
                           </span>
                           <button
@@ -795,17 +932,17 @@ function MyComponent() {
                             )}
                           </button>
                         </div>
-                        <div className="overflow-auto max-h-[300px]">
+                        <div className="overflow-auto max-h-[250px] sm:max-h-[300px]">
                           <CodeBlock code={exampleCode} language="tsx" />
                         </div>
                       </div>
 
                       {/* Installation Command */}
                       <div className="mt-6 bg-gray-900 rounded-lg overflow-hidden">
-                        <div className="flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700">
+                        <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-gray-800 border-b border-gray-700">
                           <div className="flex items-center">
                             <Terminal className="h-4 w-4 text-gray-400 mr-2" />
-                            <span className="text-sm text-gray-400">
+                            <span className="text-xs sm:text-sm text-gray-400">
                               Installation Command
                             </span>
                           </div>
@@ -828,13 +965,14 @@ function MyComponent() {
                             ) : (
                               <>
                                 <Copy className="h-3 w-3 mr-1" />
-                                Copy Command
+                                <span className="hidden sm:inline">Copy Command</span>
+                                <span className="inline sm:hidden">Copy</span>
                               </>
                             )}
                           </button>
                         </div>
-                        <div className="p-4 bg-gray-900">
-                          <code className="text-sm text-gray-300 font-mono">
+                        <div className="p-3 sm:p-4 bg-gray-900 overflow-x-auto">
+                          <code className="text-xs sm:text-sm text-gray-300 font-mono whitespace-nowrap">
                             npx multi-ui add {toTitleCase(slug)}_
                             {selectedVariant?.id} --example
                           </code>
@@ -846,11 +984,11 @@ function MyComponent() {
                   {activeTab === "customize" && (
                     <div>
                       <div className="mb-4">
-                        <h3 className="text-white text-lg font-medium mb-2 flex items-center">
-                          <MessageSquare className="h-5 w-5 mr-2 text-blue-400" />
+                        <h3 className="text-white text-md sm:text-lg font-medium mb-2 flex items-center">
+                          <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-blue-400" />
                           AI Component Customization
                         </h3>
-                        <p className="text-gray-400 text-sm">
+                        <p className="text-gray-400 text-xs sm:text-sm">
                           Chat with our AI assistant to customize this
                           component. Describe your desired changes and get
                           instant code.

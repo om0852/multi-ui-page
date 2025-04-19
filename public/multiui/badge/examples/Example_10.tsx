@@ -24,8 +24,6 @@ export default function BadgeExample10() {
             <NeonBadge text="Fuchsia" color="bg-fuchsia-500" />
             <NeonBadge text="Blue" color="bg-blue-500" />
             <NeonBadge text="Green" color="bg-green-500" />
-            <NeonBadge text="Red" color="bg-red-500" />
-            <NeonBadge text="Yellow" color="bg-yellow-500" />
           </div>
         </div>
 
@@ -47,7 +45,6 @@ export default function BadgeExample10() {
             <div className="flex flex-wrap gap-2 mb-4">
               <NeonBadge text="New" color="bg-green-500" />
               <NeonBadge text="Hot" color="bg-red-500" />
-              <NeonBadge text="Trending" color="bg-fuchsia-500" />
             </div>
             <p className="text-gray-300">Eye-catching badges for cyberpunk or retro-futuristic interfaces</p>
           </div>

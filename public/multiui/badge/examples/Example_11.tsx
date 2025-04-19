@@ -24,7 +24,6 @@ export default function BadgeExample11() {
             <OrbitingDotsBadge text="Purple" color="bg-purple-600" dotColor="bg-pink-400" />
             <OrbitingDotsBadge text="Blue" color="bg-blue-600" dotColor="bg-cyan-400" />
             <OrbitingDotsBadge text="Green" color="bg-green-600" dotColor="bg-lime-400" />
-            <OrbitingDotsBadge text="Red" color="bg-red-600" dotColor="bg-orange-400" />
           </div>
         </div>
 
@@ -34,7 +33,6 @@ export default function BadgeExample11() {
           <div className="flex flex-wrap gap-8">
             <OrbitingDotsBadge text="Pink Dots" color="bg-indigo-600" dotColor="bg-pink-400" />
             <OrbitingDotsBadge text="Yellow Dots" color="bg-purple-600" dotColor="bg-yellow-400" />
-            <OrbitingDotsBadge text="White Dots" color="bg-blue-600" dotColor="bg-white" />
           </div>
         </div>
 

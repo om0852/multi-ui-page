@@ -51,4 +51,5 @@ const BinaryDigitalClock: React.FC<BinaryDigitalClockProps> = ({
     );
 };
 
+
 export default BinaryDigitalClock;

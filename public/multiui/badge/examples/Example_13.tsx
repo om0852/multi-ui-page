@@ -24,8 +24,6 @@ export default function BadgeExample13() {
             <PulseBadge text="Red" color="bg-red-500" />
             <PulseBadge text="Blue" color="bg-blue-500" />
             <PulseBadge text="Green" color="bg-green-500" />
-            <PulseBadge text="Purple" color="bg-purple-500" />
-            <PulseBadge text="Amber" color="bg-amber-500" />
           </div>
         </div>
 
@@ -47,7 +45,6 @@ export default function BadgeExample13() {
             <div className="flex flex-wrap gap-2 mb-4">
               <PulseBadge text="3" color="bg-red-500" />
               <PulseBadge text="New" color="bg-blue-500" />
-              <PulseBadge text="Alert" color="bg-amber-500" />
             </div>
             <p className="text-gray-300">Attention-grabbing badges for notifications, alerts, or important updates</p>
           </div>

@@ -23,9 +23,7 @@ export default function BadgeExample15() {
           <div className="flex flex-wrap gap-4">
             <PulseHoverBadge text="Green" color="bg-green-500" />
             <PulseHoverBadge text="Blue" color="bg-blue-500" />
-            <PulseHoverBadge text="Red" color="bg-red-500" />
             <PulseHoverBadge text="Purple" color="bg-purple-500" />
-            <PulseHoverBadge text="Amber" color="bg-amber-500" />
           </div>
         </div>
 
@@ -47,7 +45,6 @@ export default function BadgeExample15() {
             <div className="flex flex-wrap gap-2 mb-4">
               <PulseHoverBadge text="New" color="bg-green-500" />
               <PulseHoverBadge text="Featured" color="bg-blue-500" />
-              <PulseHoverBadge text="Popular" color="bg-purple-500" />
             </div>
             <p className="text-gray-300">Interactive badges that provide subtle feedback when users hover over them</p>
           </div>

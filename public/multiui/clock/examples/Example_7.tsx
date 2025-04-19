@@ -1,109 +1,100 @@
 "use client"
 
-import React, { useState } from 'react';
+import React from 'react';
 import NumericClock from '../_components/Clock_7';
-import { FaToggleOn, FaToggleOff, FaClock } from 'react-icons/fa6';
+import { FaClock } from 'react-icons/fa6';
 
 const Example_7: React.FC = () => {
-  const [darkMode, setDarkMode] = useState(true);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
-
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'}`}>
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-end mb-4">
-          <button
-            onClick={toggleDarkMode}
-            className="flex items-center space-x-2 bg-transparent border-none cursor-pointer"
-          >
-            {darkMode ? (
-              <FaToggleOn className="text-2xl text-blue-400" />
-            ) : (
-              <FaToggleOff className="text-2xl text-gray-400" />
-            )}
-            <span>{darkMode ? 'Dark Mode' : 'Light Mode'}</span>
-          </button>
-        </div>
-
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2 flex items-center">
-            <FaClock className="mr-2 text-pink-500" />
-            Neon Digital Clock
+    <div className="min-h-screen bg-gray-100">
+      <div className="container mx-auto px-3 py-4 sm:px-4 sm:py-6">
+        <div className="mb-4 sm:mb-6">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 flex items-center">
+            <FaClock className="mr-2 text-blue-500" />
+            Animated LED Clock
           </h1>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Pink Neon */}
-          <div className={`p-6 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-            <h2 className="text-xl font-semibold mb-4">Pink Neon</h2>
-            <div className="h-40 overflow-hidden rounded-lg">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+          {/* Neon Blue */}
+          <div className="p-3 sm:p-4 md:p-6 rounded-lg bg-white shadow-lg">
+            <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2 sm:mb-4">Neon Blue</h2>
+            <div className="h-24 sm:h-32 md:h-40 overflow-hidden rounded-lg">
               <NumericClock 
                 containerClassName="flex justify-center items-center h-full bg-black" 
-                digitClassName="text-4xl font-bold text-pink-500 neon-pink"
+                digitClassName="text-xl sm:text-2xl md:text-4xl font-bold text-blue-400 mx-0.5 sm:mx-1 glow-blue"
               />
             </div>
-            <style jsx global>{`
-              .neon-pink {
-                text-shadow: 0 0 5px #ec4899, 0 0 10px #ec4899, 0 0 20px #ec4899, 0 0 40px #ec4899;
-              }
-            `}</style>
           </div>
 
-          {/* Blue Neon */}
-          <div className={`p-6 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-            <h2 className="text-xl font-semibold mb-4">Blue Neon</h2>
-            <div className="h-40 overflow-hidden rounded-lg">
+          {/* Neon Pink */}
+          <div className="p-3 sm:p-4 md:p-6 rounded-lg bg-white shadow-lg">
+            <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2 sm:mb-4">Neon Pink</h2>
+            <div className="h-24 sm:h-32 md:h-40 overflow-hidden rounded-lg">
               <NumericClock 
                 containerClassName="flex justify-center items-center h-full bg-black" 
-                digitClassName="text-4xl font-bold text-blue-500 neon-blue"
+                digitClassName="text-xl sm:text-2xl md:text-4xl font-bold text-pink-400 mx-0.5 sm:mx-1 glow-pink"
                 is12HourFormat={true}
               />
             </div>
-            <style jsx global>{`
-              .neon-blue {
-                text-shadow: 0 0 5px #3b82f6, 0 0 10px #3b82f6, 0 0 20px #3b82f6, 0 0 40px #3b82f6;
-              }
-            `}</style>
           </div>
 
-          {/* Green Neon */}
-          <div className={`p-6 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-            <h2 className="text-xl font-semibold mb-4">Green Neon</h2>
-            <div className="h-40 overflow-hidden rounded-lg">
+          {/* Neon Green */}
+          <div className="p-3 sm:p-4 md:p-6 rounded-lg bg-white shadow-lg">
+            <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2 sm:mb-4">Neon Green</h2>
+            <div className="h-24 sm:h-32 md:h-40 overflow-hidden rounded-lg">
               <NumericClock 
                 containerClassName="flex justify-center items-center h-full bg-black" 
-                digitClassName="text-4xl font-bold text-green-500 neon-green"
+                digitClassName="text-xl sm:text-2xl md:text-4xl font-bold text-green-400 mx-0.5 sm:mx-1 glow-green"
+                formatter={(value) => value.toString().padStart(2, '0')}
+              />
+            </div>
+          </div>
+
+          {/* Neon Purple */}
+          <div className="p-3 sm:p-4 md:p-6 rounded-lg bg-white shadow-lg">
+            <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2 sm:mb-4">Neon Purple</h2>
+            <div className="h-24 sm:h-32 md:h-40 overflow-hidden rounded-lg">
+              <NumericClock 
+                containerClassName="flex justify-center items-center h-full bg-black" 
+                digitClassName="text-xl sm:text-2xl md:text-4xl font-bold text-purple-400 mx-0.5 sm:mx-1 glow-purple"
                 interval={500}
               />
             </div>
-            <style jsx global>{`
-              .neon-green {
-                text-shadow: 0 0 5px #10b981, 0 0 10px #10b981, 0 0 20px #10b981, 0 0 40px #10b981;
-              }
-            `}</style>
-          </div>
-
-          {/* Purple Neon */}
-          <div className={`p-6 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-            <h2 className="text-xl font-semibold mb-4">Purple Neon</h2>
-            <div className="h-40 overflow-hidden rounded-lg">
-              <NumericClock 
-                containerClassName="flex justify-center items-center h-full bg-black" 
-                digitClassName="text-4xl font-bold text-purple-500 neon-purple"
-                formatter={(value) => value.toString()}
-              />
-            </div>
-            <style jsx global>{`
-              .neon-purple {
-                text-shadow: 0 0 5px #8b5cf6, 0 0 10px #8b5cf6, 0 0 20px #8b5cf6, 0 0 40px #8b5cf6;
-              }
-            `}</style>
           </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        @media (max-width: 640px) {
+          .glow-blue {
+            text-shadow: 0 0 3px #60a5fa, 0 0 6px #60a5fa, 0 0 9px #60a5fa;
+          }
+          .glow-pink {
+            text-shadow: 0 0 3px #f472b6, 0 0 6px #f472b6, 0 0 9px #f472b6;
+          }
+          .glow-green {
+            text-shadow: 0 0 3px #4ade80, 0 0 6px #4ade80, 0 0 9px #4ade80;
+          }
+          .glow-purple {
+            text-shadow: 0 0 3px #c084fc, 0 0 6px #c084fc, 0 0 9px #c084fc;
+          }
+        }
+        @media (min-width: 641px) {
+          .glow-blue {
+            text-shadow: 0 0 5px #60a5fa, 0 0 10px #60a5fa, 0 0 15px #60a5fa;
+          }
+          .glow-pink {
+            text-shadow: 0 0 5px #f472b6, 0 0 10px #f472b6, 0 0 15px #f472b6;
+          }
+          .glow-green {
+            text-shadow: 0 0 5px #4ade80, 0 0 10px #4ade80, 0 0 15px #4ade80;
+          }
+          .glow-purple {
+            text-shadow: 0 0 5px #c084fc, 0 0 10px #c084fc, 0 0 15px #c084fc;
+          }
+        }
+      `}</style>
     </div>
   );
 };

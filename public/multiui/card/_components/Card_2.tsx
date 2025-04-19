@@ -1,34 +1,42 @@
 import React from 'react';
+import Link from 'next/link';
 
 interface CardProps {
   title: string;
-  subtitle: string;
+  description: string;
+  link: string;
   imageUrl: string;
+  btnText: string;
 }
 
-const Card_2: React.FC<CardProps> = ({ title, subtitle, imageUrl }) => {
+const Card_2: React.FC<CardProps> = ({ title, description, link, imageUrl, btnText }) => {
   return (
-    <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50">
-      
-      {/* Background Overlay */}
-      <div className="absolute inset-0 bg-center dark:bg-black"></div>
-      
-      {/* Card Container */}
-      <div className="group relative m-0 flex h-72 w-96 rounded-xl shadow-xl ring-gray-900/5 sm:mx-auto sm:max-w-lg">
-        
-        {/* Image Section */}
-        <div className="z-10 h-full w-full overflow-hidden rounded-xl border border-gray-200 opacity-80 transition duration-300 ease-in-out group-hover:opacity-100 dark:border-gray-700 dark:opacity-70">
+    <div className="relative w-full max-w-sm h-64 sm:h-72 [perspective:1000px] group">
+      <div className="relative w-full h-full transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+        {/* Front */}
+        <div className="absolute inset-0 rounded-lg overflow-hidden">
           <img
+            className="w-full h-full object-cover"
             src={imageUrl}
             alt={title}
-            className="animate-fade-in block h-full w-full scale-100 transform object-cover object-center opacity-100 transition duration-300 group-hover:scale-110"
           />
+          <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+            <h3 className="text-white text-xl sm:text-2xl font-bold text-center px-4">{title}</h3>
+          </div>
         </div>
-        
-        {/* Text Overlay */}
-        <div className="absolute bottom-0 z-20 m-0 pb-4 ps-4 transition duration-300 ease-in-out group-hover:-translate-y-1 group-hover:translate-x-3 group-hover:scale-110">
-          <h1 className="font-serif text-2xl font-bold text-white shadow-xl">{title}</h1>
-          <h2 className="text-sm font-light text-gray-200 shadow-xl">{subtitle}</h2>
+
+        {/* Back */}
+        <div className="absolute inset-0 h-full w-full rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 [transform:rotateY(180deg)] [backface-visibility:hidden]">
+          <div className="flex flex-col items-center justify-center h-full p-4">
+            <h3 className="text-white text-lg sm:text-xl font-bold mb-2">{title}</h3>
+            <p className="text-white text-sm sm:text-base text-center mb-4">{description}</p>
+            <Link 
+              href={link} 
+              className="bg-white text-blue-500 px-6 py-2 rounded-lg font-semibold text-sm sm:text-base hover:bg-opacity-90 transition-colors"
+            >
+              {btnText}
+            </Link>
+          </div>
         </div>
       </div>
     </div>

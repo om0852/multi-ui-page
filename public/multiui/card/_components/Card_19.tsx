@@ -1,6 +1,8 @@
 'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const HologramEffect: React.FC<{ isHovered: boolean }> = ({ isHovered }) => {
   return (
@@ -74,12 +76,20 @@ const GlowingLines: React.FC<{ isHovered: boolean }> = ({ isHovered }) => {
   );
 };
 
-const Card_19: React.FC = () => {
+interface CardProps {
+  title: string;
+  description: string;
+  link: string;
+  imageUrl: string;
+  btnText: string;
+}
+
+const Card_19: React.FC<CardProps> = ({ title, description, link, imageUrl, btnText }) => {
   const [isHovered, setIsHovered] = React.useState(false);
 
   return (
     <motion.div
-      className="relative w-[380px] rounded-2xl backdrop-blur-sm cursor-pointer overflow-hidden"
+      className="relative w-full rounded-2xl backdrop-blur-sm cursor-pointer overflow-hidden"
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       initial={{ opacity: 0, y: 20 }}
@@ -95,6 +105,17 @@ const Card_19: React.FC = () => {
     >
       <HologramEffect isHovered={isHovered} />
       <GlowingLines isHovered={isHovered} />
+
+      {/* Image Background */}
+      <div className="absolute inset-0">
+        <Image
+          src={imageUrl}
+          alt={title}
+          fill
+          className="object-cover opacity-30"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent" />
+      </div>
 
       <div className="relative p-6 space-y-4">
         <motion.div
@@ -135,7 +156,7 @@ const Card_19: React.FC = () => {
           } : {}}
           transition={{ duration: 1, repeat: Infinity }}
         >
-          Future Vision
+          {title}
         </motion.h3>
 
         <motion.p
@@ -143,7 +164,7 @@ const Card_19: React.FC = () => {
           animate={isHovered ? { y: -2 } : { y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          Step into tomorrow with holographic interfaces and prismatic animations that push the boundaries of design.
+          {description}
         </motion.p>
 
         <motion.div
@@ -151,20 +172,22 @@ const Card_19: React.FC = () => {
           animate={isHovered ? { y: -2 } : { y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <motion.button
-            className="px-4 py-2 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-sm font-medium"
-            whileHover={{
-              scale: 1.05,
-              boxShadow: [
-                '0 0 20px rgba(124, 58, 237, 0.5)',
-                '0 0 30px rgba(124, 58, 237, 0.7)',
-                '0 0 20px rgba(124, 58, 237, 0.5)',
-              ],
-            }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Activate
-          </motion.button>
+          <Link href={link} passHref>
+            <motion.a
+              className="px-4 py-2 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-sm font-medium"
+              whileHover={{
+                scale: 1.05,
+                boxShadow: [
+                  '0 0 20px rgba(124, 58, 237, 0.5)',
+                  '0 0 30px rgba(124, 58, 237, 0.7)',
+                  '0 0 20px rgba(124, 58, 237, 0.5)',
+                ],
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {btnText}
+            </motion.a>
+          </Link>
           <motion.button
             className="px-4 py-2 rounded-lg text-violet-300 text-sm font-medium"
             whileHover={{

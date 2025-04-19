@@ -105,9 +105,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ componentName, variantId, onCustomiza
       - Animations
       - Props and functionality
       - Event handlers
-      - Accessibility features
-      - State management
-      - Performance optimizations`
+      - Accessibility features`
     }
   ]);
   const [input, setInput] = useState('');
@@ -188,16 +186,16 @@ const ChatBot: React.FC<ChatBotProps> = ({ componentName, variantId, onCustomiza
   };
 
   return (
-    <div className="flex flex-col h-[600px] bg-gray-900 rounded-lg border border-gray-700">
+    <div className="flex flex-col h-[350px] sm:h-[500px] bg-gray-900 rounded-lg border border-gray-700">
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-2 sm:space-y-3">
         {messages.map((message, index) => (
           <div
             key={index}
             className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[80%] rounded-lg p-3 ${
+              className={`max-w-[90%] sm:max-w-[80%] rounded-lg p-2 ${
                 message.type === 'user'
                   ? 'bg-blue-600 text-white'
                   : message.content === '...'
@@ -206,34 +204,34 @@ const ChatBot: React.FC<ChatBotProps> = ({ componentName, variantId, onCustomiza
               }`}
             >
               {message.content === '...' ? (
-                <div className="flex space-x-2">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                <div className="flex space-x-1.5">
+                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                 </div>
               ) : (
                 <>
-                  <p className="whitespace-pre-wrap">{message.content}</p>
+                  <p className="whitespace-pre-wrap text-xs sm:text-sm">{message.content}</p>
                   
                   {message.code && (
-                    <div className="mt-3 bg-gray-900 rounded-md overflow-hidden">
-                      <div className="flex items-center justify-between px-3 py-2 bg-gray-800">
+                    <div className="mt-2 bg-gray-900 rounded-md overflow-hidden">
+                      <div className="flex items-center justify-between px-2 py-1 bg-gray-800">
                         <div className="flex items-center">
-                          <Code className="h-4 w-4 text-gray-400 mr-2" />
-                          <span className="text-sm text-gray-400">Generated Code</span>
+                          <Code className="h-3 w-3 text-gray-400 mr-1" />
+                          <span className="text-xs text-gray-400">Generated Code</span>
                         </div>
                         <button
                           onClick={() => copyToClipboard(message.code!)}
                           className="text-gray-400 hover:text-gray-300"
                         >
                           {copied ? (
-                            <Check className="h-4 w-4" />
+                            <Check className="h-3 w-3" />
                           ) : (
-                            <Copy className="h-4 w-4" />
+                            <Copy className="h-3 w-3" />
                           )}
                         </button>
                       </div>
-                      <pre className="p-3 text-sm overflow-x-auto">
+                      <pre className="p-2 text-xs overflow-x-auto">
                         <code className="text-gray-300">{message.code}</code>
                       </pre>
                     </div>
@@ -241,27 +239,27 @@ const ChatBot: React.FC<ChatBotProps> = ({ componentName, variantId, onCustomiza
                   
                   {message.customCommand && (
                     <div className="mt-2 bg-gray-900 rounded-md overflow-hidden">
-                      <div className="flex items-center justify-between px-3 py-2 bg-gray-800">
+                      <div className="flex items-center justify-between px-2 py-1 bg-gray-800">
                         <div className="flex items-center">
-                          <Terminal className="h-4 w-4 text-gray-400 mr-2" />
-                          <span className="text-sm text-gray-400">Installation Command</span>
+                          <Terminal className="h-3 w-3 text-gray-400 mr-1" />
+                          <span className="text-xs text-gray-400">Installation Command</span>
                         </div>
                         <button
                           onClick={() => copyToClipboard(message.customCommand!)}
                           className="text-gray-400 hover:text-gray-300"
                         >
                           {copied ? (
-                            <Check className="h-4 w-4" />
+                            <Check className="h-3 w-3" />
                           ) : (
-                            <Copy className="h-4 w-4" />
+                            <Copy className="h-3 w-3" />
                           )}
                         </button>
                       </div>
-                      <pre className="p-3 text-sm">
-                        <code className="text-gray-300">{message.customCommand}</code>
+                      <pre className="p-2 text-xs overflow-x-auto">
+                        <code className="text-gray-300 whitespace-nowrap">{message.customCommand}</code>
                       </pre>
-                      <p className="text-xs text-gray-400 p-2 border-t border-gray-700">
-                        This command will be valid for 30 minutes. Use it to add the customized component to your project.
+                      <p className="text-xs text-gray-400 p-1.5 border-t border-gray-700 text-[10px] sm:text-xs">
+                        Command valid for 30 minutes
                       </p>
                     </div>
                   )}
@@ -274,27 +272,27 @@ const ChatBot: React.FC<ChatBotProps> = ({ componentName, variantId, onCustomiza
       </div>
 
       {/* Input Form */}
-      <form onSubmit={handleSubmit} className="p-4 border-t border-gray-700">
+      <form onSubmit={handleSubmit} className="p-2 sm:p-3 border-t border-gray-700">
         <div className="flex space-x-2">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Describe how you want to customize the component..."
-            className="flex-1 bg-gray-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Describe customization..."
+            className="flex-1 bg-gray-800 text-white text-xs sm:text-sm rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
             disabled={isProcessing}
           />
           <button
             type="submit"
             disabled={isProcessing}
-            className={`px-4 py-2 rounded-lg bg-blue-600 text-white flex items-center ${
+            className={`px-2 py-1.5 rounded-lg bg-blue-600 text-white flex items-center ${
               isProcessing ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'
             }`}
           >
             {isProcessing ? (
-              <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              <div className="h-3.5 w-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
             ) : (
-              <Send className="h-5 w-5" />
+              <Send className="h-3.5 w-3.5" />
             )}
           </button>
         </div>
