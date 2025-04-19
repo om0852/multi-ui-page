@@ -120,10 +120,10 @@ const DocsPage = () => {
   };
 
   const installCommands = {
-    npm: "npm install -g @omsalunke0852/multi-ui-cli",
-    yarn: "yarn global add @omsalunke0852/multi-ui-cli",
-    pnpm: "pnpm add -g @omsalunke0852/multi-ui-cli",
-    bun: "bun add -g @omsalunke0852/multi-ui-cli"
+    npm: "npm i multi-ui-cli",
+    yarn: "yarn add multi-ui-cli",
+    pnpm: "pnpm add multi-ui-cli",
+    bun: "bun add multi-ui-cli"
   };
 
   const setupCommands = {
@@ -147,9 +147,9 @@ const DocsPage = () => {
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-900/40 to-purple-900/40"></div>
         <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid.svg')] bg-repeat opacity-20"></div>
         
-        {/* Animated gradient orbs */}
+        {/* Animated gradient orbs - hidden on mobile for better performance */}
         <motion.div
-          className="absolute top-1/3 left-1/4 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl"
+          className="absolute top-1/3 left-1/4 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl hidden sm:block"
           animate={{
             x: [0, 100, 0],
             y: [0, -50, 0]
@@ -161,7 +161,7 @@ const DocsPage = () => {
           }}
         />
         <motion.div
-          className="absolute bottom-1/4 right-1/4 w-60 h-60 bg-purple-600/20 rounded-full blur-3xl"
+          className="absolute bottom-1/4 right-1/4 w-60 h-60 bg-purple-600/20 rounded-full blur-3xl hidden sm:block"
           animate={{
             x: [0, -70, 0],
             y: [0, 50, 0]
@@ -174,8 +174,8 @@ const DocsPage = () => {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
-        <div className="text-center mb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16 relative z-10">
+        <div className="text-center mb-8 sm:mb-16">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -184,7 +184,7 @@ const DocsPage = () => {
           >
             {/* Title with animated elements */}
             <motion.h1 
-              className="text-5xl md:text-6xl font-extrabold mb-6 relative inline-flex items-center"
+              className="text-3xl sm:text-5xl md:text-6xl font-extrabold mb-4 sm:mb-6 relative inline-flex items-center"
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}
             >
@@ -197,9 +197,9 @@ const DocsPage = () => {
                   repeat: Infinity,
                   repeatType: "reverse"
                 }}
-                className="absolute -left-16 top-1/2 transform -translate-y-1/2 hidden md:block"
+                className="absolute -left-8 sm:-left-16 top-1/2 transform -translate-y-1/2 hidden sm:block"
               >
-                <Sparkles className="h-8 w-8 text-blue-400" />
+                <Sparkles className="h-6 w-6 sm:h-8 sm:w-8 text-blue-400" />
               </motion.div>
               
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-blue-400 animate-gradient">
@@ -215,9 +215,9 @@ const DocsPage = () => {
                   repeat: Infinity,
                   repeatType: "reverse"
                 }}
-                className="absolute -right-16 top-1/2 transform -translate-y-1/2 hidden md:block"
+                className="absolute -right-8 sm:-right-16 top-1/2 transform -translate-y-1/2 hidden sm:block"
               >
-                <Sparkles className="h-8 w-8 text-purple-400" />
+                <Sparkles className="h-6 w-6 sm:h-8 sm:w-8 text-purple-400" />
               </motion.div>
             </motion.h1>
             
@@ -225,11 +225,11 @@ const DocsPage = () => {
               initial={{ width: "0%" }}
               animate={{ width: "100%" }}
               transition={{ duration: 1, delay: 0.5 }}
-              className="h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto max-w-[300px] mb-8"
+              className="h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto max-w-[200px] sm:max-w-[300px] mb-4 sm:mb-8"
             />
             
             <motion.p 
-              className="max-w-3xl mx-auto text-xl text-gray-300"
+              className="max-w-3xl mx-auto text-base sm:text-xl text-gray-300 px-4 sm:px-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -241,29 +241,29 @@ const DocsPage = () => {
         
         {/* Getting Started Section */}
         <motion.div 
-          className="mb-20"
+          className="mb-12 sm:mb-20"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          <h2 className="text-3xl font-bold mb-8 text-center">Getting Started</h2>
-          <div className="space-y-8">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center">Getting Started</h2>
+          <div className="space-y-6 sm:space-y-8">
             {/* Step 1: Installation */}
             <motion.div 
-              className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70 relative overflow-hidden"
+              className="bg-gray-800/70 rounded-lg sm:rounded-xl p-4 sm:p-6 backdrop-blur-sm border border-gray-700/70 relative overflow-hidden"
               variants={itemVariants}
             >
               <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 rounded-full blur-2xl"></div>
-              <div className="flex items-start gap-6">
-                <div className="bg-gradient-to-br from-blue-500/30 to-purple-500/30 text-blue-400 rounded-xl w-10 h-10 flex items-center justify-center mt-1 shadow-inner backdrop-blur-sm">
-                  <span className="font-bold">1</span>
+              <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+                <div className="bg-gradient-to-br from-blue-500/30 to-purple-500/30 text-blue-400 rounded-lg sm:rounded-xl w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center mt-1 shadow-inner backdrop-blur-sm">
+                  <span className="font-bold text-sm sm:text-base">1</span>
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Package className="text-blue-400" size={24} />
-                    <h3 className="text-xl font-bold text-white">Installation</h3>
+                <div className="flex-1 w-full">
+                  <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                    <Package className="text-blue-400 h-5 w-5 sm:h-6 sm:w-6" />
+                    <h3 className="text-lg sm:text-xl font-bold text-white">Installation</h3>
                   </div>
-                  <p className="text-gray-300 mb-4">Install the Multi UI CLI tool globally to use it across your projects.</p>
+                  <p className="text-sm sm:text-base text-gray-300 mb-4">Install the Multi UI CLI tool to use it in your project.</p>
                   <PackageManagerTabs commands={installCommands} />
                 </div>
               </div>
@@ -271,20 +271,20 @@ const DocsPage = () => {
 
             {/* Step 2: Setup */}
             <motion.div 
-              className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70 relative overflow-hidden"
+              className="bg-gray-800/70 rounded-lg sm:rounded-xl p-4 sm:p-6 backdrop-blur-sm border border-gray-700/70 relative overflow-hidden"
               variants={itemVariants}
             >
               <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-500/10 rounded-full blur-2xl"></div>
-              <div className="flex items-start gap-6">
-                <div className="bg-gradient-to-br from-blue-500/30 to-purple-500/30 text-blue-400 rounded-xl w-10 h-10 flex items-center justify-center mt-1 shadow-inner backdrop-blur-sm">
-                  <span className="font-bold">2</span>
+              <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+                <div className="bg-gradient-to-br from-blue-500/30 to-purple-500/30 text-blue-400 rounded-lg sm:rounded-xl w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center mt-1 shadow-inner backdrop-blur-sm">
+                  <span className="font-bold text-sm sm:text-base">2</span>
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Terminal className="text-blue-400" size={24} />
-                    <h3 className="text-xl font-bold text-white">Project Setup</h3>
+                <div className="flex-1 w-full">
+                  <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                    <Terminal className="text-blue-400 h-5 w-5 sm:h-6 sm:w-6" />
+                    <h3 className="text-lg sm:text-xl font-bold text-white">Project Setup</h3>
                   </div>
-                  <p className="text-gray-300 mb-4">Initialize your project with necessary dependencies and configurations.</p>
+                  <p className="text-sm sm:text-base text-gray-300 mb-4">Initialize your project with necessary dependencies and configurations.</p>
                   <PackageManagerTabs commands={setupCommands} />
                   <div className="mt-6">
                     <p className="text-sm text-gray-400 mb-2">Then start the development server:</p>
@@ -296,27 +296,27 @@ const DocsPage = () => {
 
             {/* Step 3: Add Components */}
             <motion.div 
-              className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70 relative overflow-hidden"
+              className="bg-gray-800/70 rounded-lg sm:rounded-xl p-4 sm:p-6 backdrop-blur-sm border border-gray-700/70 relative overflow-hidden"
               variants={itemVariants}
             >
               <div className="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl"></div>
-              <div className="flex items-start gap-6">
-                <div className="bg-gradient-to-br from-blue-500/30 to-purple-500/30 text-blue-400 rounded-xl w-10 h-10 flex items-center justify-center mt-1 shadow-inner backdrop-blur-sm">
-                  <span className="font-bold">3</span>
+              <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+                <div className="bg-gradient-to-br from-blue-500/30 to-purple-500/30 text-blue-400 rounded-lg sm:rounded-xl w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center mt-1 shadow-inner backdrop-blur-sm">
+                  <span className="font-bold text-sm sm:text-base">3</span>
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Layers className="text-blue-400" size={24} />
-                    <h3 className="text-xl font-bold text-white">Add Components</h3>
+                <div className="flex-1 w-full">
+                  <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                    <Layers className="text-blue-400 h-5 w-5 sm:h-6 sm:w-6" />
+                    <h3 className="text-lg sm:text-xl font-bold text-white">Add Components</h3>
                   </div>
-                  <p className="text-gray-300 mb-4">Add components to your project using one of these methods:</p>
+                  <p className="text-sm sm:text-base text-gray-300 mb-4">Add components to your project using one of these methods:</p>
                   <div className="space-y-4">
                     <div>
-                      <p className="text-sm text-gray-400 mb-2">From GitHub:</p>
+                      <p className="text-sm text-gray-400 mb-2">Add Component Using Name:</p>
                       <CodeBlock code="npx multi-ui add <ComponentName> [customFilename]" />
                     </div>
                     <div>
-                      <p className="text-sm text-gray-400 mb-2">From MongoDB:</p>
+                      <p className="text-sm text-gray-400 mb-2">Add Component Using ID:</p>
                       <CodeBlock code="npx multi-ui add <ComponentID> [customFilename]" />
                     </div>
                     <div>
@@ -332,82 +332,107 @@ const DocsPage = () => {
 
         {/* Additional Commands Section */}
         <motion.div 
-          className="mb-20"
+          className="mb-12 sm:mb-20"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          <h2 className="text-3xl font-bold mb-8 text-center">Additional Commands</h2>
-          <div className="grid gap-8 md:grid-cols-2">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center">Additional Commands</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {/* List Components */}
             <motion.div 
-              className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70"
+              className="bg-gray-800/70 rounded-lg sm:rounded-xl p-4 sm:p-6 backdrop-blur-sm border border-gray-700/70 relative overflow-hidden"
               variants={itemVariants}
             >
-              <div className="flex items-center gap-3 mb-4">
-                <List className="text-blue-400" size={24} />
-                <h3 className="text-xl font-bold text-white">List Components</h3>
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 rounded-full blur-2xl"></div>
+              <div className="flex items-start gap-3 mb-3 sm:mb-4">
+                <div className="bg-blue-900/30 p-2 rounded-lg">
+                  <List className="text-blue-400 h-4 w-4 sm:h-5 sm:w-5" />
+                </div>
+                <div>
+                  <h3 className="text-base sm:text-lg font-bold text-white">List Components</h3>
+                  <p className="text-xs sm:text-sm text-gray-400 mt-1">View all available components</p>
+                </div>
               </div>
-              <p className="text-gray-300 mb-4">View all available components with their variants and metadata.</p>
               <CodeBlock code="npx multi-ui list" />
             </motion.div>
 
             {/* Search Components */}
             <motion.div 
-              className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70"
+              className="bg-gray-800/70 rounded-lg sm:rounded-xl p-4 sm:p-6 backdrop-blur-sm border border-gray-700/70 relative overflow-hidden"
               variants={itemVariants}
             >
-              <div className="flex items-center gap-3 mb-4">
-                <Search className="text-blue-400" size={24} />
-                <h3 className="text-xl font-bold text-white">Search Components</h3>
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-500/10 rounded-full blur-2xl"></div>
+              <div className="flex items-start gap-3 mb-3 sm:mb-4">
+                <div className="bg-blue-900/30 p-2 rounded-lg">
+                  <Search className="text-blue-400 h-4 w-4 sm:h-5 sm:w-5" />
+                </div>
+                <div>
+                  <h3 className="text-base sm:text-lg font-bold text-white">Search Components</h3>
+                  <p className="text-xs sm:text-sm text-gray-400 mt-1">Find components by name or type</p>
+                </div>
               </div>
-              <p className="text-gray-300 mb-4">Search for components using fuzzy matching and filters.</p>
               <CodeBlock code="npx multi-ui search <term>" />
             </motion.div>
 
             {/* Interactive Mode */}
             <motion.div 
-              className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70"
+              className="bg-gray-800/70 rounded-lg sm:rounded-xl p-4 sm:p-6 backdrop-blur-sm border border-gray-700/70 relative overflow-hidden"
               variants={itemVariants}
             >
-              <div className="flex items-center gap-3 mb-4">
-                <Settings className="text-blue-400" size={24} />
-                <h3 className="text-xl font-bold text-white">Interactive Mode</h3>
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 rounded-full blur-2xl"></div>
+              <div className="flex items-start gap-3 mb-3 sm:mb-4">
+                <div className="bg-blue-900/30 p-2 rounded-lg">
+                  <Settings className="text-blue-400 h-4 w-4 sm:h-5 sm:w-5" />
+                </div>
+                <div>
+                  <h3 className="text-base sm:text-lg font-bold text-white">Interactive Mode</h3>
+                  <p className="text-xs sm:text-sm text-gray-400 mt-1">Use the interactive UI</p>
+                </div>
               </div>
-              <p className="text-gray-300 mb-4">Use the interactive UI for component browsing and management.</p>
               <CodeBlock code="npx multi-ui interactive" />
             </motion.div>
 
             {/* Remove Components */}
             <motion.div 
-              className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70"
+              className="bg-gray-800/70 rounded-lg sm:rounded-xl p-4 sm:p-6 backdrop-blur-sm border border-gray-700/70 relative overflow-hidden"
               variants={itemVariants}
             >
-              <div className="flex items-center gap-3 mb-4">
-                <Trash className="text-blue-400" size={24} />
-                <h3 className="text-xl font-bold text-white">Remove Components</h3>
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-500/10 rounded-full blur-2xl"></div>
+              <div className="flex items-start gap-3 mb-3 sm:mb-4">
+                <div className="bg-blue-900/30 p-2 rounded-lg">
+                  <Trash className="text-blue-400 h-4 w-4 sm:h-5 sm:w-5" />
+                </div>
+                <div>
+                  <h3 className="text-base sm:text-lg font-bold text-white">Remove Components</h3>
+                  <p className="text-xs sm:text-sm text-gray-400 mt-1">Remove unused components</p>
+                </div>
               </div>
-              <p className="text-gray-300 mb-4">Remove components that are no longer needed in your project.</p>
               <CodeBlock code="npx multi-ui remove <ComponentName>" />
             </motion.div>
 
             {/* Help & Version */}
             <motion.div 
-              className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70 md:col-span-2"
+              className="bg-gray-800/70 rounded-lg sm:rounded-xl p-4 sm:p-6 backdrop-blur-sm border border-gray-700/70 sm:col-span-2 relative overflow-hidden"
               variants={itemVariants}
             >
-              <div className="flex items-center gap-3 mb-4">
-                <HelpCircle className="text-blue-400" size={24} />
-                <h3 className="text-xl font-bold text-white">Help & Version</h3>
-              </div>
-              <p className="text-gray-300 mb-4">Get help information or check the CLI version.</p>
-              <div className="grid gap-4 md:grid-cols-2">
-                <div>
-                  <p className="text-sm text-gray-400 mb-2">Show help information:</p>
-                  <CodeBlock code="npx multi-ui --help" />
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 rounded-full blur-2xl"></div>
+              <div className="flex items-start gap-3 mb-3 sm:mb-4">
+                <div className="bg-blue-900/30 p-2 rounded-lg">
+                  <HelpCircle className="text-blue-400 h-4 w-4 sm:h-5 sm:w-5" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400 mb-2">Show version:</p>
+                  <h3 className="text-base sm:text-lg font-bold text-white">Help & Version</h3>
+                  <p className="text-xs sm:text-sm text-gray-400 mt-1">Get help and version info</p>
+                </div>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <p className="text-xs sm:text-sm text-gray-400">Show help information:</p>
+                  <CodeBlock code="npx multi-ui --help" />
+                </div>
+                <div className="space-y-2">
+                  <p className="text-xs sm:text-sm text-gray-400">Show version:</p>
                   <CodeBlock code="npx multi-ui --version" />
                 </div>
               </div>
@@ -417,13 +442,13 @@ const DocsPage = () => {
 
         {/* Project Structure Section */}
         <motion.div
-          className="mb-20"
+          className="mb-12 sm:mb-20"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          <h2 className="text-3xl font-bold mb-8 text-center">Project Structure</h2>
-          <div className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center">Project Structure</h2>
+          <div className="bg-gray-800/70 rounded-lg sm:rounded-xl p-4 sm:p-6 backdrop-blur-sm border border-gray-700/70">
             <CodeBlock code={`your-project/
 ├── app/
 │   ├── components/
@@ -445,14 +470,14 @@ const DocsPage = () => {
 
         {/* Configuration Section */}
         <motion.div
-          className="mb-20"
+          className="mb-12 sm:mb-20"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          <h2 className="text-3xl font-bold mb-8 text-center">Configuration</h2>
-          <div className="bg-gray-800/70 rounded-xl p-6 backdrop-blur-sm border border-gray-700/70">
-            <p className="text-gray-300 mb-4">The `multi-ui.config.json` configuration file:</p>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center">Configuration</h2>
+          <div className="bg-gray-800/70 rounded-lg sm:rounded-xl p-4 sm:p-6 backdrop-blur-sm border border-gray-700/70">
+            <p className="text-sm sm:text-base text-gray-300 mb-4">The `multi-ui.config.json` configuration file:</p>
             <CodeBlock code={`{
   "language": "typescript",
   "componentPath": "app/components/multi-ui",

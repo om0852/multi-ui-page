@@ -1,7 +1,60 @@
-<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="40" height="40" rx="8" fill="#4F46E5"/>
-  <path d="M10 15H18V25H10V15Z" fill="white"/>
-  <path d="M22 15H30V25H22V15Z" fill="white"/>
-  <path d="M16 10V30" stroke="white" stroke-width="2" stroke-linecap="round"/>
-  <path d="M24 10V30" stroke="white" stroke-width="2" stroke-linecap="round"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background glow effect -->
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:0.2"/>
+      <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Main shape -->
+  <g filter="url(#shadow)">
+    <path 
+      d="M256 64L448 160V352L256 448L64 352V160L256 64Z"
+      fill="url(#gradient)"
+      stroke="url(#stroke)"
+      stroke-width="8"
+    />
+  </g>
+
+  <!-- Inner details -->
+  <path 
+    d="M256 144L384 208V336L256 400L128 336V208L256 144Z"
+    fill="url(#innerGradient)"
+    stroke="url(#innerStroke)"
+    stroke-width="4"
+  />
+
+  <!-- Definitions for gradients and filters -->
+  <defs>
+    <linearGradient id="gradient" x1="64" y1="64" x2="448" y2="448">
+      <stop offset="0%" style="stop-color:#3B82F6"/>
+      <stop offset="100%" style="stop-color:#8B5CF6"/>
+    </linearGradient>
+    
+    <linearGradient id="stroke" x1="64" y1="64" x2="448" y2="448">
+      <stop offset="0%" style="stop-color:#60A5FA"/>
+      <stop offset="100%" style="stop-color:#A78BFA"/>
+    </linearGradient>
+
+    <linearGradient id="innerGradient" x1="128" y1="144" x2="384" y2="400">
+      <stop offset="0%" style="stop-color:#2563EB"/>
+      <stop offset="100%" style="stop-color:#7C3AED"/>
+    </linearGradient>
+
+    <linearGradient id="innerStroke" x1="128" y1="144" x2="384" y2="400">
+      <stop offset="0%" style="stop-color:#3B82F6"/>
+      <stop offset="100%" style="stop-color:#8B5CF6"/>
+    </linearGradient>
+
+    <filter id="shadow" x="-8" y="-8" width="528" height="528" filterUnits="userSpaceOnUse">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="12"/>
+      <feOffset dy="4"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.231373 0 0 0 0 0.509804 0 0 0 0 0.964706 0 0 0 0.25 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_1" result="shape"/>
+    </filter>
+  </defs>
 </svg> 

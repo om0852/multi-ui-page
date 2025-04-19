@@ -21,6 +21,8 @@ import {
   MessageSquare,
   X,
   Maximize,
+  Menu,
+  Filter,
 } from "lucide-react";
 import ChatBot from "../ChatBot";
 import { cn } from "../../../lib/utils";
@@ -77,6 +79,8 @@ export default function ComponentPage() {
   const [error, setError] = useState(null);
   const [componentError, setComponentError] = useState(null);
   const [showFullPreview, setShowFullPreview] = useState(false);
+  // New state for mobile variants sidebar
+  const [showMobileVariants, setShowMobileVariants] = useState(false);
 
   // State to keep track of the dynamic component
   const [DynamicComponent, setDynamicComponent] = useState(null);
@@ -441,6 +445,12 @@ function MyComponent() {
     </Suspense>
   );
 
+  // Function to handle variant selection and close the mobile sidebar
+  const handleVariantSelect = (variant) => {
+    setSelectedVariant(variant);
+    setShowMobileVariants(false);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-900 flex justify-center items-center">
@@ -469,6 +479,134 @@ function MyComponent() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
+      {/* Mobile Variants Sidebar */}
+      {showMobileVariants && (
+        <motion.div 
+          initial={{ x: "100%" }}
+          animate={{ x: 0 }}
+          exit={{ x: "100%" }}
+          transition={{ type: "spring", damping: 25, stiffness: 300 }}
+          className="fixed inset-y-0 right-0 z-50 w-[80%] max-w-sm bg-gradient-to-b from-[#111827] to-[#0F172A] shadow-xl flex flex-col lg:hidden"
+        >
+          <div className="flex items-center justify-between p-4 border-b border-gray-700/50 bg-gray-800/80 backdrop-blur-sm">
+            <h2 className="text-lg font-medium flex items-center">
+              <Filter className="w-4 h-4 mr-2 text-blue-400" />
+              <span>Variants</span>
+              <span className="ml-2 text-xs bg-blue-900/40 text-blue-300 py-0.5 px-2 rounded-full">
+                {filteredVariants.length}
+              </span>
+            </h2>
+            <button 
+              onClick={() => setShowMobileVariants(false)}
+              className="p-1.5 rounded-full bg-gray-700/50 hover:bg-gray-700/70 transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+          
+          <div className="p-3">
+            <div className="relative rounded-md shadow-sm mb-3">
+              <input
+                type="text"
+                className="block w-full rounded-md bg-gray-900 border-gray-700 pl-10 pr-3 py-2.5 text-white focus:ring-blue-500 focus:border-blue-500 text-sm"
+                placeholder="Search variants..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-4 w-4 text-gray-400" />
+              </div>
+            </div>
+            
+            <div className="text-xs text-gray-400 px-1 mb-2 flex items-center">
+              <Zap className="w-3 h-3 mr-1" />
+              <span>Variant {selectedVariant?.id} selected</span>
+            </div>
+          </div>
+          
+          <div className="flex-1 overflow-y-auto px-3 pb-3">
+            <div className="space-y-1.5 pb-20">
+              {filteredVariants.map((variant) => (
+                <motion.button
+                  key={variant.id}
+                  onClick={() => handleVariantSelect(variant)}
+                  whileTap={{ scale: 0.98 }}
+                  className={`w-full text-left px-3 py-2.5 rounded-md transition-colors flex items-center ${
+                    selectedVariant?.id === variant.id
+                      ? "bg-blue-900/30 text-blue-400 border border-blue-500/20"
+                      : "hover:bg-gray-700/70 text-gray-300 border border-transparent"
+                  }`}
+                >
+                  <Zap
+                    className={`h-4 w-4 mr-2 ${
+                      selectedVariant?.id === variant.id
+                        ? "text-blue-400"
+                        : "text-gray-400"
+                    }`}
+                  />
+                  <div>
+                    <div className="font-medium">{variant.name}</div>
+                    <div className="text-xs text-gray-400 truncate">
+                      {variant.description}
+                    </div>
+                  </div>
+                </motion.button>
+              ))}
+              
+              {filteredVariants.length === 0 && (
+                <div className="text-center py-6 px-3">
+                  <div className="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center mx-auto mb-3">
+                    <Search className="w-6 h-6 text-gray-500" />
+                  </div>
+                  <p className="text-gray-400">No variants found</p>
+                  <button 
+                    onClick={() => setSearchTerm("")}
+                    className="mt-2 text-blue-400 text-sm"
+                  >
+                    Clear search
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+          
+          <div className="p-3 border-t border-gray-700/50 bg-[#1E293B]/50">
+            <button
+              onClick={() => setShowMobileVariants(false)}
+              className="w-full bg-blue-600 hover:bg-blue-500 text-white py-2.5 rounded-md text-sm font-medium flex items-center justify-center"
+            >
+              <Check className="h-4 w-4 mr-2" />
+              Done
+            </button>
+          </div>
+        </motion.div>
+      )}
+      
+      {/* Backdrop overlay when mobile sidebar is open */}
+      {showMobileVariants && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setShowMobileVariants(false)}
+          className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden"
+        />
+      )}
+      
+      {/* Mobile floating button to open variants sidebar */}
+      <motion.button
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        onClick={() => setShowMobileVariants(true)}
+        className="fixed right-4 bottom-4 z-30 flex items-center justify-center lg:hidden bg-blue-600 hover:bg-blue-500 text-white p-3 rounded-full shadow-lg shadow-blue-900/30"
+      >
+        <Layers className="h-5 w-5" />
+        <span className="absolute top-0 right-0 -mr-1 -mt-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+          {filteredVariants.length > 99 ? '99+' : filteredVariants.length}
+        </span>
+      </motion.button>
+
       {/* Fullscreen Preview Popup */}
       {showFullPreview && (
         <motion.div 
@@ -601,8 +739,8 @@ function MyComponent() {
       <section className="py-8 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-8">
-            {/* Left Column - Variants List */}
-            <div className="w-full lg:w-1/3">
+            {/* Left Column - Variants List (visible only on desktop) */}
+            <div className="w-full lg:w-1/3 hidden lg:block">
               <div className="bg-gray-800 rounded-lg border border-gray-700 p-4 mb-4 lg:sticky lg:top-4">
                 <h3 className="text-lg font-bold mb-4 flex items-center">
                   <Layers className="mr-2 text-blue-400" size={18} />
@@ -665,6 +803,34 @@ function MyComponent() {
                       <p className="text-gray-400 text-sm">No variants found</p>
                     </div>
                   )}
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile variant info bar - Shows just the current selected variant */}
+            <div className="lg:hidden w-full mb-4">
+              <div className="bg-gray-800/70 border border-gray-700/50 rounded-lg p-3 backdrop-blur-sm">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="bg-blue-900/30 p-2 rounded-md mr-3">
+                      <Zap className="h-5 w-5 text-blue-400" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-medium text-white">
+                        {selectedVariant?.name || "Variant"}
+                      </div>
+                      <div className="text-xs text-gray-400 truncate max-w-[200px]">
+                        {selectedVariant?.description || "Select a variant"}
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setShowMobileVariants(true)}
+                    className="bg-gray-700 hover:bg-gray-600 py-1.5 px-3 rounded-md text-xs flex items-center text-white"
+                  >
+                    <Menu className="h-3.5 w-3.5 mr-1.5" />
+                    Change
+                  </button>
                 </div>
               </div>
             </div>
@@ -827,17 +993,7 @@ function MyComponent() {
                         </div>
 
                         <div className="p-3 sm:p-4 bg-gray-800 border-t border-gray-700">
-                          <div className="flex justify-between">
-                            <Link
-                              href={`/components/${slug}/${
-                                selectedVariant?.id || "1"
-                              }`}
-                              className="text-xs sm:text-sm text-blue-400 inline-flex items-center hover:text-blue-300"
-                            >
-                              <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-                              View full details
-                            </Link>
-                          </div>
+                         
                         </div>
                       </div>
                     </div>

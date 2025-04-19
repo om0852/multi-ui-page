@@ -93,7 +93,7 @@ const CodeExample = () => (
           transition={{ delay: 0.5 }}
           className="text-green-400"
         >
-          npm i @omsalunke0852/multi-ui-cli
+          npm i multi-ui-cli
         </motion.span>
       </div>
       <div className="flex mt-3">

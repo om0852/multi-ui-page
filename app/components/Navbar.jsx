@@ -18,19 +18,20 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0 flex items-center group">
-              <motion.div
-                initial={{ rotate: 0 }}
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              >
-                <Image
-                  src="/logo.svg"
-                  alt="Multi UI Logo"
-                  width={40}
-                  height={40}
-                  className="h-10 w-auto"
-                />
-              </motion.div>
+            <motion.div
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    rotate: [0, 5, -5, 0]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                  className="ml-1"
+                >
+                  <Sparkles className="h-4 w-4 text-blue-500" />
+                </motion.div>
               <div className="ml-2 flex items-center">
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}

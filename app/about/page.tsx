@@ -283,7 +283,7 @@ const AboutPage = () => {
             <TeamMember 
               name="Om Salunke"
               role="Founder & Lead Developer"
-              image="/team/om.jpg"
+              image="./omphoto.jpg"
               github="https://github.com/om0852"
               twitter="https://twitter.com/om0852"
               linkedin="https://linkedin.com/in/om0852"
@@ -291,7 +291,7 @@ const AboutPage = () => {
             <TeamMember 
               name="Rushabh Ratnaparkhi"
               role="Core Developer"
-              image="/team/rushabh.jpg"
+              image="./rushabh.jpg"
               github="https://github.com/rushabh"
               twitter="https://twitter.com/rushabh"
               linkedin="https://linkedin.com/in/rushabh"
@@ -313,7 +313,7 @@ const AboutPage = () => {
               <TeamMember 
                 name="Nishant Talekar"
                 role="Component Developer"
-                image="/team/nishant.jpg"
+                image="./nishant.jpg"
                 github="https://github.com/nishant"
                 twitter="https://twitter.com/nishant"
                 linkedin="https://linkedin.com/in/nishant"
@@ -321,7 +321,7 @@ const AboutPage = () => {
               <TeamMember 
                 name="Atharva Kadam"
                 role="Component Developer"
-                image="/team/atharva.jpg"
+                image="./atharva.jpeg"
                 github="https://github.com/atharva"
                 twitter="https://twitter.com/atharva"
                 linkedin="https://linkedin.com/in/atharva"
@@ -329,7 +329,7 @@ const AboutPage = () => {
               <TeamMember 
                 name="Priti Sharma"
                 role="Documentation Contributor"
-                image="/team/priti.jpg"
+                image="./priti.jpg"
                 github="https://github.com/priti"
                 twitter="https://twitter.com/priti"
                 linkedin="https://linkedin.com/in/priti"

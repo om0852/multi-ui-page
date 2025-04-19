@@ -328,8 +328,8 @@ export default function ComponentsPage() {
     visible: { 
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3
+        staggerChildren: 0.05, // Speed up stagger for mobile
+        delayChildren: 0.2
       }
     }
   };
@@ -346,14 +346,14 @@ export default function ComponentsPage() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Hero Section with Background */}
-      <section className="relative overflow-hidden py-12">
+      <section className="relative overflow-hidden py-8 sm:py-12">
         <div className="absolute inset-0 z-0 opacity-20">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-600 to-purple-800"></div>
           <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid.svg')] bg-repeat"></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-8">
+          <div className="text-center mb-6 sm:mb-8">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -371,29 +371,47 @@ export default function ComponentsPage() {
                 }}
                 className="relative inline-block"
               >
-                <h1 className="text-4xl md:text-6xl font-extrabold mb-4 relative">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 relative">
                   <span className="absolute -inset-3 bg-gradient-to-r from-blue-600 via-purple-500 to-blue-600 rounded-xl opacity-20 blur-xl animate-pulse"></span>
-                  <div className="relative flex items-center justify-center gap-3">
-                    <Sparkles className="w-8 h-8 text-blue-400 animate-pulse" />
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-blue-400 animate-gradient">
-                      Multi UI
-                    </span>
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
+                  <div className="relative flex flex-col items-center justify-center gap-0">
+                    <motion.div 
+                      initial={{ y: -5, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                      className="flex items-center"
+                    >
+                      <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-blue-400 animate-pulse hidden xs:inline-block" />
+                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-blue-400 animate-gradient">
+                        Multi UI
+                      </span>
+                      <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-purple-400 animate-pulse hidden xs:inline-block" />
+                    </motion.div>
+                    <motion.div 
+                      initial={{ width: 0, opacity: 0 }}
+                      animate={{ width: "3rem", opacity: 1 }}
+                      transition={{ duration: 0.5, delay: 0.3 }}
+                      className="h-[1px] bg-gradient-to-r from-transparent via-blue-500 to-transparent my-1 sm:my-2 mx-auto"
+                    ></motion.div>
+                    <motion.span 
+                      initial={{ y: 5, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ duration: 0.5, delay: 0.5 }}
+                      className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500 text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-wide"
+                    >
                       Components
-                    </span>
-                    <Sparkles className="w-8 h-8 text-purple-400 animate-pulse" />
+                    </motion.span>
                   </div>
-          </h1>
+                </h1>
               </motion.div>
               <motion.div
                 initial={{ width: "0%" }}
                 animate={{ width: "100%" }}
                 transition={{ duration: 1, delay: 0.5 }}
-                className="h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto max-w-[300px]"
+                className="h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto max-w-[280px] sm:max-w-[300px]"
               />
-              <p className="mt-3 max-w-xl mx-auto text-xl text-gray-300">
-            Explore our collection of beautifully designed, ready-to-use components
-          </p>
+              <p className="mt-3 max-w-xl mx-auto text-base sm:text-lg md:text-xl text-gray-300 px-4 sm:px-0">
+                Explore our collection of beautifully designed, ready-to-use components
+              </p>
             </motion.div>
 
             <style jsx global>{`
@@ -415,19 +433,25 @@ export default function ComponentsPage() {
                 background-size: 200% 200%;
                 animation: gradient-xy 15s linear infinite;
               }
+              /* Add responsive styles for extra small screens */
+              @media (max-width: 375px) {
+                .xs\:inline-block {
+                  display: inline-block;
+                }
+              }
             `}</style>
           
           {/* Search input */}
             <motion.div 
-              className="mt-8 max-w-md mx-auto"
+              className="mt-6 sm:mt-8 max-w-xs sm:max-w-sm md:max-w-md mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-purple-500 to-blue-600 rounded-lg opacity-30 blur-lg group-hover:opacity-50 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
+                <div className="absolute -inset-0.5 sm:-inset-1 bg-gradient-to-r from-blue-600 via-purple-500 to-blue-600 rounded-lg opacity-30 blur-lg group-hover:opacity-50 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
                 <div className="relative flex items-center">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
                     <motion.div
                       animate={{
                         scale: [1, 1.2, 1],
@@ -440,18 +464,18 @@ export default function ComponentsPage() {
                         ease: "easeInOut"
                       }}
                     >
-                      <Search className="h-5 w-5 text-white/70 hover:text-white transition-colors" />
+                      <Search className="h-4 w-4 sm:h-5 sm:w-5 text-white/70 hover:text-white transition-colors" />
                     </motion.div>
                   </div>
                   <input
                     type="text"
-                    className="block w-full bg-gray-800/90 backdrop-blur-sm text-white rounded-lg pl-12 pr-12 py-4 border-2 border-gray-600/50 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 placeholder-gray-400"
+                    className="block w-full bg-gray-800/90 backdrop-blur-sm text-white rounded-lg pl-10 sm:pl-12 pr-10 sm:pr-12 py-3 sm:py-4 border-2 border-gray-600/50 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 placeholder-gray-400 text-sm sm:text-base"
                     placeholder="Search components..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
-                  <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                    <div className="flex items-center space-x-1 text-gray-400 bg-gray-700/50 rounded-md px-2 py-1 text-sm">
+                  <div className="absolute inset-y-0 right-0 pr-3 sm:pr-4 flex items-center pointer-events-none">
+                    <div className="hidden sm:flex items-center space-x-1 text-gray-400 bg-gray-700/50 rounded-md px-2 py-1 text-sm">
                       <Command className="h-3 w-3" />
                       <span>K</span>
                     </div>
@@ -470,17 +494,17 @@ export default function ComponentsPage() {
       </section>
 
       {/* Components Grid */}
-      <section className="py-16 bg-gray-900">
+      <section className="py-8 sm:py-12 md:py-16 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {loading ? (
           <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+              <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-t-2 border-b-2 border-blue-500"></div>
           </div>
         ) : (
           <motion.div 
-              className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+              className="grid grid-cols-1 gap-4 sm:gap-6 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4"
               variants={containerVariants}
-            initial="hidden"
+              initial="hidden"
               animate="visible"
           >
             {filteredComponents.map((component) => (
@@ -491,45 +515,45 @@ export default function ComponentsPage() {
                 >
                 <Link 
                   href={`/components/${component.slug}`}
-                    className="block h-full"
-                  >
+                  className="block h-full"
+                >
                     <div className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden h-full transition-all duration-300 hover:border-blue-500">
-                      <div className="relative h-48 w-full bg-gray-900 overflow-hidden">
+                      <div className="relative h-32 xs:h-36 sm:h-40 md:h-48 w-full bg-gray-900 overflow-hidden">
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="bg-gradient-to-r from-blue-600 to-purple-600 absolute inset-0 opacity-80"></div>
-                          <Layers className="relative z-10 h-16 w-16 text-white opacity-80" />
+                          <Layers className="relative z-10 h-12 w-12 sm:h-16 sm:w-16 text-white opacity-80" />
                         </div>
                       </div>
-                      <div className="p-5">
-                        <h3 className="text-lg font-bold text-white mb-2">
-                        {component.name}
-                      </h3>
-                        <p className="text-gray-300 text-sm mb-4">
-                        {component.description}
-                      </p>
+                      <div className="p-3 sm:p-5">
+                        <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">
+                          {component.name}
+                        </h3>
+                        <p className="text-gray-300 text-xs sm:text-sm mb-3 sm:mb-4">
+                          {component.description}
+                        </p>
                         <div className="flex items-center justify-between">
-                          <div className="bg-blue-900/30 px-3 py-1 rounded-full text-xs text-blue-400 font-medium flex items-center">
+                          <div className="bg-blue-900/30 px-2 sm:px-3 py-1 rounded-full text-xs text-blue-400 font-medium flex items-center">
                             <Zap className="h-3 w-3 mr-1" />
-                          {component.variants} variants
+                            {component.variants} variants
                           </div>
-                          <span className="text-blue-400 text-sm">View details →</span>
+                          <span className="text-blue-400 text-xs sm:text-sm">View details →</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
-              </motion.div>
+                  </Link>
+                </motion.div>
             ))}
           </motion.div>
         )}
           
           {filteredComponents.length === 0 && !loading && (
-            <div className="text-center py-20">
-              <Package className="mx-auto h-16 w-16 text-gray-600 mb-4" />
-              <h3 className="text-xl font-medium text-gray-300 mb-2">No components found</h3>
-              <p className="text-gray-400">Try a different search term</p>
+            <div className="text-center py-12 sm:py-20">
+              <Package className="mx-auto h-12 w-12 sm:h-16 sm:w-16 text-gray-600 mb-4" />
+              <h3 className="text-lg sm:text-xl font-medium text-gray-300 mb-2">No components found</h3>
+              <p className="text-sm sm:text-base text-gray-400">Try a different search term</p>
             </div>
-        )}
-      </div>
+          )}
+        </div>
       </section>
     </div>
   );

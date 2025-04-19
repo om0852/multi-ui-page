@@ -18,7 +18,7 @@ A powerful command-line interface tool for managing and integrating UI component
 ## 📦 Installation
 
 ```bash
-npm install -g @omsalunke0852/multi-ui-cli
+npm  i -g  multi-ui-cli
 ```
 
 ## 🔧 Setup
