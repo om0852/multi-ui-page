@@ -299,7 +299,7 @@ const AboutPage = () => {
             <TeamMember 
               name="Hrushikesh More"
               role="UI/UX Developer"
-              image="/team/hrushikesh.jpg"
+              image="./hrushikesh.jpg"
               github="https://github.com/hrushikesh"
               twitter="https://twitter.com/hrushikesh"
               linkedin="https://linkedin.com/in/hrushikesh"
@@ -320,7 +320,8 @@ const AboutPage = () => {
               />
               <TeamMember 
                 name="Atharva Kadam"
-                role="Component Developer"
+                role="Documentation Contributor"
+
                 image="./atharva.jpeg"
                 github="https://github.com/atharva"
                 twitter="https://twitter.com/atharva"
@@ -328,7 +329,8 @@ const AboutPage = () => {
               />
               <TeamMember 
                 name="Priti Sharma"
-                role="Documentation Contributor"
+                role="Component Developer"
+
                 image="./priti.jpg"
                 github="https://github.com/priti"
                 twitter="https://twitter.com/priti"
