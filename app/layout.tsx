@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -15,6 +16,9 @@ export const metadata: Metadata = {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
     shortcut: ["/favicon.svg"],
     apple: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+  },
+  other: {
+    "google-adsense-account": "ca-pub-7125097812565053",
   },
 };
 
@@ -37,6 +41,7 @@ export default function RootLayout({
 
         <Navbar />
         <main>{children}</main>
+        <Analytics />
         <Footer />
       </body>
     </html>
