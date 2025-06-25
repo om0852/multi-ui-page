@@ -482,7 +482,7 @@ function MyComponent() {
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Mobile Variants Sidebar */}
       {showMobileVariants && (
-        <motion.div 
+        <motion.div
           initial={{ x: "100%" }}
           animate={{ x: 0 }}
           exit={{ x: "100%" }}
@@ -497,14 +497,14 @@ function MyComponent() {
                 {filteredVariants.length}
               </span>
             </h2>
-            <button 
+            <button
               onClick={() => setShowMobileVariants(false)}
               className="p-1.5 rounded-full bg-gray-700/50 hover:bg-gray-700/70 transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
           </div>
-          
+
           <div className="p-3">
             <div className="relative rounded-md shadow-sm mb-3">
               <input
@@ -518,13 +518,13 @@ function MyComponent() {
                 <Search className="h-4 w-4 text-gray-400" />
               </div>
             </div>
-            
+
             <div className="text-xs text-gray-400 px-1 mb-2 flex items-center">
               <Zap className="w-3 h-3 mr-1" />
               <span>Variant {selectedVariant?.id} selected</span>
             </div>
           </div>
-          
+
           <div className="flex-1 overflow-y-auto px-3 pb-3">
             <div className="space-y-1.5 pb-20">
               {filteredVariants.map((variant) => (
@@ -553,14 +553,14 @@ function MyComponent() {
                   </div>
                 </motion.button>
               ))}
-              
+
               {filteredVariants.length === 0 && (
                 <div className="text-center py-6 px-3">
                   <div className="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center mx-auto mb-3">
                     <Search className="w-6 h-6 text-gray-500" />
                   </div>
                   <p className="text-gray-400">No variants found</p>
-                  <button 
+                  <button
                     onClick={() => setSearchTerm("")}
                     className="mt-2 text-blue-400 text-sm"
                   >
@@ -570,7 +570,7 @@ function MyComponent() {
               )}
             </div>
           </div>
-          
+
           <div className="p-3 border-t border-gray-700/50 bg-[#1E293B]/50">
             <button
               onClick={() => setShowMobileVariants(false)}
@@ -582,10 +582,10 @@ function MyComponent() {
           </div>
         </motion.div>
       )}
-      
+
       {/* Backdrop overlay when mobile sidebar is open */}
       {showMobileVariants && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -593,7 +593,7 @@ function MyComponent() {
           className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden"
         />
       )}
-      
+
       {/* Mobile floating button to open variants sidebar */}
       <motion.button
         initial={{ opacity: 0, y: 20 }}
@@ -604,13 +604,13 @@ function MyComponent() {
       >
         <Layers className="h-5 w-5" />
         <span className="absolute top-0 right-0 -mr-1 -mt-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
-          {filteredVariants.length > 99 ? '99+' : filteredVariants.length}
+          {filteredVariants.length > 99 ? "99+" : filteredVariants.length}
         </span>
       </motion.button>
 
       {/* Fullscreen Preview Popup */}
       {showFullPreview && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -622,13 +622,17 @@ function MyComponent() {
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-purple-400">
                 {component.name}
               </span>
-              <span className="text-gray-200 ml-1">- Variant {selectedVariant?.id}</span>
+              <span className="text-gray-200 ml-1">
+                - Variant {selectedVariant?.id}
+              </span>
             </h3>
             <div className="flex items-center gap-2 sm:gap-3">
               <button
                 onClick={() =>
                   copyToClipboard(
-                    `npx multi-ui add ${toTitleCase(slug)}_${selectedVariant?.id}`,
+                    `npx multi-ui add ${toTitleCase(slug)}_${
+                      selectedVariant?.id
+                    }`,
                     true
                   )
                 }
@@ -647,7 +651,7 @@ function MyComponent() {
                   </>
                 )}
               </button>
-              <button 
+              <button
                 onClick={() => setShowFullPreview(false)}
                 className="p-1.5 sm:p-2 rounded-full hover:bg-gray-700/70 text-gray-300 hover:text-white transition-all"
                 aria-label="Close preview"
@@ -656,28 +660,34 @@ function MyComponent() {
               </button>
             </div>
           </div>
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.1 }}
             className="flex-1 flex items-center justify-center p-3 sm:p-4 overflow-auto bg-gradient-to-b from-[#141A25] to-[#171F2F]"
           >
-            <div className={`transform-gpu ${
-              slug === "circularprogressbar" ? "scale-105 sm:scale-110" : ""
-            }`}>
+            <div
+              className={`transform-gpu ${
+                slug === "circularprogressbar" ? "scale-105 sm:scale-110" : ""
+              }`}
+            >
               {DynamicComponent ? (
                 <Suspense fallback={<LoadingComponent />}>
-                  <div className={`${
-                    slug === "circularprogressbar" 
-                      ? "bg-gradient-to-br from-[#1E293B] to-[#1E293B]/80 p-6 sm:p-8 rounded-xl shadow-xl border border-blue-500/10" 
-                      : ""
-                  }`}>
+                  <div
+                    className={`${
+                      slug === "circularprogressbar"
+                        ? "bg-gradient-to-br from-[#1E293B] to-[#1E293B]/80 p-6 sm:p-8 rounded-xl shadow-xl border border-blue-500/10"
+                        : ""
+                    }`}
+                  >
                     {slug === "circularprogressbar" ? (
                       <div className="text-center">
                         <DynamicComponent />
                         <div className="mt-4 sm:mt-6 text-gray-200">
                           <div className="w-24 sm:w-32 h-0.5 mx-auto rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 mb-3"></div>
-                          <p className="text-xs sm:text-sm font-medium text-gray-300">Adjust with the slider</p>
+                          <p className="text-xs sm:text-sm font-medium text-gray-300">
+                            Adjust with the slider
+                          </p>
                         </div>
                       </div>
                     ) : (
@@ -692,7 +702,8 @@ function MyComponent() {
           </motion.div>
           <div className="p-2 sm:p-3 border-t border-gray-700/50 flex justify-between bg-gradient-to-r from-[#111827] to-[#131D2F] shadow-inner">
             <div className="hidden sm:block text-xs text-gray-400">
-              <span className="text-blue-400">Tip:</span> Use with the install command
+              <span className="text-blue-400">Tip:</span> Use with the install
+              command
             </div>
             <button
               onClick={() => setShowFullPreview(false)}
@@ -704,7 +715,7 @@ function MyComponent() {
           </div>
         </motion.div>
       )}
-      
+
       {/* Hero Section with Background */}
       <section className="relative overflow-hidden py-16">
         <div className="absolute inset-0 z-0 opacity-20">
@@ -738,7 +749,7 @@ function MyComponent() {
 
       {/* Ad Banner */}
       <div className="flex justify-center my-6">
-        <AdBanner slot="1234567890" />
+        <AdBanner slot="3529448756" />
       </div>
 
       {/* Main Content */}
@@ -927,15 +938,23 @@ function MyComponent() {
                                     ) : (
                                       <>
                                         <Terminal className="h-3 w-3 mr-1" />
-                                        <span className="hidden sm:inline">Copy Install Command</span>
-                                        <span className="inline sm:hidden">Copy</span>
+                                        <span className="hidden sm:inline">
+                                          Copy Install Command
+                                        </span>
+                                        <span className="inline sm:hidden">
+                                          Copy
+                                        </span>
                                       </>
                                     )}
                                   </button>
                                   <div className="bg-blue-900/30 px-2 py-1 rounded-full text-xs text-blue-400 font-medium flex items-center">
                                     <Zap className="h-3 w-3 mr-1" />
-                                    <span className="hidden sm:inline">Live Preview</span>
-                                    <span className="inline sm:hidden">Live</span>
+                                    <span className="hidden sm:inline">
+                                      Live Preview
+                                    </span>
+                                    <span className="inline sm:hidden">
+                                      Live
+                                    </span>
                                   </div>
                                 </div>
                               </div>
@@ -947,12 +966,20 @@ function MyComponent() {
                                 ) : DynamicComponent ? (
                                   <Suspense fallback={<LoadingComponent />}>
                                     {/* Show preview only on non-mobile devices */}
-                                    <div className={`w-full overflow-hidden hidden sm:flex justify-center items-center py-4 ${
-                                      slug === "circularprogressbar" ? "px-2 sm:px-6" : ""
-                                    }`}>
-                                      <div className={`max-w-full transform-gpu ${
-                                        slug === "circularprogressbar" ? "scale-[0.85] sm:scale-100" : "scale-90 sm:scale-100"
-                                      }`}>
+                                    <div
+                                      className={`w-full overflow-hidden hidden sm:flex justify-center items-center py-4 ${
+                                        slug === "circularprogressbar"
+                                          ? "px-2 sm:px-6"
+                                          : ""
+                                      }`}
+                                    >
+                                      <div
+                                        className={`max-w-full transform-gpu ${
+                                          slug === "circularprogressbar"
+                                            ? "scale-[0.85] sm:scale-100"
+                                            : "scale-90 sm:scale-100"
+                                        }`}
+                                      >
                                         {slug === "circularprogressbar" ? (
                                           <div className="bg-gradient-to-br from-[#1E293B]/90 to-[#1E293B]/80 p-6 rounded-xl shadow-md border border-blue-500/10">
                                             <DynamicComponent />
@@ -962,7 +989,7 @@ function MyComponent() {
                                         )}
                                       </div>
                                     </div>
-                                    
+
                                     {/* Mobile view - show placeholder with message */}
                                     <div className="sm:hidden w-full py-4 px-3 flex flex-col items-center justify-center">
                                       <div className="rounded-lg bg-gradient-to-br from-[#1E293B]/90 to-[#1E293B]/80 p-4 w-full max-w-xs flex flex-col items-center border border-gray-700/50 shadow-lg">
@@ -981,7 +1008,9 @@ function MyComponent() {
                                           View in fullscreen mode
                                         </p>
                                         <button
-                                          onClick={() => setShowFullPreview(true)}
+                                          onClick={() =>
+                                            setShowFullPreview(true)
+                                          }
                                           className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-3 py-2 rounded-md text-xs font-medium flex items-center shadow-md shadow-blue-500/20 w-full justify-center transition-all active:scale-95"
                                         >
                                           <Maximize className="h-3.5 w-3.5 mr-1.5" />
@@ -998,9 +1027,7 @@ function MyComponent() {
                           </div>
                         </div>
 
-                        <div className="p-3 sm:p-4 bg-gray-800 border-t border-gray-700">
-                         
-                        </div>
+                        <div className="p-3 sm:p-4 bg-gray-800 border-t border-gray-700"></div>
                       </div>
                     </div>
                   )}
@@ -1071,6 +1098,7 @@ function MyComponent() {
                           application.
                         </p>
                       </div>
+                      <AdBanner slot="3529448756" />
 
                       <div className="bg-gray-900 rounded-lg overflow-hidden mb-6">
                         <div className="flex items-center justify-between bg-gray-800 px-3 sm:px-4 py-2 border-b border-gray-700">
@@ -1127,7 +1155,9 @@ function MyComponent() {
                             ) : (
                               <>
                                 <Copy className="h-3 w-3 mr-1" />
-                                <span className="hidden sm:inline">Copy Command</span>
+                                <span className="hidden sm:inline">
+                                  Copy Command
+                                </span>
                                 <span className="inline sm:hidden">Copy</span>
                               </>
                             )}

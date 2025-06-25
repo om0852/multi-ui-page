@@ -420,7 +420,7 @@ const DocsPage = () => {
             </motion.div>
           </div>
           <div className="flex justify-center my-6">
-            <AdBanner slot="1234567890" />
+            <AdBanner slot="6155612091" />
           </div>
           {/* Getting Started Section */}
           <div id="getting-started" className="scroll-mt-20 mb-12 sm:mb-20">
