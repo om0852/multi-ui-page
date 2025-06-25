@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import ChatBot from "../ChatBot";
 import { cn } from "../../../lib/utils";
+import AdBanner from "../../components/AdBanner";
 
 // Lazy load SyntaxHighlighter to improve initial load time
 const SyntaxHighlighter = lazy(() =>
@@ -734,6 +735,11 @@ function MyComponent() {
           </div>
         </div>
       </section>
+
+      {/* Ad Banner */}
+      <div className="flex justify-center my-6">
+        <AdBanner slot="1234567890" />
+      </div>
 
       {/* Main Content */}
       <section className="py-8 bg-gray-900">
