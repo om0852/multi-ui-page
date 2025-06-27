@@ -26,7 +26,7 @@ import {
   Puzzle,
   LifeBuoy,
 } from "lucide-react";
-import AdBanner from "../components/AdBanner";
+// import AdBanner from "../components/AdBanner";
 import AdsContext from "../components/AdsContext";
 
 const CodeBlock = ({ code }: { code: string }) => {
@@ -66,30 +66,6 @@ const CodeBlock = ({ code }: { code: string }) => {
             </motion.div>
           </AnimatePresence>
         </button>
-      </div>
-    </div>
-  );
-};
-
-const ComponentVariant = ({
-  name,
-  variants,
-}: {
-  name: string;
-  variants: string[];
-}) => {
-  return (
-    <div className="bg-gray-800 rounded-lg shadow p-4 hover:shadow-md transition-shadow border border-gray-700">
-      <h4 className="font-bold text-lg text-gray-100 mb-2">{name}</h4>
-      <div className="flex flex-wrap gap-2">
-        {variants.map((variant) => (
-          <span
-            key={variant}
-            className="bg-gray-700 text-blue-300 text-xs px-2 py-1 rounded-full"
-          >
-            {variant}
-          </span>
-        ))}
       </div>
     </div>
   );
@@ -421,7 +397,7 @@ const DocsPage = () => {
             </motion.div>
           </div>
           <div className="flex justify-center my-6">
-            <AdBanner slot="6155612091" />
+            {/* <AdBanner slot="6155612091" /> */}
             <AdsContext />
           </div>
           {/* Getting Started Section */}

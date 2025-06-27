@@ -749,7 +749,7 @@ function MyComponent() {
 
       {/* Ad Banner */}
       <div className="flex justify-center my-6">
-        <AdBanner slot="3529448756" />
+        {/* <AdBanner slot="3529448756" /> */}
       </div>
 
       {/* Main Content */}
@@ -1098,7 +1098,7 @@ function MyComponent() {
                           application.
                         </p>
                       </div>
-                      <AdBanner slot="3529448756" />
+                      {/* <AdBanner slot="3529448756" /> */}
 
                       <div className="bg-gray-900 rounded-lg overflow-hidden mb-6">
                         <div className="flex items-center justify-between bg-gray-800 px-3 sm:px-4 py-2 border-b border-gray-700">

@@ -1,49 +1,65 @@
 "use client";
-import { usePathname, useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 
-const AdsContext = () => {
+/* TS helper so push() is recognised */
+declare global {
+  interface Window { adsbygoogle: unknown[]; }
+}
+
+export default function AdsContext() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const adRef = useRef<HTMLModElement>(null);
+  /* ───────────────────────────────────── */
+  /* push AFTER script is loaded & width >0 */
+  /* ───────────────────────────────────── */
   useEffect(() => {
-    const url = `${pathname}?${searchParams}`;
-    console.log("adsence component ", url);
-    const scriptElement = document.querySelector(
-      'script[src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7125097812565053"]'
-    );
-    const handleScript = () => {
-      try {
-        if (window.adsbygoogle) {
-          console.log("pushing ads");
+    const tryPush = () => {
+      if (
+        window.adsbygoogle &&
+        adRef.current &&
+        adRef.current.getAttribute("data-adsbygoogle-status") !== "done" &&
+        adRef.current.offsetWidth > 0
+      ) {
+        try {
           window.adsbygoogle.push({});
-        } else {
-          scriptElement.addEventListener("load", handleScript);
-          console.log("waiting until adsence lib is loaded");
+        } catch (e) {
+          console.error("AdSense push error", e);
         }
-      } catch (error) {
-        console.log("error in adsence", error);
       }
     };
-    handleScript();
-    return () => {
-      if (scriptElement) {
-        scriptElement.removeEventListener("load", handleScript);
-      }
-    };
-  }, [pathname, searchParams]);
+
+    /* If the library is already on the page, push immediately */
+    if (window.adsbygoogle) {
+      tryPush();
+    } else {
+      /* Wait for script load once, then push */
+      const script = document.querySelector<HTMLScriptElement>(
+        'script[src^="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]'
+      );
+      const onLoad = () => {
+        tryPush();
+        script?.removeEventListener("load", onLoad);
+      };
+      script?.addEventListener("load", onLoad);
+    }
+  }, [pathname]);
+
+  /* key = url → React will remount on navigation, so we never reuse a filled slot */
+  const key = pathname ;
+
   return (
-    <div style={{ overflow: "hidden", margin: "5px" }}>
-      ggogle ad block
+    <div className="my-4 overflow-hidden">
       <ins
+        ref={adRef}
+        key={key}
         className="adsbygoogle"
         style={{ display: "block" }}
         data-ad-client="ca-pub-7125097812565053"
         data-ad-slot="6155612091"
         data-ad-format="auto"
         data-full-width-responsive="true"
-      ></ins>
+      />
     </div>
   );
-};
-
-export default AdsContext;
+}
