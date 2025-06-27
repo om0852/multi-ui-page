@@ -27,6 +27,7 @@ import {
   LifeBuoy,
 } from "lucide-react";
 import AdBanner from "../components/AdBanner";
+import AdsContext from "../components/AdsContext";
 
 const CodeBlock = ({ code }: { code: string }) => {
   const [copied, setCopied] = useState(false);
@@ -421,6 +422,7 @@ const DocsPage = () => {
           </div>
           <div className="flex justify-center my-6">
             <AdBanner slot="6155612091" />
+            <AdsContext />
           </div>
           {/* Getting Started Section */}
           <div id="getting-started" className="scroll-mt-20 mb-12 sm:mb-20">
