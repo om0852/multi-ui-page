@@ -29,16 +29,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head />
-      <body className={inter.className}>
-        {/* ✅ Move Script here */}
-        <Script
+      <head >
+      <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7125097812565053"
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
 
+      </head>
+      <body className={inter.className}>
+        {/* ✅ Move Script here */}
+        
         <Navbar />
         <main>{children}</main>
         <Analytics />
