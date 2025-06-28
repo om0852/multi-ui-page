@@ -16,7 +16,7 @@ const BouncingGlowBadge: React.FC<BouncingGlowBadgeProps> = ({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className={`relative inline-block px-4 py-2 text-white text-sm font-bold rounded-full transition-all duration-300 ${color} ${
-        hovered ? "scale-110 shadow-xl" : "scale-100 shadow"
+        hovered ? "scale-110 shadow-xl " : "scale-100 shadow shadow-[0_0_10px_2px_rgba(255,255,255,0.7)] "
       }`}
       style={{
         animation: hovered ? "bounce 0.6s infinite alternate" : undefined,

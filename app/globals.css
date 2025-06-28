@@ -48,3 +48,18 @@
   font-weight: 700;
   font-style: normal;
 }
+
+/* Animation for falling effect */
+@keyframes fall {
+  0% {
+    transform: translateY(-50px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(150px);
+    opacity: 0;
+  }
+}
+.animate-fall {
+  animation: fall 2s infinite ease-in-out;
+}

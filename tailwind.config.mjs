@@ -65,6 +65,19 @@ export default {
   'hover:scale-110',
   'transition-all',
   'duration-300',
+  'bg-yellow-500',
+  'bg-yellow-400',
+  'hover:animate-bounce',
+  'transform',
+  'transition-transform',
+  'duration-500',
+  'bg-amber-500',   // default color
+  'scale-110',      // glow/scale on hover
+  'scale-100',      // normal scale
+  'shadow-xl',      // glow (stronger shadow) on hover
+  'shadow',         // normal shadow
+  'transition-all',
+  'shadow-[0_0_10px_2px_rgba(255,255,255,0.7)]',
   ],
 }
 
