@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { discoverComponents, registerComponent } from './dynamic-loading';
+import { discoverComponents, registerComponent } from "./dynamic-loading";
 
 // Flag to track initialization
 let initialized = false;
@@ -10,18 +10,18 @@ let initialized = false;
  * This should be called once at app startup
  */
 export function initializeDynamicComponentSystem() {
-  if (initialized || typeof window === 'undefined') return;
-  
-  console.log('Initializing dynamic component system...');
-  
+  if (initialized || typeof window === "undefined") return;
+
+  console.log("Initializing dynamic component system...");
+
   // Register common component prefixes
   registerBuiltInComponents();
-  
+
   // Discover available components
   discoverComponents().then(() => {
-    console.log('Component discovery completed');
+    console.log("Component discovery completed");
   });
-  
+
   initialized = true;
 }
 
@@ -32,29 +32,44 @@ export function initializeDynamicComponentSystem() {
 function registerBuiltInComponents() {
   // Register component types we know about
   const componentTypes = [
-    'accordian', 'avatar', 'badges', 'breadcrumbs', 'buttons', 
-    'cards', 'checkbox', 'clipboard', 'circularprogressbar'
+    "accordion",
+    "avatar",
+    "badges",
+    "breadcrumbs",
+    "buttons",
+    "cards",
+    "checkbox",
+    "clipboard",
+    "circularprogressbar",
   ];
-  
+
   // Create sample registrations for common components
   for (const type of componentTypes) {
     // Register main components (variants 1-30)
     for (let i = 1; i <= 30; i++) {
       const componentKey = `${type}_${i}`;
-      const componentPath = `../multiui/${type}/_components/${type.charAt(0).toUpperCase() + type.slice(1)}_${i}`;
-      
+      const componentPath = `../multiui/${type}/_components/${
+        type.charAt(0).toUpperCase() + type.slice(1)
+      }_${i}`;
+
       try {
-        registerComponent(componentKey, () => import(/* @vite-ignore */ componentPath));
+        registerComponent(
+          componentKey,
+          () => import(/* @vite-ignore */ componentPath)
+        );
       } catch (e) {
         // Skip silently - this is just pre-registration
       }
-      
+
       // Register examples as well
       const exampleKey = `${type}_example_${i}`;
       const examplePath = `../multiui/${type}/examples/Example_${i}`;
-      
+
       try {
-        registerComponent(exampleKey, () => import(/* @vite-ignore */ examplePath));
+        registerComponent(
+          exampleKey,
+          () => import(/* @vite-ignore */ examplePath)
+        );
       } catch (e) {
         // Skip silently
       }
@@ -68,8 +83,15 @@ function registerBuiltInComponents() {
  */
 export function getKnownComponentTypes(): string[] {
   return [
-    'accordian', 'avatar', 'badges', 'breadcrumbs', 'buttons', 
-    'cards', 'checkbox', 'clipboard', 'circularprogressbar'
+    "accordion",
+    "avatar",
+    "badges",
+    "breadcrumbs",
+    "buttons",
+    "cards",
+    "checkbox",
+    "clipboard",
+    "circularprogressbar",
     // Add more as needed
   ];
 }
@@ -81,15 +103,18 @@ export function getKnownComponentTypes(): string[] {
  * @param variant The variant number (e.g., 6)
  * @returns true if the component is likely to exist
  */
-export function componentExists(componentType: string, variant: number): boolean {
+export function componentExists(
+  componentType: string,
+  variant: number
+): boolean {
   // This is just a basic check - in a real app, you'd check against
   // a database or API of known component variants
   if (!componentType) return false;
-  
+
   // Check variant is in a reasonable range
   if (variant < 1 || variant > 30) return false;
-  
+
   // Check component type is known
   const knownTypes = getKnownComponentTypes();
   return knownTypes.includes(componentType.toLowerCase());
-} 
+}

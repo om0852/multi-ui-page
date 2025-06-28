@@ -80,15 +80,6 @@ export function createMockComponentSet(
  * Register a set of mock components for all common types
  * This is useful for testing and demos when real components aren't available
  */
-export function registerAllMockComponents() {
-  // Common component types
-  const componentTypes = [
-    'accordian', 'avatar', 'badges', 'breadcrumbs', 'buttons', 
-    'cards', 'checkbox', 'clipboard', 'circularprogressbar'
-  ];
-  
-  console.log('Mock component registration is minimal - loading directly from examples directory');
-}
 
 /**
  * Generate specific examples for common components to enhance the demo experience
@@ -100,7 +91,7 @@ export function registerSpecificExamples() {
   
   // Common component types for which to register fallbacks
   const priorityComponents = [
-    'accordian', 'buttons', 'cards', 'avatar', 'badges'
+    'accordion', 'buttons', 'cards', 'avatar', 'badges'
   ];
   
   // For each type, register the first few examples to ensure they always work

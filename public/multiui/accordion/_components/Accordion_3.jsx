@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import styled from 'styled-components';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import styled from "styled-components";
 
 const Container = styled.div`
   padding: 1rem;
@@ -19,12 +19,13 @@ const GradientButton = styled(motion.button)`
   color: white;
   position: relative;
   overflow: hidden;
-  
+
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, 
+    background: linear-gradient(
+      90deg,
       transparent,
       rgba(255, 255, 255, 0.1),
       transparent
@@ -32,7 +33,7 @@ const GradientButton = styled(motion.button)`
     transform: translateX(-100%);
     transition: transform 0.5s ease;
   }
-  
+
   &:hover::before {
     transform: translateX(100%);
   }
@@ -65,7 +66,7 @@ const IconWrapper = styled(motion.div)`
   font-size: 1.25rem;
 `;
 
- export function AccordionItem({ title, content, isOpen, onClick }) {
+export function AccordionItem({ title, content, isOpen, onClick }) {
   return (
     <div className="mb-4">
       <GradientButton
@@ -76,9 +77,9 @@ const IconWrapper = styled(motion.div)`
         <div className="flex justify-between items-center">
           <Title>{title}</Title>
           <IconWrapper
-            animate={{ 
+            animate={{
               rotate: isOpen ? 180 : 0,
-              scale: isOpen ? 1.1 : 1
+              scale: isOpen ? 1.1 : 1,
             }}
             transition={{ type: "spring", stiffness: 200 }}
           >
@@ -90,13 +91,11 @@ const IconWrapper = styled(motion.div)`
         {isOpen && (
           <ContentWrapper
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <Content>
-              {content}
-            </Content>
+            <Content>{content}</Content>
           </ContentWrapper>
         )}
       </AnimatePresence>
@@ -104,14 +103,15 @@ const IconWrapper = styled(motion.div)`
   );
 }
 
- export function Accordion({ items, allowMultiple = false }) {
+export function Accordion({ items, allowMultiple = false }) {
   const [openIndexes, setOpenIndexes] = useState([]);
 
   const handleClick = (index) => {
     if (allowMultiple) {
-      setOpenIndexes(openIndexes.includes(index)
-        ? openIndexes.filter(i => i !== index)
-        : [...openIndexes, index]
+      setOpenIndexes(
+        openIndexes.includes(index)
+          ? openIndexes.filter((i) => i !== index)
+          : [...openIndexes, index]
       );
     } else {
       setOpenIndexes(openIndexes.includes(index) ? [] : [index]);
@@ -137,9 +137,8 @@ export const Example = () => {
   const items = [
     { title: "Dark Theme", content: "This accordion uses a dark theme." },
     { title: "Gradient Design", content: "Features gradient backgrounds." },
-    { title: "Animation", content: "Smooth transitions when expanding." }
+    { title: "Animation", content: "Smooth transitions when expanding." },
   ];
 
   return <Accordion items={items} />;
 };
-

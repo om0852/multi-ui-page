@@ -34,7 +34,7 @@ export default function ComponentsPage() {
         const componentList: Component[] = [
           { 
             name: 'Accordion', 
-            slug: 'accordian', 
+            slug: 'accordion', 
             image: '/images/components/accordion.webp', 
             description: 'Vertically collapsing content panels', 
             variants: 30 

@@ -1,9 +1,9 @@
 "use client";
 
 import React from 'react';
-import Accordion from '../_components/Accordian_16';
+import Accordion from '../_components/Accordion_4';
 
-export default  function AccordionExample16() {
+export default  function AccordionExample4() {
   const accordionItems = [
     {
       title: "Section 1",
@@ -20,8 +20,8 @@ export default  function AccordionExample16() {
   ];
 
   return (
-    <div className="p-4 min-h-screen">
-      <h2 className="text-2xl font-bold mb-6" style={{ color: '#ff00ff', textShadow: '0 0 5px #ff00ff' }}>Neon Border Accordion</h2>
+    <div className="p-4 min-h-screen bg-white">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Minimal Accordion</h2>
       
       <div className="max-w-2xl mx-auto">
         <Accordion items={accordionItems} allowMultiple={true} />

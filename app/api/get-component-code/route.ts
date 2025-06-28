@@ -17,7 +17,7 @@ export async function GET(request: Request) {
     }
 
     // Construct the GitHub raw content URL based on the repository structure
-    // Example: https://raw.githubusercontent.com/om0852/multi-ui/main/app/accordian/tsx/Accordian_1.tsx
+    // Example: https://raw.githubusercontent.com/om0852/multi-ui/main/app/accordion/tsx/Accordion_1.tsx
     const githubPath = `${GITHUB_RAW_BASE_URL}/${component}/tsx/${component.charAt(0).toUpperCase() + component.slice(1)}_${variant}.tsx`;
 
     try {

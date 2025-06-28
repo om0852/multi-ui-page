@@ -365,7 +365,7 @@ export async function discoverComponents() {
     // This would normally be a server-side operation, but we can mock it for client-side
     // by pre-registering component types we know about
     const knownComponentTypes = [
-      'clipboard', 'buttons', 'cards', 'checkbox', 'avatar', 'breadcrumbs', 'badges', 'accordian', 'circularprogressbar'
+      'clipboard', 'buttons', 'cards', 'checkbox', 'avatar', 'breadcrumbs', 'badges', 'accordion', 'circularprogressbar'
     ];
     
     // For each component type, attempt to register known variants

@@ -89,12 +89,12 @@ export function registerAllComponentConfigurations() {
   ]);
 
   // Accordion components
-  registerComponentConfig('accordian', [
-    { path: '../multiui/accordian/_components/Accordian_1', priority: 1 },
-    { path: '../multiui/accordian/_components/Accordian_2', priority: 1 },
-    { path: '../multiui/accordian/_components/Accordian_3', priority: 2 },
-    { path: '../multiui/accordian/_components/Accordian_4', priority: 2 },
-    { path: '../multiui/accordian/_components/Accordian_5', priority: 3 },
+  registerComponentConfig('accordion', [
+    { path: '../multiui/accordion/_components/Accordion_1', priority: 1 },
+    { path: '../multiui/accordion/_components/Accordion_2', priority: 1 },
+    { path: '../multiui/accordion/_components/Accordion_3', priority: 2 },
+    { path: '../multiui/accordion/_components/Accordion_4', priority: 2 },
+    { path: '../multiui/accordion/_components/Accordion_5', priority: 3 },
     // Additional accordion components
   ]);
 
@@ -120,7 +120,7 @@ export const componentHeights = {
   avatar: 100,
   breadcrumbs: 80,
   badges: 60,
-  accordian: 180,
+  accordion: 180,
   circularprogressbar: 150,
   // Add more as needed
 }; 

@@ -1,9 +1,9 @@
 "use client";
 
 import React from 'react';
-import Accordion from '../_components/Accordian_19';
+import Accordion from '../_components/Accordion_5';
 
-export default  function AccordionExample19() {
+export default  function AccordionExample5() {
   const accordionItems = [
     {
       title: "Section 1",
@@ -21,7 +21,7 @@ export default  function AccordionExample19() {
 
   return (
     <div className="p-4 min-h-screen">
-      <h2 className="text-2xl font-bold text-gray-200 mb-6">Minimal Dark Accordion</h2>
+      <h2 className="text-2xl font-bold text-cyan-400 mb-6">Futuristic Accordion</h2>
       
       <div className="max-w-2xl mx-auto">
         <Accordion items={accordionItems} allowMultiple={true} />

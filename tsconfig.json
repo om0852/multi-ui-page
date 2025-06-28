@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "lib/mongoose.js"  ],
+, "lib/mongoose.js", "public/multiui/accordion/_components/Accordion_3.jsx"  ],
   "exclude": [
     "node_modules"
   ]

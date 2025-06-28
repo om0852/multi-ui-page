@@ -171,7 +171,7 @@ export default function ComponentPage() {
   // Helper function to get max variants based on component type
   const getMaxVariants = (componentSlug) => {
     switch (componentSlug) {
-      case "accordian":
+      case "accordion":
         return 30;
       case "badge":
         return 15;
