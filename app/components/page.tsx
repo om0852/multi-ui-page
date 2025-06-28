@@ -511,7 +511,7 @@ export default function ComponentsPage() {
                 <motion.div 
                   key={component.slug} 
                   variants={itemVariants}
-                  whileHover={{ y: -5, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)' }}
+                  whileHover={{ y: -5, filter: "drop-shadow(0px 10px 25px rgba(0,0,0,0.3))" }}
                 >
                 <Link 
                   href={`/components/${component.slug}`}
