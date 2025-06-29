@@ -26,6 +26,10 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
   other: {
     "google-adsense-account": "ca-pub-7125097812565053",
+    "google-site-verification": "UYNMkZv5OT3Nr_nMhIw2upAf-UEzrSdvU9JY-x88Qmg",
+  },
+  verification: {
+    google: "UYNMkZv5OT3Nr_nMhIw2upAf-UEzrSdvU9JY-x88Qmg",
   },
   openGraph: {
     type: "website",
