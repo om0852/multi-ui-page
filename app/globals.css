@@ -78,3 +78,9 @@
 .hover\:rotate-y-180:hover {
   transform: rotateY(180deg);
 }
+.group-hover\:rotate-x-180:hover .rotate-x-180 {
+  transform: rotateX(180deg);
+}
+.rotate-x-180 {
+  transform: rotateX(180deg);
+}
