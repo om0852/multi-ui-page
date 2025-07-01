@@ -71,13 +71,20 @@ export default {
   'transform',
   'transition-transform',
   'duration-500',
-  'bg-amber-500',   // default color
-  'scale-110',      // glow/scale on hover
-  'scale-100',      // normal scale
-  'shadow-xl',      // glow (stronger shadow) on hover
-  'shadow',         // normal shadow
+  'bg-amber-500',   
+  'scale-110',      
+  'scale-100',      
+  'shadow-xl',      
+  'shadow',         
   'transition-all',
   'shadow-[0_0_10px_2px_rgba(255,255,255,0.7)]',
+  'bg-rose-500',
+  'perspective',
+  'preserve-3d',
+  'hover:rotate-y-180',
+  'backface-hidden',
+  'rotate-y-180',
+ 
   ],
 }
 
