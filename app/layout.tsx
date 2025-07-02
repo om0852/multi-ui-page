@@ -9,16 +9,53 @@ import Footer from "./components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Multi UI - Beautiful React Components",
+  metadataBase: new URL("https://www.multi-ui.in"),
+  title: {
+    default: "Multi UI – Animated React Components",
+    template: "%s | Multi UI",
+  },
   description:
     "A collection of beautifully designed, ready-to-use React components",
+  keywords:
+    "Multi UI, React components, animated UI, Tailwind CSS, Framer Motion, shadcn, component library",
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
-    shortcut: ["/favicon.svg"],
+    shortcut: [{ url: "/favicon.svg", type: "image/svg+xml" }],
     apple: [{ url: "/favicon.svg", type: "image/svg+xml" }],
   },
+  manifest: "/site.webmanifest",
   other: {
     "google-adsense-account": "ca-pub-7125097812565053",
+    "google-site-verification": "UYNMkZv5OT3Nr_nMhIw2upAf-UEzrSdvU9JY-x88Qmg",
+  },
+  verification: {
+    google: "UYNMkZv5OT3Nr_nMhIw2upAf-UEzrSdvU9JY-x88Qmg",
+  },
+  openGraph: {
+    type: "website",
+    url: "https://www.multi-ui.in",
+    title: "Multi UI – Beautiful React Components",
+    description:
+      "A versatile React component library with multiple design variants for each component. Install once, use everywhere.",
+    images: [
+      {
+        url: "/og-cover.png",
+        width: 1200,
+        height: 630,
+        alt: "Multi UI preview image",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@multi_ui", // only if it exists
+    title: "Multi UI – Animated React Components",
+    description:
+      "A versatile React component library with multiple design variants. Install once, use everywhere.",
+    images: ["/og-cover.png"],
+  },
+  alternates: {
+    canonical: "/",
   },
 };
 
@@ -29,9 +66,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-<head></head>
       <body className={inter.className}>
-        {/* ✅ Move Script here */}
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7125097812565053"
